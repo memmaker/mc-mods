@@ -5,6 +5,7 @@ shopt -s nullglob
 
 cd "$(dirname "$0")"
 export JAVA_HOME="${JAVA_HOME:-/opt/homebrew/opt/openjdk@25}"
+export GRADLE_OPTS="${GRADLE_OPTS:-} --enable-native-access=ALL-UNNAMED"
 
 failed=()
 

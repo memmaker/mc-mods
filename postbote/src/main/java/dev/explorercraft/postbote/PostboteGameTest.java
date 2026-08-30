@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.level.GameType;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -29,7 +30,7 @@ public class PostboteGameTest {
             throw helper.assertionException("/" + Postbote.MOD_ID + " is not registered");
         }
 
-        var player = helper.makeMockServerPlayerInLevel();
+        var player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         server.getCommands().performPrefixedCommand(
                 server.createCommandSourceStack().withEntity(player), Postbote.MOD_ID);
 
@@ -44,7 +45,7 @@ public class PostboteGameTest {
     @GameTest
     public void teleportCommandDropsPlayerWithinRadiusOfTarget(GameTestHelper helper) {
         var server = helper.getLevel().getServer();
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         BlockPos target = player.blockPosition().offset(40, 0, 40);
         helper.getLevel().getChunk(target);
         giveOrder(player, target, 10, Optional.empty());
@@ -66,7 +67,7 @@ public class PostboteGameTest {
     @GameTest
     public void teleportCommandFailsWithoutAnActiveOrder(GameTestHelper helper) {
         var server = helper.getLevel().getServer();
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         BlockPos before = player.blockPosition();
 
         server.getCommands().performPrefixedCommand(
@@ -81,7 +82,7 @@ public class PostboteGameTest {
 
     @GameTest
     public void activeOrderBlocksANewOne(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         giveOrder(player, player.blockPosition().offset(2000, 0, 0), 10, Optional.empty());
 
         if (Postbote.activeOrder(player) == null) {
@@ -107,7 +108,7 @@ public class PostboteGameTest {
     /// so any villager will do here.
     @GameTest
     public void deliveryWithinRadiusPaysAndConsumes(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         ItemStack compass = giveOrder(player, player.blockPosition(), 12, Optional.empty());
         Villager anyVillager = helper.spawn(EntityTypes.VILLAGER, BlockPos.ZERO);
         int emeraldsBefore = countEmeralds(player);
@@ -127,7 +128,7 @@ public class PostboteGameTest {
 
     @GameTest
     public void deliveryFarFromDestinationFails(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         BlockPos farAway = player.blockPosition().offset(10_000, 0, 0);
         ItemStack compass = giveOrder(player, farAway, 12, Optional.empty());
         Villager anyVillager = helper.spawn(EntityTypes.VILLAGER, BlockPos.ZERO);
@@ -144,7 +145,7 @@ public class PostboteGameTest {
 
     @GameTest
     public void deliveryToTrackedVillagerSucceedsRegardlessOfDistance(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         Villager tracked = helper.spawn(EntityTypes.VILLAGER, BlockPos.ZERO);
         BlockPos farAway = player.blockPosition().offset(10_000, 0, 0);
         ItemStack compass = giveOrder(player, farAway, 12, Optional.of(tracked.getUUID()));
@@ -162,7 +163,7 @@ public class PostboteGameTest {
 
     @GameTest
     public void deliveryToWrongVillagerFailsWhenOneIsTracked(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         Villager tracked = helper.spawn(EntityTypes.VILLAGER, BlockPos.ZERO);
         Villager bystander = helper.spawn(EntityTypes.VILLAGER, BlockPos.ZERO);
         ItemStack compass = giveOrder(player, player.blockPosition(), 12, Optional.of(tracked.getUUID()));
@@ -183,7 +184,7 @@ public class PostboteGameTest {
     /// already loaded, unlike an arbitrary point out in the world.
     @GameTest
     public void trackingFindsAndFollowsNearestAliveVillager(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         BlockPos anchor = helper.absolutePos(new BlockPos(1, 1, 1));
         Villager near = helper.spawn(EntityTypes.VILLAGER, new BlockPos(2, 1, 1));
         helper.spawn(EntityTypes.VILLAGER, new BlockPos(6, 1, 1));
@@ -201,7 +202,7 @@ public class PostboteGameTest {
 
     @GameTest
     public void trackingFallsBackToNearestAliveWhenTrackedVillagerIsGone(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         BlockPos anchor = helper.absolutePos(new BlockPos(1, 1, 1));
         Villager replacement = helper.spawn(EntityTypes.VILLAGER, new BlockPos(3, 1, 1));
         UUID goneVillager = UUID.randomUUID();
@@ -227,7 +228,7 @@ public class PostboteGameTest {
      */
     @GameTest
     public void satchelClickOnVillagerPreemptsTrading(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         player.getInventory().setItem(0, new ItemStack(Postbote.SATCHEL));
         player.getInventory().setSelectedSlot(0);
 

@@ -6,6 +6,8 @@ import com.explorercraft.fireproof.FireproofSuit;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -139,7 +141,7 @@ public class FireproofSuitGameTest {
 			throw helper.assertionException("/" + FireproofSuit.MOD_ID + " is not registered");
 		}
 
-		var player = helper.makeMockServerPlayerInLevel();
+		var player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		server.getCommands().performPrefixedCommand(
 				server.createCommandSourceStack().withEntity(player), FireproofSuit.MOD_ID + " give");
 

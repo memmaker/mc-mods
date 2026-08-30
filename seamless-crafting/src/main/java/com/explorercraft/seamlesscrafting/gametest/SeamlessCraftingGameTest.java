@@ -11,6 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.level.GameType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -63,7 +64,7 @@ public class SeamlessCraftingGameTest {
 	/** The menu mixins have to apply, or nothing pulls from a chest at all. */
 	@GameTest
 	public void craftingMenuTracksNearbyWithdrawals(GameTestHelper helper) {
-		ServerPlayer player = helper.makeMockServerPlayerInLevel();
+		ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		CraftingMenu menu = new CraftingMenu(1, player.getInventory(),
 				ContainerLevelAccess.create(helper.getLevel(), helper.absolutePos(new BlockPos(0, 1, 0))));
 
@@ -88,7 +89,7 @@ public class SeamlessCraftingGameTest {
 	 */
 	@GameTest
 	public void recipeBookPlacementPullsFromNearbyChest(GameTestHelper helper) {
-		ServerPlayer player = helper.makeMockServerPlayerInLevel();
+		ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		player.getInventory().clearContent();
 
 		BlockPos chestPos = placeChestWithPlanks(helper, new BlockPos(1, 1, 1), 42);

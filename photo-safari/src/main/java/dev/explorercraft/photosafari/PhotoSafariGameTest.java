@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.level.GameType;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -70,7 +71,7 @@ public class PhotoSafariGameTest {
     public void photographGrantsTheSpeciesAdvancement(GameTestHelper helper) {
         Cow cow = helper.spawn(EntityTypes.COW, new BlockPos(2, 2, 4));
 
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
 
         PhotoSafari.handlePhotograph(player, new PhotographPayload(List.of(cow.getId())));
@@ -103,7 +104,7 @@ public class PhotoSafariGameTest {
             }
         }
 
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
 
         PhotoSafari.handlePhotograph(player, new PhotographPayload(List.of(cow.getId())));
@@ -133,7 +134,7 @@ public class PhotoSafariGameTest {
         }
 
         Entity bear = helper.spawn(type, new BlockPos(2, 2, 4));
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
 
         PhotoSafari.handlePhotograph(player, new PhotographPayload(List.of(bear.getId())));
@@ -166,7 +167,7 @@ public class PhotoSafariGameTest {
             }
         }
 
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         server.getCommands().performPrefixedCommand(
                 server.createCommandSourceStack().withEntity(player), PhotoSafari.MOD_ID + " camera 3");
 

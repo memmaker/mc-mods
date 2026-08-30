@@ -5,6 +5,8 @@ import java.util.List;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -115,7 +117,7 @@ public class RebreatherGameTest {
             throw helper.assertionException("/" + Rebreather.MOD_ID + " is not registered");
         }
 
-        var player = helper.makeMockServerPlayerInLevel();
+        var player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         server.getCommands().performPrefixedCommand(
                 server.createCommandSourceStack().withEntity(player), Rebreather.MOD_ID + " give");
 

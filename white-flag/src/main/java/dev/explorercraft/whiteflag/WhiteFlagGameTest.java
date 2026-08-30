@@ -4,6 +4,8 @@ import java.util.List;
 
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Items;
@@ -21,7 +23,7 @@ public class WhiteFlagGameTest {
             throw helper.assertionException("/" + WhiteFlag.MOD_ID + " is not registered");
         }
 
-        var player = helper.makeMockServerPlayerInLevel();
+        var player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         server.getCommands().performPrefixedCommand(
                 server.createCommandSourceStack().withEntity(player), WhiteFlag.MOD_ID);
 

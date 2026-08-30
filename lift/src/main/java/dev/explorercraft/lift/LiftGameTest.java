@@ -3,6 +3,7 @@ package dev.explorercraft.lift;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.level.GameType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
@@ -125,7 +126,7 @@ public class LiftGameTest {
 
         BlockPos origin = helper.absolutePos(new BlockPos(1, 2, 1));
         BlockPos aside = helper.absolutePos(new BlockPos(0, 2, 1));
-        ServerPlayer rider = helper.makeMockServerPlayerInLevel();
+        ServerPlayer rider = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         rider.setPos(origin.getX() + 0.5, origin.getY() + 0.0625, origin.getZ() + 0.5);
 
         helper.startSequence()

@@ -5,6 +5,7 @@ import com.explorercraft.fxglobals.FxGlobalsConfig;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.level.GameType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.clock.ClockState;
@@ -88,7 +89,7 @@ public class FxGlobalsGameTest {
 	/** Drives exhaustion at the given factor and checks how much of it one saturation point costs. */
 	private void assertSaturationCost(GameTestHelper helper, float factor, float perCall, int calls) {
 		float previous = FxGlobalsConfig.hungerFactor;
-		ServerPlayer player = helper.makeMockServerPlayerInLevel();
+		ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		FoodData food = player.getFoodData();
 
 		try {
@@ -121,7 +122,7 @@ public class FxGlobalsGameTest {
 	/** A skeleton's arrow is DISALLOWED in vanilla; with the setting on it has to come back. */
 	@GameTest
 	public void mobArrowsCanBePickedUp(GameTestHelper helper) {
-		ServerPlayer player = helper.makeMockServerPlayerInLevel();
+		ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		Arrow arrow = strayArrow(helper);
 
 		withPickupArrows(true, () -> arrow.playerTouch(player));
@@ -139,7 +140,7 @@ public class FxGlobalsGameTest {
 	/** Off is vanilla: the same arrow stays where it is. */
 	@GameTest
 	public void mobArrowsStayPutWhenTheSettingIsOff(GameTestHelper helper) {
-		ServerPlayer player = helper.makeMockServerPlayerInLevel();
+		ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		Arrow arrow = strayArrow(helper);
 
 		withPickupArrows(false, () -> arrow.playerTouch(player));
@@ -157,7 +158,7 @@ public class FxGlobalsGameTest {
 	/** A drowned's trident is not an arrow, so it stays loot rather than becoming a free trident. */
 	@GameTest
 	public void tridentsAreNotPickedUp(GameTestHelper helper) {
-		ServerPlayer player = helper.makeMockServerPlayerInLevel();
+		ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		ThrownTrident trident = new ThrownTrident(helper.getLevel(), 0.0, 0.0, 0.0,
 				new ItemStack(Items.TRIDENT));
 		trident.pickup = AbstractArrow.Pickup.DISALLOWED;

@@ -3,6 +3,7 @@ package dev.explorercraft.botbuild;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.level.GameType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -52,7 +53,7 @@ public class BotBuildGameTest {
     @GameTest(maxTicks = 600, padding = 32)
     public void botBuildsTheOutlineFromANearbyChest(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         fillChest(helper, new BlockPos(0, 1, 0), 4);
         helper.setBlock(new BlockPos(6, 1, 6), Blocks.STONE);
         // A wall across the middle: the bot has to path around it, not through it.
@@ -77,7 +78,7 @@ public class BotBuildGameTest {
     @GameTest(maxTicks = 600, padding = 32)
     public void everyBotInRangeGetsAGhostOfItsOwn(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         fillChest(helper, new BlockPos(0, 1, 0), 8);
         helper.setBlock(new BlockPos(6, 1, 6), Blocks.STONE);
         for (int i = 0; i < 3; i++) {

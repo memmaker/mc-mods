@@ -6,6 +6,8 @@ import java.util.Map;
 import com.explorercraft.climbing.ClimbingClaws;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Item;
@@ -61,7 +63,7 @@ public class ClimbingClawsGameTest {
 	/** The whole point: claws anywhere in the hotbar turn a faced wall into a ladder. */
 	@GameTest
 	public void clawsInHotbarMakeWallsClimbable(GameTestHelper helper) {
-		Player player = helper.makeMockServerPlayerInLevel();
+		Player player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		player.horizontalCollision = true;
 		faceWall(player);
 
@@ -89,7 +91,7 @@ public class ClimbingClawsGameTest {
 	/** Turning away from the wall, or looking along it, drops the grip. */
 	@GameTest
 	public void clawsNeedThePlayerToFaceTheWall(GameTestHelper helper) {
-		Player player = helper.makeMockServerPlayerInLevel();
+		Player player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		player.horizontalCollision = true;
 		player.getInventory().setItem(0, new ItemStack(ClimbingClaws.CLIMBING_CLAWS));
 		faceWall(player);
@@ -114,7 +116,7 @@ public class ClimbingClawsGameTest {
 	/** Topping out: only a sliver of wall left beside the feet still has to grip. */
 	@GameTest
 	public void clawsGripTheLastSliverOfWall(GameTestHelper helper) {
-		Player player = helper.makeMockServerPlayerInLevel();
+		Player player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		player.horizontalCollision = true;
 		player.getInventory().setItem(0, new ItemStack(ClimbingClaws.CLIMBING_CLAWS));
 		faceWall(player);
@@ -145,7 +147,7 @@ public class ClimbingClawsGameTest {
 	/** No wall to grip means no climbing, claws or not. */
 	@GameTest
 	public void clawsDoNotClimbThinAir(GameTestHelper helper) {
-		Player player = helper.makeMockServerPlayerInLevel();
+		Player player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		player.getInventory().setItem(0, new ItemStack(ClimbingClaws.CLIMBING_CLAWS));
 		faceWall(player);
 		player.horizontalCollision = false;
@@ -165,7 +167,7 @@ public class ClimbingClawsGameTest {
 			throw helper.assertionException("/" + ClimbingClaws.MOD_ID + " is not registered");
 		}
 
-		Player player = helper.makeMockServerPlayerInLevel();
+		Player player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		server.getCommands().performPrefixedCommand(
 				server.createCommandSourceStack().withEntity(player), ClimbingClaws.MOD_ID + " copper");
 

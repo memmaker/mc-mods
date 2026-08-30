@@ -1,0 +1,27 @@
+{
+  "criteria": {
+    "photographed": {
+      "trigger": "photosafari:species_photographed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:gui/advancements/backgrounds/adventure",
+    "description": {
+      "translate": "advancements.photosafari.root.description"
+    },
+    "icon": {
+      "id": "camerapture:camera"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.photosafari.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "photographed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "climbingclaws:item/climbing_claws",
+		"layer1": "climbingclaws:item/climbing_claws_grip"
+	}
+}

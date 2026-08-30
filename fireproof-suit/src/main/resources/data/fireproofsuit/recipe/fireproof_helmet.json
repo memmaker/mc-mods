@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": "minecraft:magma_cream"
+  },
+  "pattern": ["MMM", "M M"],
+  "result": {
+    "id": "fireproofsuit:fireproof_helmet"
+  }
+}

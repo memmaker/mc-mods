@@ -1,0 +1,37 @@
+{
+  "parent": "photosafari:root",
+  "criteria": {
+    "photographed": {
+      "conditions": {
+        "species": "minecraft:guardian"
+      },
+      "trigger": "photosafari:species_photographed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.photosafari.species.description",
+      "with": [
+        {
+          "translate": "entity.minecraft.guardian"
+        }
+      ]
+    },
+    "icon": {
+      "id": "minecraft:guardian_spawn_egg"
+    },
+    "title": {
+      "translate": "entity.minecraft.guardian"
+    }
+  },
+  "requirements": [
+    [
+      "photographed"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  },
+  "sends_telemetry_event": true
+}

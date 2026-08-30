@@ -1,0 +1,32 @@
+{
+  "parent": "photosafari:collector",
+  "criteria": {
+    "photographed": {
+      "conditions": {
+        "min_species": 25
+      },
+      "trigger": "photosafari:species_photographed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.photosafari.naturalist.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "camerapture:picture"
+    },
+    "title": {
+      "translate": "advancements.photosafari.naturalist.title"
+    }
+  },
+  "requirements": [
+    [
+      "photographed"
+    ]
+  ],
+  "rewards": {
+    "experience": 250
+  },
+  "sends_telemetry_event": true
+}

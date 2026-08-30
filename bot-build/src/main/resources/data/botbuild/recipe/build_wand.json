@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "R": "minecraft:blaze_rod",
+    "A": "minecraft:amethyst_shard"
+  },
+  "pattern": [
+    "  A",
+    " R ",
+    "R  "
+  ],
+  "result": {
+    "id": "botbuild:build_wand"
+  }
+}

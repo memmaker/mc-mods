@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "fireproofsuit:fireproof"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "fireproofsuit:fireproof"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "fireproofsuit:fireproof"
+      }
+    ]
+  }
+}

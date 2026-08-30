@@ -1,0 +1,36 @@
+{
+	"schemaVersion": 1,
+	"id": "fxglobals",
+	"version": "${version}",
+	"name": "FX Globals",
+	"description": "World pacing tweaks: days last 1.5x longer and hunger drains at a quarter of the usual rate.",
+	"authors": [
+		"felix"
+	],
+	"contact": {},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.explorercraft.fxglobals.FxGlobals"
+		],
+		"fabric-gametest": [
+			"com.explorercraft.fxglobals.gametest.FxGlobalsGameTest"
+		],
+		"modmenu": [
+			"com.explorercraft.fxglobals.client.FxGlobalsModMenu"
+		]
+	},
+	"mixins": [
+		"fxglobals.mixins.json"
+	],
+	"suggests": {
+		"modmenu": "*"
+	},
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

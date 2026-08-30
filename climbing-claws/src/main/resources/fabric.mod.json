@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "climbingclaws",
+	"version": "${version}",
+	"name": "Climbing Claws",
+	"description": "Ninja-style climbing claws forged from any metal. Keep them in your hotbar and every vertical wall becomes a ladder.",
+	"authors": [
+		"felix"
+	],
+	"contact": {},
+	"license": "MIT",
+	"icon": "assets/climbingclaws/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.explorercraft.climbing.ClimbingClaws"
+		],
+		"fabric-gametest": [
+			"com.explorercraft.climbing.gametest.ClimbingClawsGameTest"
+		]
+	},
+	"mixins": [
+		"climbingclaws.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

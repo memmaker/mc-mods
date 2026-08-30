@@ -1,0 +1,10 @@
+{
+	"options.fxglobals.title": "FX Globals",
+	"options.fxglobals.percent": "%s: %s%%",
+	"options.fxglobals.day_length": "Day Length",
+	"options.fxglobals.day_length.tooltip": "How long one day-night cycle lasts, against vanilla's 20 minutes. 100% is vanilla.",
+	"options.fxglobals.hunger": "Hunger Rate",
+	"options.fxglobals.hunger.tooltip": "How fast the hunger bar drains. 100% is vanilla, 0% never drains.",
+	"options.fxglobals.pickup_arrows": "Pickup arrows",
+	"options.fxglobals.pickup_arrows.tooltip": "Collect every arrow lying in the world, including the ones mobs shot. Off is vanilla, where only your own arrows come back."
+}

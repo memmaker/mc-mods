@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "photosafari",
+  "version": "${version}",
+  "name": "Photo Safari",
+  "description": "Photograph every living thing in the world. Adds occlusion-checked entity detection and advancement progression on top of Camerapture.",
+  "authors": ["felix"],
+  "license": "MIT",
+  "icon": "assets/photosafari/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.explorercraft.photosafari.PhotoSafari"],
+    "client": ["dev.explorercraft.photosafari.client.PhotoSafariClient"],
+    "fabric-datagen": ["dev.explorercraft.photosafari.PhotoSafariDataGenerator"],
+    "fabric-gametest": ["dev.explorercraft.photosafari.PhotoSafariGameTest"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=25",
+    "fabric-api": "*",
+    "camerapture": ">=1.10.15"
+  }
+}

@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "equipment",
+	"group": "climbing_claws",
+	"key": {
+		"I": "minecraft:netherite_ingot"
+	},
+	"pattern": [
+		"I ",
+		" I",
+		"I "
+	],
+	"result": {
+		"id": "climbingclaws:climbing_claws",
+		"components": {
+			"minecraft:dyed_color": 7232343,
+			"minecraft:item_name": {
+				"translate": "item.climbingclaws.climbing_claws.netherite"
+			}
+		}
+	}
+}

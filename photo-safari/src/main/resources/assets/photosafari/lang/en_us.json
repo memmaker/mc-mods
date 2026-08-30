@@ -1,0 +1,17 @@
+{
+    "text.photosafari.new_species": "New species on film: %s",
+    "text.photosafari.progress": "Photographed %s of %s species",
+    "text.photosafari.reset": "Photo safari progress reset",
+    "text.photosafari.camera_given": "Here is your camera. Right-click to look through it, right-click again to shoot.",
+    "advancements.photosafari.first_shot.title": "Say Cheese",
+    "advancements.photosafari.first_shot.description": "Photograph a living creature",
+    "advancements.photosafari.collector.title": "Field Notes",
+    "advancements.photosafari.collector.description": "Photograph 10 different species",
+    "advancements.photosafari.naturalist.title": "Naturalist",
+    "advancements.photosafari.naturalist.description": "Photograph 25 different species",
+    "advancements.photosafari.zoologist.title": "Zoologist",
+    "advancements.photosafari.zoologist.description": "Photograph 50 different species",
+    "advancements.photosafari.root.title": "Photo Safari",
+    "advancements.photosafari.root.description": "Photograph every living thing in the world",
+    "advancements.photosafari.species.description": "Photograph a %s"
+}

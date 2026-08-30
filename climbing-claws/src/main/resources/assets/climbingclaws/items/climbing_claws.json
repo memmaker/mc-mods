@@ -1,0 +1,12 @@
+{
+	"model": {
+		"type": "minecraft:model",
+		"model": "climbingclaws:item/climbing_claws",
+		"tints": [
+			{
+				"type": "minecraft:dye",
+				"default": -2565928
+			}
+		]
+	}
+}

@@ -1,0 +1,45 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "alexsmobs"
+      ]
+    }
+  ],
+  "parent": "photosafari:root",
+  "criteria": {
+    "photographed": {
+      "conditions": {
+        "species": "alexsmobs:warped_mosco"
+      },
+      "trigger": "photosafari:species_photographed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.photosafari.species.description",
+      "with": [
+        {
+          "translate": "entity.alexsmobs.warped_mosco"
+        }
+      ]
+    },
+    "icon": {
+      "id": "alexsmobs:spawn_egg_warped_mosco"
+    },
+    "title": {
+      "translate": "entity.alexsmobs.warped_mosco"
+    }
+  },
+  "requirements": [
+    [
+      "photographed"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  },
+  "sends_telemetry_event": true
+}

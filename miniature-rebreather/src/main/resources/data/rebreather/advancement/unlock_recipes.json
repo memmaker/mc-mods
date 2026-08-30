@@ -1,0 +1,15 @@
+{
+  "criteria": {
+    "immediately": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    ["immediately"]
+  ],
+  "rewards": {
+    "recipes": [
+      "rebreather:rebreather"
+    ]
+  }
+}

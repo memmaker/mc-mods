@@ -1,0 +1,21 @@
+{
+  "criteria": {
+    "immediately": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "immediately"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "whiteflag:white_flag",
+      "whiteflag:white_flag_from_paper",
+      "whiteflag:white_flag_from_carpet",
+      "whiteflag:white_flag_from_banner",
+      "whiteflag:white_wool_from_bone_meal"
+    ]
+  }
+}

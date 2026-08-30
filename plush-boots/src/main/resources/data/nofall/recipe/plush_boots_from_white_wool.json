@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "plush_boots",
+  "key": {
+    "W": "minecraft:white_wool"
+  },
+  "pattern": [
+    "W W",
+    "W W"
+  ],
+  "result": {
+    "id": "nofall:plush_boots",
+    "components": {
+      "minecraft:dyed_color": 16383998
+    }
+  }
+}

@@ -1,0 +1,79 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version '1.17.20'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base { archivesName = project.archives_base_name }
+
+loom { splitEnvironmentSourceSets() }
+
+fabricApi { configureDataGeneration { client = true } }
+
+loom {
+    runs {
+        gametest {
+            inherit server
+            name = "Game Test"
+            vmArg "-Dfabric-api.gametest"
+            runDir "build/gametest"
+        }
+    }
+}
+
+sourceSets {
+    client { }
+}
+
+loom {
+    mods {
+        "photosafari" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+repositories {
+    maven { url = 'https://api.modrinth.com/maven' }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // Camerapture supplies the camera, pictures and picture frames. We only add the safari on top.
+    implementation "maven.modrinth:camerapture:${project.camerapture_version}"
+
+    // Datagen only: their mobs get checklist advancements, gated behind a resource
+    // condition so the same jar still works without them installed.
+    implementation "maven.modrinth:alexs-mobs-continued:${project.alexs_mobs_version}"
+    implementation "maven.modrinth:codxlib:${project.codxlib_version}"
+
+    testImplementation platform('org.junit:junit-bom:6.1.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test { useJUnitPlatform() }
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version
+    }
+}
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(25) }
+    withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+}

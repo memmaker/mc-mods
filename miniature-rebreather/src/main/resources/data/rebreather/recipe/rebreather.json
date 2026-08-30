@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "N": "minecraft:iron_nugget",
+    "S": "minecraft:dried_kelp",
+    "L": "minecraft:leather"
+  },
+  "pattern": [
+    "NSN",
+    " L "
+  ],
+  "result": {
+    "id": "rebreather:rebreather"
+  }
+}

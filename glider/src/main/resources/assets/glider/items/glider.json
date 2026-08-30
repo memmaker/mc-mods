@@ -1,0 +1,17 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "minecraft:has_component",
+    "component": "glider:gliding",
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "glider:item/glider_open",
+      "tints": [{ "type": "minecraft:dye", "default": -5875371 }]
+    },
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "glider:item/glider",
+      "tints": [{ "type": "minecraft:dye", "default": -5875371 }]
+    }
+  }
+}

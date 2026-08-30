@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "glider",
+  "version": "${version}",
+  "name": "Glider",
+  "description": "A craftable glider. Hold it as you fall and the canopy opens: you drift down slowly and steer where you like.",
+  "authors": [
+    "felix"
+  ],
+  "contributors": [
+    "Tictim (original Paraglider mod, GPL-3.0)"
+  ],
+  "license": "GPL-3.0-only",
+  "icon": "assets/glider/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.explorercraft.glider.GliderMod"
+    ],
+    "fabric-gametest": [
+      "dev.explorercraft.glider.GliderGameTest"
+    ]
+  },
+  "mixins": [
+    "glider.mixins.json",
+    {
+      "config": "glider.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

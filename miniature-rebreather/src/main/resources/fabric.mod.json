@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "rebreather",
+  "version": "${version}",
+  "name": "Miniature Rebreather",
+  "description": "Craft a miniature rebreather. Wear it in the helmet slot and you never run out of air underwater.",
+  "authors": ["felix"],
+  "license": "MIT",
+  "icon": "assets/rebreather/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.explorercraft.rebreather.Rebreather"],
+    "fabric-gametest": ["dev.explorercraft.rebreather.RebreatherGameTest"]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

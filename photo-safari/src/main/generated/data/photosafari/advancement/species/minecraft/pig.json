@@ -1,0 +1,37 @@
+{
+  "parent": "photosafari:root",
+  "criteria": {
+    "photographed": {
+      "conditions": {
+        "species": "minecraft:pig"
+      },
+      "trigger": "photosafari:species_photographed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.photosafari.species.description",
+      "with": [
+        {
+          "translate": "entity.minecraft.pig"
+        }
+      ]
+    },
+    "icon": {
+      "id": "minecraft:pig_spawn_egg"
+    },
+    "title": {
+      "translate": "entity.minecraft.pig"
+    }
+  },
+  "requirements": [
+    [
+      "photographed"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  },
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "dev.explorercraft.botbuild.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "AllayMixin",
+    "BlockDisplayInvoker",
+    "DisplayInvoker"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

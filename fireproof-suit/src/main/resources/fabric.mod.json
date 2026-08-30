@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "fireproofsuit",
+	"version": "${version}",
+	"name": "Fireproof Suit",
+	"description": "A magma-forged armour set. Every piece worn cuts fire and lava damage by another quarter, so the full suit makes you immune.",
+	"authors": [
+		"felix"
+	],
+	"contact": {},
+	"license": "MIT",
+	"icon": "assets/fireproofsuit/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.explorercraft.fireproof.FireproofSuit"
+		],
+		"fabric-gametest": [
+			"com.explorercraft.fireproof.gametest.FireproofSuitGameTest"
+		]
+	},
+	"mixins": [
+		"fireproofsuit.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

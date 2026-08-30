@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "postbote",
+  "version": "${version}",
+  "name": "Postbote",
+  "description": "Craft a satchel. Take orders from villagers and carry compass-guided deliveries to villages you've never seen, for emeralds.",
+  "authors": [
+    "felix"
+  ],
+  "license": "MIT",
+  "icon": "assets/postbote/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.explorercraft.postbote.Postbote"
+    ],
+    "fabric-gametest": [
+      "dev.explorercraft.postbote.PostboteGameTest"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

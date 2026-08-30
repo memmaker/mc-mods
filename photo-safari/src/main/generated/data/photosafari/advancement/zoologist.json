@@ -1,0 +1,35 @@
+{
+  "parent": "photosafari:naturalist",
+  "criteria": {
+    "photographed": {
+      "conditions": {
+        "min_species": 50
+      },
+      "trigger": "photosafari:species_photographed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.photosafari.zoologist.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "id": "camerapture:picture"
+    },
+    "title": {
+      "translate": "advancements.photosafari.zoologist.title"
+    }
+  },
+  "requirements": [
+    [
+      "photographed"
+    ]
+  ],
+  "rewards": {
+    "experience": 500,
+    "loot": [
+      "photosafari:rewards/zoologist"
+    ]
+  },
+  "sends_telemetry_event": true
+}

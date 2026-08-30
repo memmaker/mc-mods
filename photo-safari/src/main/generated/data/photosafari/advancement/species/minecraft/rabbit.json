@@ -1,0 +1,37 @@
+{
+  "parent": "photosafari:root",
+  "criteria": {
+    "photographed": {
+      "conditions": {
+        "species": "minecraft:rabbit"
+      },
+      "trigger": "photosafari:species_photographed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.photosafari.species.description",
+      "with": [
+        {
+          "translate": "entity.minecraft.rabbit"
+        }
+      ]
+    },
+    "icon": {
+      "id": "minecraft:rabbit_spawn_egg"
+    },
+    "title": {
+      "translate": "entity.minecraft.rabbit"
+    }
+  },
+  "requirements": [
+    [
+      "photographed"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  },
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "nofall",
+  "version": "${version}",
+  "name": "Plush Boots",
+  "description": "Craft plush boots. Wear them and fall damage stops happening.",
+  "authors": ["felix"],
+  "license": "MIT",
+  "icon": "assets/nofall/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.explorercraft.nofall.NoFall"],
+    "fabric-gametest": ["dev.explorercraft.nofall.NoFallGameTest"]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

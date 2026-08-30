@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "com.explorercraft.fireproof.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"mixins": [
+		"LivingEntityFireMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

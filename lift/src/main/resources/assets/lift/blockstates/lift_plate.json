@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "lift:block/lift_plate"
+    },
+    "powered=true": {
+      "model": "lift:block/lift_plate_down"
+    }
+  }
+}

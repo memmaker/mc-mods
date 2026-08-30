@@ -1,0 +1,37 @@
+{
+  "parent": "photosafari:root",
+  "criteria": {
+    "photographed": {
+      "conditions": {
+        "species": "minecraft:enderman"
+      },
+      "trigger": "photosafari:species_photographed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.photosafari.species.description",
+      "with": [
+        {
+          "translate": "entity.minecraft.enderman"
+        }
+      ]
+    },
+    "icon": {
+      "id": "minecraft:enderman_spawn_egg"
+    },
+    "title": {
+      "translate": "entity.minecraft.enderman"
+    }
+  },
+  "requirements": [
+    [
+      "photographed"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  },
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,26 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "dyeable": {
+          "color_when_undyed": -1601100
+        },
+        "texture": "nofall:plush"
+      },
+      {
+        "texture": "nofall:plush_overlay"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "dyeable": {
+          "color_when_undyed": -1601100
+        },
+        "texture": "nofall:plush"
+      },
+      {
+        "texture": "nofall:plush_overlay"
+      }
+    ]
+  }
+}

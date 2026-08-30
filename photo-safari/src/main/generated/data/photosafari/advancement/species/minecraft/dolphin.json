@@ -1,0 +1,37 @@
+{
+  "parent": "photosafari:root",
+  "criteria": {
+    "photographed": {
+      "conditions": {
+        "species": "minecraft:dolphin"
+      },
+      "trigger": "photosafari:species_photographed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.photosafari.species.description",
+      "with": [
+        {
+          "translate": "entity.minecraft.dolphin"
+        }
+      ]
+    },
+    "icon": {
+      "id": "minecraft:dolphin_spawn_egg"
+    },
+    "title": {
+      "translate": "entity.minecraft.dolphin"
+    }
+  },
+  "requirements": [
+    [
+      "photographed"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  },
+  "sends_telemetry_event": true
+}

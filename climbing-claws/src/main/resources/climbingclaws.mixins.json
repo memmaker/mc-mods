@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "com.explorercraft.climbing.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"mixins": [
+		"LivingEntityClimbingMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

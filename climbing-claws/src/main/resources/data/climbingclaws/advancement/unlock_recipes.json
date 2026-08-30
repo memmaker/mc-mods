@@ -1,0 +1,24 @@
+{
+	"criteria": {
+		"immediately": {
+			"trigger": "minecraft:tick"
+		}
+	},
+	"requirements": [
+		[
+			"immediately"
+		]
+	],
+	"rewards": {
+		"recipes": [
+			"climbingclaws:copper_climbing_claws",
+			"climbingclaws:copper_climbing_claws_upright",
+			"climbingclaws:gold_climbing_claws",
+			"climbingclaws:gold_climbing_claws_upright",
+			"climbingclaws:iron_climbing_claws",
+			"climbingclaws:iron_climbing_claws_upright",
+			"climbingclaws:netherite_climbing_claws",
+			"climbingclaws:netherite_climbing_claws_upright"
+		]
+	}
+}

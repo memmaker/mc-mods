@@ -1,0 +1,17 @@
+{
+  "criteria": {
+    "immediately": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "immediately"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "lift:lift_plate"
+    ]
+  }
+}

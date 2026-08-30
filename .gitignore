@@ -1,0 +1,8 @@
+# Built jars land in the repo root via build.sh; CI rebuilds them.
+*.jar
+# ...except the Gradle wrapper, which every mod needs checked in.
+!**/gradle/wrapper/gradle-wrapper.jar
+.DS_Store
+# Dev-run logs from ./gradlew runClient / runServer.
+logs/
+build/

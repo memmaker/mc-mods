@@ -1,0 +1,28 @@
+{
+  "parent": "photosafari:root",
+  "criteria": {
+    "photographed": {
+      "trigger": "photosafari:species_photographed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.photosafari.first_shot.description"
+    },
+    "icon": {
+      "id": "camerapture:picture"
+    },
+    "title": {
+      "translate": "advancements.photosafari.first_shot.title"
+    }
+  },
+  "requirements": [
+    [
+      "photographed"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

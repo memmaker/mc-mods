@@ -1,0 +1,13 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "rebreather:item/rebreather"
+  },
+  "display": {
+    "head": {
+      "rotation": [0, 180, 0],
+      "translation": [0, -3, -7],
+      "scale": [1, 1, 1]
+    }
+  }
+}

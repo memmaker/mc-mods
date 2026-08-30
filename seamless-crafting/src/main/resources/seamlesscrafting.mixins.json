@@ -1,0 +1,26 @@
+{
+	"required": true,
+	"package": "com.explorercraft.seamlesscrafting.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"mixins": [
+		"AbstractCraftingMenuMixin",
+		"CraftingMenuMixin",
+		"ResultSlotMixin",
+		"ServerPlaceRecipeMixin"
+	],
+	"client": [
+		"AbstractContainerScreenMixin",
+		"AbstractCraftingMenuClientMixin",
+		"AbstractRecipeBookScreenMixin",
+		"CraftingScreenMixin",
+		"EffectsInInventoryMixin",
+		"InventoryScreenMixin",
+		"RecipeBookComponentMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

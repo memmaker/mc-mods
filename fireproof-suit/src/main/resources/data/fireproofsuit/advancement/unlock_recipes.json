@@ -1,0 +1,20 @@
+{
+  "criteria": {
+    "immediately": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "immediately"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fireproofsuit:fireproof_helmet",
+      "fireproofsuit:fireproof_chestplate",
+      "fireproofsuit:fireproof_leggings",
+      "fireproofsuit:fireproof_boots"
+    ]
+  }
+}

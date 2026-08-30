@@ -1,0 +1,33 @@
+{
+  "criteria": {
+    "immediately": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "immediately"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "nofall:plush_boots_from_white_wool",
+      "nofall:plush_boots_from_orange_wool",
+      "nofall:plush_boots_from_magenta_wool",
+      "nofall:plush_boots_from_light_blue_wool",
+      "nofall:plush_boots_from_yellow_wool",
+      "nofall:plush_boots_from_lime_wool",
+      "nofall:plush_boots_from_pink_wool",
+      "nofall:plush_boots_from_gray_wool",
+      "nofall:plush_boots_from_light_gray_wool",
+      "nofall:plush_boots_from_cyan_wool",
+      "nofall:plush_boots_from_purple_wool",
+      "nofall:plush_boots_from_blue_wool",
+      "nofall:plush_boots_from_brown_wool",
+      "nofall:plush_boots_from_green_wool",
+      "nofall:plush_boots_from_red_wool",
+      "nofall:plush_boots_from_black_wool",
+      "nofall:plush_boots_dyed"
+    ]
+  }
+}

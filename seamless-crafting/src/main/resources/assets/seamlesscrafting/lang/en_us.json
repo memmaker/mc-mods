@@ -1,0 +1,22 @@
+{
+	"screen.seamlesscrafting.nearby": "Nearby",
+	"screen.seamlesscrafting.search": "Search...",
+	"screen.seamlesscrafting.return_items": "Returns nearby items to their chests",
+	"options.seamlesscrafting.title": "Seamless Crafting",
+	"options.seamlesscrafting.show_highlighter": "Chest Highlighter",
+	"options.seamlesscrafting.distance_label": "Distance Label",
+	"options.seamlesscrafting.snap_aim": "Snap Aim To Chest",
+	"options.seamlesscrafting.locate_trail": "Locate Trail",
+	"options.seamlesscrafting.panel_open": "Panel Open By Default",
+	"options.seamlesscrafting.nearby_radius": "Nearby Radius",
+	"options.seamlesscrafting.auto_refresh": "Auto Refresh (s)",
+	"options.seamlesscrafting.highlight_duration": "Highlight Duration (s)",
+	"options.seamlesscrafting.highlight_opacity": "Highlight Opacity",
+	"options.seamlesscrafting.highlight_red": "Highlight Red",
+	"options.seamlesscrafting.highlight_green": "Highlight Green",
+	"options.seamlesscrafting.highlight_blue": "Highlight Blue",
+	"options.seamlesscrafting.trail_particle": "Trail Particle",
+	"options.seamlesscrafting.trail_particle.cloud": "Cloud",
+	"options.seamlesscrafting.trail_particle.smoke": "Smoke",
+	"options.seamlesscrafting.trail_particle.end_rod": "End Rod"
+}

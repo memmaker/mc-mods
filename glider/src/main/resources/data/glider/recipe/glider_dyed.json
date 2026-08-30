@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_dye",
+  "group": "dyed_glider",
+  "dye": "#minecraft:dyes",
+  "target": "glider:glider",
+  "result": {
+    "id": "glider:glider"
+  }
+}

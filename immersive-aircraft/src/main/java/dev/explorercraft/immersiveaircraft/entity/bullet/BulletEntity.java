@@ -30,8 +30,9 @@ public class BulletEntity extends AbstractHurtingProjectile {
 
     @Override
     protected void onHitEntity(EntityHitResult result) {
-        if (canHitEntity(result.getEntity())) {
-            result.getEntity().hurt(level().damageSources().thrown(this, this.getOwner()), damage);
+        if (canHitEntity(result.getEntity()) && level() instanceof ServerLevel serverLevel) {
+            result.getEntity().hurtServer(serverLevel,
+                    level().damageSources().thrown(this, this.getOwner()), damage);
         }
     }
 

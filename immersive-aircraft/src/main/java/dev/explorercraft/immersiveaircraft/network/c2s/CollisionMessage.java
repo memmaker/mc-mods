@@ -4,6 +4,7 @@ import dev.explorercraft.immersiveaircraft.cobalt.network.Message;
 import dev.explorercraft.immersiveaircraft.config.Config;
 import dev.explorercraft.immersiveaircraft.entity.VehicleEntity;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 
 public class CollisionMessage extends Message {
@@ -24,14 +25,16 @@ public class CollisionMessage extends Message {
 
     @Override
     public void receive(Player e) {
-        if (e.getRootVehicle() instanceof VehicleEntity vehicle) {
-            vehicle.hurt(e.level().damageSources().fall(), damage);
+        // Server-bound message, so the sender's level is always a ServerLevel; the check is what
+        // lets the damage go through hurtServer rather than the deprecated side-agnostic hurt.
+        if (e.getRootVehicle() instanceof VehicleEntity vehicle && e.level() instanceof ServerLevel level) {
+            vehicle.hurtServer(level, level.damageSources().fall(), damage);
             if (vehicle.isRemoved()) {
                 float crashDamage = damage * Config.getInstance().crashDamage;
                 if (Config.getInstance().preventKillThroughCrash) {
                     crashDamage = Math.min(crashDamage, e.getHealth() - 1.0f);
                 }
-                e.hurt(e.level().damageSources().fall(), crashDamage);
+                e.hurtServer(level, level.damageSources().fall(), crashDamage);
             }
         }
     }

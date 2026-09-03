@@ -126,7 +126,7 @@ public class LiftGameTest {
 
         BlockPos origin = helper.absolutePos(new BlockPos(1, 2, 1));
         BlockPos aside = helper.absolutePos(new BlockPos(0, 2, 1));
-        ServerPlayer rider = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer rider = mockPlayer(helper, GameType.CREATIVE);
         rider.setPos(origin.getX() + 0.5, origin.getY() + 0.0625, origin.getZ() + 0.5);
 
         helper.startSequence()
@@ -200,5 +200,14 @@ public class LiftGameTest {
             }
         });
         return found;
+    }
+    /// A mock player with a working (embedded) network connection, unlike
+    /// {@code makeMockServerPlayer}: real code paths send it packets — chat and overlay
+    /// messages, cooldown and container syncs, ride teleports — and a player with a null
+    /// connection throws on every one of them.
+    private static ServerPlayer mockPlayer(GameTestHelper helper, GameType gameType) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        player.setGameMode(gameType);
+        return player;
     }
 }

@@ -50,12 +50,12 @@ public class PhotoSafari implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     /// Species this player has on film. Survives death, saved with the player.
-    public static final AttachmentType<Set<Identifier>> PHOTOGRAPHED = AttachmentRegistry
-            .<Set<Identifier>>builder()
-            .persistent(Identifier.CODEC.listOf().xmap(LinkedHashSet::new, List::copyOf))
-            .initializer(LinkedHashSet::new)
-            .copyOnDeath()
-            .buildAndRegister(id("photographed"));
+    public static final AttachmentType<Set<Identifier>> PHOTOGRAPHED = AttachmentRegistry.create(
+            id("photographed"),
+            builder -> builder
+                    .persistent(Identifier.CODEC.listOf().xmap(LinkedHashSet::new, List::copyOf))
+                    .initializer(LinkedHashSet::new)
+                    .copyOnDeath());
 
     public static SpeciesPhotographedTrigger photographedTrigger;
 
@@ -67,13 +67,14 @@ public class PhotoSafari implements ModInitializer {
     /// first. Looting the same mob again means cycling 99 others through this first. Synced
     /// to its owner only, so the client can colour the loot-mode outline red/green.
     public static final int RECENT_LOOT_CAP = 100;
-    public static final AttachmentType<List<UUID>> RECENTLY_LOOTED = AttachmentRegistry
-            .<List<UUID>>builder()
-            .persistent(UUIDUtil.CODEC.listOf())
-            .initializer(List::of)
-            .copyOnDeath()
-            .syncWith(UUIDUtil.STREAM_CODEC.apply(ByteBufCodecs.list(RECENT_LOOT_CAP)), AttachmentSyncPredicate.targetOnly())
-            .buildAndRegister(id("recently_looted"));
+    public static final AttachmentType<List<UUID>> RECENTLY_LOOTED = AttachmentRegistry.create(
+            id("recently_looted"),
+            builder -> builder
+                    .persistent(UUIDUtil.CODEC.listOf())
+                    .initializer(List::of)
+                    .copyOnDeath()
+                    .syncWith(UUIDUtil.STREAM_CODEC.apply(ByteBufCodecs.list(RECENT_LOOT_CAP)),
+                            AttachmentSyncPredicate.targetOnly()));
 
     public static Identifier id(String path) {
         return Identifier.fromNamespaceAndPath(MOD_ID, path);

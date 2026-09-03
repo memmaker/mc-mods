@@ -25,28 +25,27 @@ public class StealthAndAlert implements ModInitializer {
     public static final String MOD_ID = "stealthandalert";
 
     /// What a mob knows. Synced to everyone tracking it, so the HUD can read it client-side.
-    public static final AttachmentType<AlertData> ALERT = AttachmentRegistry.<AlertData>builder()
-            .initializer(AlertData::createDefault)
-            .persistent(AlertData.CODEC)
-            .syncWith(AlertData.STREAM_CODEC.cast(), AttachmentSyncPredicate.all())
-            .buildAndRegister(id("alert"));
+    public static final AttachmentType<AlertData> ALERT = AttachmentRegistry.create(id("alert"),
+            builder -> builder
+                    .initializer(AlertData::createDefault)
+                    .persistent(AlertData.CODEC)
+                    .syncWith(AlertData.STREAM_CODEC.cast(), AttachmentSyncPredicate.all()));
 
     /// Server-only bookkeeping for a mob walking its search pattern.
-    public static final AttachmentType<SearchData> SEARCH = AttachmentRegistry.<SearchData>builder()
-            .initializer(() -> SearchData.DEFAULT)
-            .persistent(SearchData.CODEC)
-            .buildAndRegister(id("search"));
+    public static final AttachmentType<SearchData> SEARCH = AttachmentRegistry.create(id("search"),
+            builder -> builder
+                    .initializer(() -> SearchData.DEFAULT)
+                    .persistent(SearchData.CODEC));
 
     /// The loudest thing a mob heard this tick. Server-side and transient.
-    public static final AttachmentType<AlertSoundData> SOUND = AttachmentRegistry.<AlertSoundData>builder()
-            .initializer(() -> AlertSoundData.NONE)
-            .buildAndRegister(id("sound"));
+    public static final AttachmentType<AlertSoundData> SOUND = AttachmentRegistry.create(id("sound"),
+            builder -> builder.initializer(() -> AlertSoundData.NONE));
 
     /// The player's own visibility, recomputed each tick and sent to them for the HUD eye.
-    public static final AttachmentType<Double> VISIBILITY = AttachmentRegistry.<Double>builder()
-            .initializer(() -> 1.0)
-            .syncWith(ByteBufCodecs.DOUBLE.cast(), AttachmentSyncPredicate.targetOnly())
-            .buildAndRegister(id("visibility"));
+    public static final AttachmentType<Double> VISIBILITY = AttachmentRegistry.create(id("visibility"),
+            builder -> builder
+                    .initializer(() -> 1.0)
+                    .syncWith(ByteBufCodecs.DOUBLE.cast(), AttachmentSyncPredicate.targetOnly()));
 
     public static Identifier id(String path) {
         return Identifier.fromNamespaceAndPath(MOD_ID, path);

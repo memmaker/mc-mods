@@ -80,10 +80,10 @@ public class PhotoSafariGameTest {
     public void photographGrantsTheSpeciesAdvancement(GameTestHelper helper) {
         Cow cow = helper.spawn(EntityTypes.COW, new BlockPos(2, 2, 4));
 
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
 
-        doHandlePhotograph(player, new PhotographPayload(List.of(cow.getId())));
+        PhotoSafari.handlePhotograph(player, new PhotographPayload(List.of(cow.getId())));
 
         Set<Identifier> seen = player.getAttachedOrCreate(PhotoSafari.PHOTOGRAPHED);
         if (!seen.contains(Identifier.withDefaultNamespace("cow"))) {
@@ -113,10 +113,10 @@ public class PhotoSafariGameTest {
             }
         }
 
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
 
-        doHandlePhotograph(player, new PhotographPayload(List.of(cow.getId())));
+        PhotoSafari.handlePhotograph(player, new PhotographPayload(List.of(cow.getId())));
 
         Set<Identifier> seen = player.getAttachedOrCreate(PhotoSafari.PHOTOGRAPHED);
         if (!seen.isEmpty()) {
@@ -143,10 +143,10 @@ public class PhotoSafariGameTest {
         }
 
         Entity bear = helper.spawn(type, new BlockPos(2, 2, 4));
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
 
-        doHandlePhotograph(player, new PhotographPayload(List.of(bear.getId())));
+        PhotoSafari.handlePhotograph(player, new PhotographPayload(List.of(bear.getId())));
 
         if (!player.getAttachedOrCreate(PhotoSafari.PHOTOGRAPHED).contains(id)) {
             throw helper.assertionException("photographing " + id + " was not credited");
@@ -171,10 +171,10 @@ public class PhotoSafariGameTest {
             ids.add(helper.spawn(types[i], new BlockPos(xs[i], 2, zs[i])).getId());
         }
 
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
 
-        doHandlePhotograph(player, new PhotographPayload(ids));
+        PhotoSafari.handlePhotograph(player, new PhotographPayload(ids));
 
         Set<Identifier> seen = player.getAttachedOrCreate(PhotoSafari.PHOTOGRAPHED);
         if (seen.size() != 10) {
@@ -199,13 +199,13 @@ public class PhotoSafariGameTest {
         int[] xs = {0, 1, 2, 3, 4, 0, 1, 2, 3, 4};
         int[] zs = {3, 3, 3, 3, 3, 4, 4, 4, 4, 4};
 
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
 
         for (int i = 0; i < types.length; i++) {
             Entity mob = helper.spawn(types[i], new BlockPos(xs[i], 2, zs[i]));
             giveActiveCamera(player);
-            doHandleLoot(player, new LootPayload(List.of(mob.getId())));
+            PhotoSafari.handleLoot(player, new LootPayload(List.of(mob.getId())));
         }
 
         if (!player.getAttachedOrCreate(PhotoSafari.PHOTOGRAPHED).isEmpty()) {
@@ -225,11 +225,11 @@ public class PhotoSafariGameTest {
     public void lootModeGrantsMobDropsWithoutKillingIt(GameTestHelper helper) {
         Cow cow = helper.spawn(EntityTypes.COW, new BlockPos(2, 2, 4));
 
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
         giveActiveCamera(player);
 
-        doHandleLoot(player, new LootPayload(List.of(cow.getId())));
+        PhotoSafari.handleLoot(player, new LootPayload(List.of(cow.getId())));
 
         if (cow.isRemoved()) {
             throw helper.assertionException("looting a mob should not kill it");
@@ -251,15 +251,15 @@ public class PhotoSafariGameTest {
     public void lootModeBlocksTheSameMobUntilCooldownClears(GameTestHelper helper) {
         Cow cow = helper.spawn(EntityTypes.COW, new BlockPos(2, 2, 4));
 
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
 
         giveActiveCamera(player);
-        doHandleLoot(player, new LootPayload(List.of(cow.getId())));
+        PhotoSafari.handleLoot(player, new LootPayload(List.of(cow.getId())));
         int afterFirst = player.getInventory().countItem(Items.BEEF);
 
         giveActiveCamera(player);
-        doHandleLoot(player, new LootPayload(List.of(cow.getId())));
+        PhotoSafari.handleLoot(player, new LootPayload(List.of(cow.getId())));
         int afterSecond = player.getInventory().countItem(Items.BEEF);
 
         if (afterSecond != afterFirst) {
@@ -279,11 +279,11 @@ public class PhotoSafariGameTest {
         Cow first = helper.spawn(EntityTypes.COW, new BlockPos(2, 2, 4));
         Cow second = helper.spawn(EntityTypes.COW, new BlockPos(3, 2, 4));
 
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
         giveActiveCamera(player);
 
-        doHandleLoot(player, new LootPayload(List.of(first.getId(), second.getId())));
+        PhotoSafari.handleLoot(player, new LootPayload(List.of(first.getId(), second.getId())));
 
         var recentlyLooted = player.getAttachedOrCreate(PhotoSafari.RECENTLY_LOOTED);
         boolean firstLooted = recentlyLooted.contains(first.getUUID());
@@ -307,11 +307,11 @@ public class PhotoSafariGameTest {
         zombie.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
         zombie.setGuaranteedDrop(EquipmentSlot.HEAD);
 
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
         giveActiveCamera(player);
 
-        doHandleLoot(player, new LootPayload(List.of(zombie.getId())));
+        PhotoSafari.handleLoot(player, new LootPayload(List.of(zombie.getId())));
 
         if (player.getInventory().countItem(Items.IRON_HELMET) == 0) {
             throw helper.assertionException("worn equipment was not vacuumed into the inventory");
@@ -322,29 +322,6 @@ public class PhotoSafariGameTest {
         }
 
         helper.succeed();
-    }
-
-    /// makeMockServerPlayer has no real network connection, so any packet the real code
-    /// tries to send it (chat/overlay message, cooldown sync) throws — after the interesting
-    /// work for the call has already happened. debugCommandGivesCamera gets this same class
-    /// of exception swallowed for free by going through the real command dispatcher; these
-    /// two are called directly, so they swallow it themselves instead.
-    private static void doHandleLoot(ServerPlayer player, LootPayload payload) {
-        ignoringMockConnection(() -> PhotoSafari.handleLoot(player, payload));
-    }
-
-    private static void doHandlePhotograph(ServerPlayer player, PhotographPayload payload) {
-        ignoringMockConnection(() -> PhotoSafari.handlePhotograph(player, payload));
-    }
-
-    private static void ignoringMockConnection(Runnable action) {
-        try {
-            action.run();
-        } catch (NullPointerException e) {
-            if (e.getMessage() == null || !e.getMessage().contains("connection")) {
-                throw e;
-            }
-        }
     }
 
     private static void giveActiveCamera(ServerPlayer player) {
@@ -374,7 +351,7 @@ public class PhotoSafariGameTest {
             }
         }
 
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         server.getCommands().performPrefixedCommand(
                 server.createCommandSourceStack().withEntity(player), PhotoSafari.MOD_ID + " camera 3");
 
@@ -385,4 +362,13 @@ public class PhotoSafariGameTest {
         helper.succeed();
     }
 
+    /// A mock player with a working (embedded) network connection, unlike
+    /// {@code makeMockServerPlayer}: real code paths send it packets — chat and overlay
+    /// messages, cooldown and container syncs, ride teleports — and a player with a null
+    /// connection throws on every one of them.
+    private static ServerPlayer mockPlayer(GameTestHelper helper, GameType gameType) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        player.setGameMode(gameType);
+        return player;
+    }
 }

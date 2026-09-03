@@ -1,9 +1,8 @@
 package dev.explorercraft.immersiveaircraft.cobalt.registration;
 
-import dev.explorercraft.immersiveaircraft.cobalt.data.JsonDataLoaderWrapper;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
@@ -17,17 +16,17 @@ public class RegistrationImpl extends Registration.Impl {
 
     @Override
     public <T extends Entity> void registerEntityRenderer(EntityType<T> type, EntityRendererProvider<T> constructor) {
-        EntityRendererRegistry.register(type, constructor);
+        EntityRenderers.register(type, constructor);
     }
 
     @Override
     public void registerDataLoader(Identifier id, PreparableReloadListener loader) {
-        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new JsonDataLoaderWrapper(id, loader));
+        ResourceLoader.get(PackType.SERVER_DATA).registerReloadListener(id, loader);
     }
 
     @Override
     public void registerResourceLoader(Identifier id, PreparableReloadListener loader) {
-        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new JsonDataLoaderWrapper(id, loader));
+        ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(id, loader);
     }
 
     @Override

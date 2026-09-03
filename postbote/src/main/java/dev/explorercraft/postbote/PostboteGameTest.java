@@ -30,7 +30,7 @@ public class PostboteGameTest {
             throw helper.assertionException("/" + Postbote.MOD_ID + " is not registered");
         }
 
-        var player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        var player = mockPlayer(helper, GameType.CREATIVE);
         server.getCommands().performPrefixedCommand(
                 server.createCommandSourceStack().withEntity(player), Postbote.MOD_ID);
 
@@ -45,7 +45,7 @@ public class PostboteGameTest {
     @GameTest
     public void teleportCommandDropsPlayerWithinRadiusOfTarget(GameTestHelper helper) {
         var server = helper.getLevel().getServer();
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         BlockPos target = player.blockPosition().offset(40, 0, 40);
         helper.getLevel().getChunk(target);
         giveOrder(player, target, 10, Optional.empty());
@@ -67,7 +67,7 @@ public class PostboteGameTest {
     @GameTest
     public void teleportCommandFailsWithoutAnActiveOrder(GameTestHelper helper) {
         var server = helper.getLevel().getServer();
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         BlockPos before = player.blockPosition();
 
         server.getCommands().performPrefixedCommand(
@@ -82,7 +82,7 @@ public class PostboteGameTest {
 
     @GameTest
     public void activeOrderBlocksANewOne(GameTestHelper helper) {
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         giveOrder(player, player.blockPosition().offset(2000, 0, 0), 10, Optional.empty());
 
         if (Postbote.activeOrder(player) == null) {
@@ -108,7 +108,7 @@ public class PostboteGameTest {
     /// so any villager will do here.
     @GameTest
     public void deliveryWithinRadiusPaysAndConsumes(GameTestHelper helper) {
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         ItemStack compass = giveOrder(player, player.blockPosition(), 12, Optional.empty());
         Villager anyVillager = helper.spawn(EntityTypes.VILLAGER, BlockPos.ZERO);
         int emeraldsBefore = countEmeralds(player);
@@ -128,7 +128,7 @@ public class PostboteGameTest {
 
     @GameTest
     public void everySecondDeliveryPaysOutAnEyeOfEnder(GameTestHelper helper) {
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         Villager villager = helper.spawn(EntityTypes.VILLAGER, BlockPos.ZERO);
 
         ItemStack first = giveOrder(player, player.blockPosition(), 1, Optional.empty());
@@ -148,7 +148,7 @@ public class PostboteGameTest {
 
     @GameTest
     public void deliveryFarFromDestinationFails(GameTestHelper helper) {
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         BlockPos farAway = player.blockPosition().offset(10_000, 0, 0);
         ItemStack compass = giveOrder(player, farAway, 12, Optional.empty());
         Villager anyVillager = helper.spawn(EntityTypes.VILLAGER, BlockPos.ZERO);
@@ -165,7 +165,7 @@ public class PostboteGameTest {
 
     @GameTest
     public void deliveryToTrackedVillagerSucceedsRegardlessOfDistance(GameTestHelper helper) {
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         Villager tracked = helper.spawn(EntityTypes.VILLAGER, BlockPos.ZERO);
         BlockPos farAway = player.blockPosition().offset(10_000, 0, 0);
         ItemStack compass = giveOrder(player, farAway, 12, Optional.of(tracked.getUUID()));
@@ -183,7 +183,7 @@ public class PostboteGameTest {
 
     @GameTest
     public void deliveryToWrongVillagerFailsWhenOneIsTracked(GameTestHelper helper) {
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         Villager tracked = helper.spawn(EntityTypes.VILLAGER, BlockPos.ZERO);
         Villager bystander = helper.spawn(EntityTypes.VILLAGER, BlockPos.ZERO);
         ItemStack compass = giveOrder(player, player.blockPosition(), 12, Optional.of(tracked.getUUID()));
@@ -204,7 +204,7 @@ public class PostboteGameTest {
     /// already loaded, unlike an arbitrary point out in the world.
     @GameTest
     public void trackingFindsAndFollowsNearestAliveVillager(GameTestHelper helper) {
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         BlockPos anchor = helper.absolutePos(new BlockPos(1, 1, 1));
         Villager near = helper.spawn(EntityTypes.VILLAGER, new BlockPos(2, 1, 1));
         helper.spawn(EntityTypes.VILLAGER, new BlockPos(6, 1, 1));
@@ -222,7 +222,7 @@ public class PostboteGameTest {
 
     @GameTest
     public void trackingFallsBackToNearestAliveWhenTrackedVillagerIsGone(GameTestHelper helper) {
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         BlockPos anchor = helper.absolutePos(new BlockPos(1, 1, 1));
         Villager replacement = helper.spawn(EntityTypes.VILLAGER, new BlockPos(3, 1, 1));
         UUID goneVillager = UUID.randomUUID();
@@ -248,7 +248,7 @@ public class PostboteGameTest {
      */
     @GameTest
     public void satchelClickOnVillagerPreemptsTrading(GameTestHelper helper) {
-        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
         player.getInventory().setItem(0, new ItemStack(Postbote.SATCHEL));
         player.getInventory().setSelectedSlot(0);
 
@@ -289,5 +289,14 @@ public class PostboteGameTest {
                 .filter(stack -> stack.getItem() == Items.ENDER_EYE)
                 .mapToInt(ItemStack::getCount)
                 .sum();
+    }
+    /// A mock player with a working (embedded) network connection, unlike
+    /// {@code makeMockServerPlayer}: real code paths send it packets — chat and overlay
+    /// messages, cooldown and container syncs, ride teleports — and a player with a null
+    /// connection throws on every one of them.
+    private static ServerPlayer mockPlayer(GameTestHelper helper, GameType gameType) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        player.setGameMode(gameType);
+        return player;
     }
 }

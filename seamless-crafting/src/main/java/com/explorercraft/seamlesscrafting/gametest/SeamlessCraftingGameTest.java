@@ -64,7 +64,7 @@ public class SeamlessCraftingGameTest {
 	/** The menu mixins have to apply, or nothing pulls from a chest at all. */
 	@GameTest
 	public void craftingMenuTracksNearbyWithdrawals(GameTestHelper helper) {
-		ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+		ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
 		CraftingMenu menu = new CraftingMenu(1, player.getInventory(),
 				ContainerLevelAccess.create(helper.getLevel(), helper.absolutePos(new BlockPos(0, 1, 0))));
 
@@ -89,7 +89,7 @@ public class SeamlessCraftingGameTest {
 	 */
 	@GameTest
 	public void recipeBookPlacementPullsFromNearbyChest(GameTestHelper helper) {
-		ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+		ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
 		player.getInventory().clearContent();
 
 		BlockPos chestPos = placeChestWithPlanks(helper, new BlockPos(1, 1, 1), 42);
@@ -140,5 +140,14 @@ public class SeamlessCraftingGameTest {
 		container.setItem(0, new ItemStack(Items.OAK_PLANKS, count));
 		container.setChanged();
 		return chestPos;
+	}
+	/// A mock player with a working (embedded) network connection, unlike
+	/// {@code makeMockServerPlayer}: real code paths send it packets — chat and overlay
+	/// messages, cooldown and container syncs, ride teleports — and a player with a null
+	/// connection throws on every one of them.
+	private static ServerPlayer mockPlayer(GameTestHelper helper, GameType gameType) {
+		ServerPlayer player = helper.makeMockServerPlayerInLevel();
+		player.setGameMode(gameType);
+		return player;
 	}
 }

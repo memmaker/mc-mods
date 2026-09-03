@@ -2,7 +2,7 @@ package dev.explorercraft.lift.client;
 
 import dev.explorercraft.lift.Lift;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.FallingBlockRenderer;
 
 /**
@@ -12,6 +12,6 @@ import net.minecraft.client.renderer.entity.FallingBlockRenderer;
 public class LiftClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        EntityRendererRegistry.register(Lift.LIFT_PLATE_ENTITY, FallingBlockRenderer::new);
+        EntityRenderers.register(Lift.LIFT_PLATE_ENTITY, FallingBlockRenderer::new);
     }
 }

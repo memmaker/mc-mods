@@ -1,5 +1,6 @@
 package dev.explorercraft.stealthandalert;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.tags.TagKey;
@@ -32,7 +33,7 @@ public final class StealthTags {
 
     /// Entity types only carry their tags through the registry holder.
     public static boolean is(Entity entity, TagKey<EntityType<?>> tag) {
-        return entity.getType().builtInRegistryHolder().is(tag);
+        return BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(entity.getType()).is(tag);
     }
 
     private static TagKey<EntityType<?>> entity(String path) {

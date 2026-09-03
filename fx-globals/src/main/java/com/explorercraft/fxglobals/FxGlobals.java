@@ -48,10 +48,9 @@ public class FxGlobals implements ModInitializer {
 	private static MinecraftServer server;
 
 	/** Set the first time a player receives starter gear, so it is never handed out twice. */
-	public static final AttachmentType<Boolean> STARTER_GEAR_GIVEN = AttachmentRegistry.<Boolean>builder()
-			.persistent(Codec.BOOL)
-			.initializer(() -> false)
-			.buildAndRegister(Identifier.fromNamespaceAndPath(MOD_ID, "starter_gear_given"));
+	public static final AttachmentType<Boolean> STARTER_GEAR_GIVEN = AttachmentRegistry.create(
+			Identifier.fromNamespaceAndPath(MOD_ID, "starter_gear_given"),
+			builder -> builder.persistent(Codec.BOOL).initializer(() -> false));
 
 	/** Other Explorercraft mods' items, looked up by ID so this mod need not depend on them. */
 	private static final Identifier SATCHEL_ID = Identifier.fromNamespaceAndPath("postbote", "postbote_satchel");

@@ -209,6 +209,10 @@ public class PistolItem extends Item {
                 new CustomModelData(List.of(), List.of(silenced), List.of(), List.of()));
     }
 
+    /// Vanilla marks this hook deprecated, but its component-driven tooltip pipeline only calls
+    /// the fixed set of components it knows about, so an item's own extra line still has nowhere
+    /// else to come from. Overriding it is the supported path until Mojang provides one.
+    @SuppressWarnings("deprecation")
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
         int ammo = stack.getOrDefault(PistolSilencer.AMMO, MAX_AMMO);

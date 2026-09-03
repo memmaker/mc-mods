@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
 public interface Items {
@@ -24,7 +25,7 @@ public interface Items {
     // registration. Every item definition below builds its Properties via baseProps()
     // without knowing its own name yet, so stash it here rather than threading the id
     // through every single "() -> new Item(baseProps()...)" call site.
-    ResourceKey<Item>[] CURRENT_ID = new ResourceKey[1];
+    AtomicReference<ResourceKey<Item>> CURRENT_ID = new AtomicReference<>();
 
     Supplier<Item> HULL = register("hull", () -> new Item(baseProps().stacksTo(8)));
     Supplier<Item> ENGINE = register("engine", () -> new Item(baseProps().stacksTo(8)));
@@ -58,7 +59,7 @@ public interface Items {
     Supplier<Item> IMPROVED_LANDING_GEAR = register("improved_landing_gear", () -> new Item(baseProps().stacksTo(8)));
 
     static Supplier<Item> register(String name, Supplier<Item> item) {
-        CURRENT_ID[0] = ResourceKey.create(Registries.ITEM, Main.locate(name));
+        CURRENT_ID.set(ResourceKey.create(Registries.ITEM, Main.locate(name)));
         Supplier<Item> register = Registration.register(BuiltInRegistries.ITEM, Main.locate(name), item);
         items.add(register);
         return register;
@@ -68,7 +69,7 @@ public interface Items {
     }
 
     static Item.Properties baseProps() {
-        return new Item.Properties().setId(CURRENT_ID[0]);
+        return new Item.Properties().setId(CURRENT_ID.get());
     }
 
     static List<ItemStack> getSortedItems() {

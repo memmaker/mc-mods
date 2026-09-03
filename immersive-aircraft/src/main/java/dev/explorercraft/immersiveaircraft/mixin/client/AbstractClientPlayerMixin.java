@@ -1,0 +1,28 @@
+package dev.explorercraft.immersiveaircraft.mixin.client;
+
+import com.mojang.authlib.GameProfile;
+import dev.explorercraft.immersiveaircraft.entity.InventoryVehicleEntity;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+@Mixin(AbstractClientPlayer.class)
+public abstract class AbstractClientPlayerMixin extends Player {
+    public AbstractClientPlayerMixin(Level level, GameProfile gameProfile) {
+        super(level, gameProfile);
+    }
+
+    // ponytail: signature gained (firstPerson, effectScale) params in this MC version
+    // (net.minecraft.client.Camera#tickFov now passes them in); behavior is unchanged, the
+    // scoping zoom still overrides everything else regardless of those inputs.
+    @Inject(method = "getFieldOfViewModifier(ZF)F", at = @At("HEAD"), cancellable = true)
+    public void ia$getFieldOfViewModifier(boolean firstPerson, float effectScale, CallbackInfoReturnable<Float> cir) {
+        if (getRootVehicle() instanceof InventoryVehicleEntity vehicle && vehicle.isScoping()) {
+            cir.setReturnValue(0.05f);
+        }
+    }
+}

@@ -127,6 +127,26 @@ public class PostboteGameTest {
     }
 
     @GameTest
+    public void everySecondDeliveryPaysOutAnEyeOfEnder(GameTestHelper helper) {
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        Villager villager = helper.spawn(EntityTypes.VILLAGER, BlockPos.ZERO);
+
+        ItemStack first = giveOrder(player, player.blockPosition(), 1, Optional.empty());
+        Postbote.completeOrder(helper.getLevel(), player, first, villager);
+        if (countEyesOfEnder(player) != 0) {
+            throw helper.assertionException("the first delivery should not pay out an eye of ender");
+        }
+
+        ItemStack second = giveOrder(player, player.blockPosition(), 1, Optional.empty());
+        Postbote.completeOrder(helper.getLevel(), player, second, villager);
+        if (countEyesOfEnder(player) != 1) {
+            throw helper.assertionException("the second delivery should pay out exactly one eye of ender, found " + countEyesOfEnder(player));
+        }
+
+        helper.succeed();
+    }
+
+    @GameTest
     public void deliveryFarFromDestinationFails(GameTestHelper helper) {
         ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         BlockPos farAway = player.blockPosition().offset(10_000, 0, 0);
@@ -260,6 +280,13 @@ public class PostboteGameTest {
     private static int countEmeralds(ServerPlayer player) {
         return player.getInventory().getNonEquipmentItems().stream()
                 .filter(stack -> stack.getItem() == Items.EMERALD)
+                .mapToInt(ItemStack::getCount)
+                .sum();
+    }
+
+    private static int countEyesOfEnder(ServerPlayer player) {
+        return player.getInventory().getNonEquipmentItems().stream()
+                .filter(stack -> stack.getItem() == Items.ENDER_EYE)
                 .mapToInt(ItemStack::getCount)
                 .sum();
     }

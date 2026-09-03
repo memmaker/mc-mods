@@ -25,7 +25,10 @@ whatever else is already in your world.
   villager. Until one's ever been found, right-click any villager within 150
   blocks of the destination instead.
 - Payout is `4 + distance / 200` emeralds, capped at 64 — the farther the
-  delivery, the more it pays.
+  delivery, the more it pays. Every second completed delivery also pays a
+  bonus **Eye of Ender**.
+- Each completed delivery increments the `postbote:delivered_packages`
+  statistic, and the first one earns the **POST IST DA!** advancement.
 - Nobody checks a delivery route against where you've already been; "at
   least 750 blocks away" stands in for "somewhere new." See the `ponytail:`
   comment on `Postbote.startOrder` if that heuristic ever needs to become a
@@ -66,7 +69,7 @@ Fabric API, Java 25.
 JAVA_HOME=/opt/homebrew/opt/openjdk@25/libexec/openjdk.jdk/Contents/Home ./gradlew runGametest
 ```
 
-Covers the debug command, the one-active-order guard, and the completion
+Covers the debug command, the one-active-order guard, the completion
 gate (pays and consumes the compass in range, refuses and leaves it alone
-out of range). The village search itself calls vanilla's own
+out of range), and the every-second-delivery Eye of Ender bonus. The village search itself calls vanilla's own
 `findNearestMapStructure` directly and isn't re-tested here.

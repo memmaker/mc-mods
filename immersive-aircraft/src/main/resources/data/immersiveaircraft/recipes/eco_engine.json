@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CNC",
+    "NEN",
+    "RRR"
+  ],
+  "key": {
+    "C": [
+      {
+        "item": "minecraft:slime_ball"
+      }
+    ],
+    "R": [
+      {
+        "item": "minecraft:brick"
+      }
+    ],
+    "N": [
+      {
+        "item": "minecraft:gold_ingot"
+      }
+    ],
+    "E": [
+      {
+        "item": "immersiveaircraft:engine"
+      }
+    ]
+  },
+  "result": {
+    "item": "immersiveaircraft:eco_engine"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PHP",
+    "BEB",
+    "BBB"
+  ],
+  "key": {
+    "B": [
+      {
+        "item": "minecraft:bamboo_block"
+      }
+    ],
+    "H": [
+      {
+        "item": "immersiveaircraft:hull"
+      }
+    ],
+    "E": [
+      {
+        "item": "immersiveaircraft:engine"
+      }
+    ],
+    "P": [
+      {
+        "item": "immersiveaircraft:biplane"
+      }
+    ]
+  },
+  "result": {
+    "item": "immersiveaircraft:bamboo_hopper"
+  }
+}

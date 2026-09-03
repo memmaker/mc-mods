@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.explorercraft.immersiveaircraft.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "AbstractClientPlayerMixin", "AvatarRenderStateMixin", "AvatarRendererMixin", "CameraMixin",
+    "ClientPlayerEntityMixin",
+    "ClientPlayerInteractionManagerMixin", "ClientPlayNetworkHandlerMixin",
+    "KeyMappingAccessorMixin", "KeyMappingMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

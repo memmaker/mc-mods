@@ -21,8 +21,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Display;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -63,6 +65,14 @@ public class BotBuild implements ModInitializer {
     static final double BOT_RANGE = 24.0;
     /// How close the bot has to get before it can take or place a block.
     static final double REACH = 2.0;
+    /// Speed modifier a recalled bot flies at — several times its own walking pace.
+    static final double RECALL_SPEED = 4.0;
+    /// How high a recalled bot climbs before it sets off towards the player.
+    static final int RECALL_RISE = 8;
+    /// Ticks a recall lasts: the climb, then the flight in.
+    static final int RECALL_TICKS = 200;
+    /// Ticks of that spent climbing.
+    static final int RECALL_RISE_TICKS = 25;
     /// How far an idle bot will go out of its way for a dropped snack.
     static final double FOOD_RANGE = 10.0;
     /// Ticks a bot may spend getting nowhere before the job gives up on a spot it can't reach.
@@ -77,6 +87,15 @@ public class BotBuild implements ModInitializer {
         @Override
         public InteractionResult useOn(UseOnContext context) {
             return onWandUse(context);
+        }
+
+        /// Sneaking with nothing under the crosshair still calls the bots in.
+        @Override
+        public InteractionResult use(Level level, Player player, InteractionHand hand) {
+            if (player.isShiftKeyDown() && level instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
+                recall(serverLevel, serverPlayer);
+            }
+            return InteractionResult.SUCCESS;
         }
     };
 
@@ -102,6 +121,8 @@ public class BotBuild implements ModInitializer {
     private static final Map<UUID, BlockPos> corners = new HashMap<>();
     /// Every build in progress, drained by {@link #tick}.
     private static final List<Job> jobs = new ArrayList<>();
+    /// The summons in force, if any. One at a time: the last call wins.
+    private static Recall recall;
 
     @Override
     public void onInitialize() {
@@ -126,15 +147,7 @@ public class BotBuild implements ModInitializer {
         }
 
         if (player.isShiftKeyDown()) {
-            corners.remove(player.getUUID());
-            jobs.removeIf(job -> {
-                if (!job.owner.getUUID().equals(player.getUUID())) {
-                    return false;
-                }
-                job.cancel();
-                return true;
-            });
-            player.sendSystemMessage(Component.literal("Build cancelled."));
+            recall(level, player);
             return InteractionResult.SUCCESS;
         }
 
@@ -142,7 +155,7 @@ public class BotBuild implements ModInitializer {
         BlockPos first = corners.remove(player.getUUID());
         if (first == null) {
             corners.put(player.getUUID(), clicked);
-            player.sendSystemMessage(Component.literal("Corner set. Click the opposite corner."));
+            tell(player, "Corner set. Click the opposite corner.");
             return InteractionResult.SUCCESS;
         }
 
@@ -150,24 +163,59 @@ public class BotBuild implements ModInitializer {
         return InteractionResult.SUCCESS;
     }
 
+    /// Calls every bot in the dimension in. Outlines stop with it — a bot on its way to you is
+    /// not building — and their ghosts go too.
+    static void recall(ServerLevel level, ServerPlayer player) {
+        corners.remove(player.getUUID());
+        jobs.forEach(Job::cancel);
+        jobs.clear();
+
+        List<? extends Allay> bots = level.getEntities(EntityTypes.ALLAY,
+                allay -> allay.isAlive() && allay.entityTags().contains(MOD_ID));
+        bots.forEach(bot -> bot.getNavigation().stop());
+        recall = bots.isEmpty() ? null : new Recall(player, level.getGameTime() + RECALL_TICKS);
+        tell(player, bots.isEmpty()
+                ? "No build bots answered."
+                : "Called in %d build bot%s.".formatted(bots.size(), bots.size() == 1 ? "" : "s"));
+    }
+
+    /// A standing summons: until it runs out, every bot climbs, then flies to whoever called.
+    /// Only the target's position and level matter, so anything in the world can be homed in on.
+    record Recall(Entity target, long expires) {
+        boolean covers(Allay bot, long gameTime) {
+            return gameTime < expires && target.isAlive() && bot.level() == target.level();
+        }
+
+        void fly(Allay bot, long gameTime) {
+            if (!bot.getNavigation().isDone()) {
+                return;
+            }
+            if (gameTime > expires - RECALL_TICKS + RECALL_RISE_TICKS) {
+                bot.getNavigation().moveTo(target, RECALL_SPEED);
+            } else {
+                bot.getNavigation().moveTo(bot.getX(), bot.getY() + RECALL_RISE, bot.getZ(), RECALL_SPEED);
+            }
+        }
+    }
+
     /// The material is whatever block the first corner was clicked on — no second item to hold.
     static void startJob(ServerLevel level, ServerPlayer owner, BlockPos first, BlockPos second) {
         BlockState state = level.getBlockState(first);
         Item item = state.getBlock().asItem();
         if (item == Items.AIR) {
-            owner.sendSystemMessage(Component.literal("That block can't be built with."));
+            tell(owner, "That block can't be built with.");
             return;
         }
 
         List<BlockPos> targets = plan(level, first, second);
         if (targets.isEmpty()) {
-            owner.sendSystemMessage(Component.literal("Nothing to fill there."));
+            tell(owner, "Nothing to fill there.");
             return;
         }
 
         List<Allay> bots = claimBots(level, targets.getFirst());
         if (bots.isEmpty()) {
-            owner.sendSystemMessage(Component.literal("No build bot within %d blocks. Place one first.".formatted((int) BOT_RANGE)));
+            tell(owner, "No build bot within %d blocks. Place one first.".formatted((int) BOT_RANGE));
             return;
         }
 
@@ -177,8 +225,16 @@ public class BotBuild implements ModInitializer {
             job.ghosts.put(pos, spawnGhost(level, pos, state));
         }
         jobs.add(job);
-        owner.sendSystemMessage(Component.literal("Building %d x %s with %d bot%s."
-                .formatted(targets.size(), state.getBlock().getName().getString(), bots.size(), bots.size() == 1 ? "" : "s")));
+        tell(owner, "Building %d x %s with %d bot%s."
+                .formatted(targets.size(), state.getBlock().getName().getString(), bots.size(), bots.size() == 1 ? "" : "s"));
+    }
+
+    /// Chat, but safe for a player who has no connection behind them — the mock players the
+    /// game tests run on are exactly that.
+    static void tell(ServerPlayer player, String text) {
+        if (player.connection != null) {
+            player.sendSystemMessage(Component.literal(text));
+        }
     }
 
     /// Every replaceable spot in the box between the corners, up to {@link #MAX_BLOCKS}.
@@ -273,6 +329,10 @@ public class BotBuild implements ModInitializer {
     /// What a bot does when no outline needs it: go and eat whatever food is lying around.
     /// Called once a tick per bot from {@code AllayMixin}, in place of the vanilla brain.
     public static void idleTick(ServerLevel level, Allay bot) {
+        if (recall != null && recall.covers(bot, level.getGameTime())) {
+            recall.fly(bot, level.getGameTime());
+            return;
+        }
         if (jobs.stream().flatMap(job -> job.workers.stream()).anyMatch(worker -> worker.bot == bot)) {
             return;
         }
@@ -351,7 +411,7 @@ public class BotBuild implements ModInitializer {
                 }
             }
             if (workers.isEmpty()) {
-                owner.sendSystemMessage(Component.literal("No build bots left on the job."));
+                tell(owner, "No build bots left on the job.");
                 return false;
             }
             return !ghosts.isEmpty();
@@ -370,7 +430,7 @@ public class BotBuild implements ModInitializer {
             if (++worker.stalled > STALL_LIMIT) {
                 // Its spot may just be unreachable for this bot, so hand the spot back and let
                 // another one try. A bot that gives up is off the job.
-                owner.sendSystemMessage(Component.literal("A build bot couldn't get there and stopped."));
+                tell(owner, "A build bot couldn't get there and stopped.");
                 release(worker);
                 return true;
             }
@@ -385,7 +445,7 @@ public class BotBuild implements ModInitializer {
                 }
                 Container from = container != null ? container : owner.getInventory();
                 if (!takeOne(from, item)) {
-                    owner.sendSystemMessage(Component.literal("Out of %s.".formatted(state.getBlock().getName().getString())));
+                    tell(owner, "Out of %s.".formatted(state.getBlock().getName().getString()));
                     return false;
                 }
                 worker.carrying = true;

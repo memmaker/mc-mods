@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "immersiveaircraft:item/cargo_airship_color",
+    "layer1": "immersiveaircraft:item/cargo_airship"
+  }
+}

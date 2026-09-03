@@ -6,6 +6,9 @@
 		"AbstractArrowMixin",
 		"FoodDataMixin"
 	],
+	"client": [
+		"client.LivingEntityRendererHeadMixin"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	},

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "immersiveaircraft",
+  "version": "${version}",
+  "name": "Immersive Aircraft",
+  "description": "A bunch of rustic aircraft to travel, transport, and explore!",
+  "authors": [
+    "Luke100000"
+  ],
+  "contributors": [
+    "felix (port to 26.2 / plain Fabric)"
+  ],
+  "contact": {
+    "sources": "https://github.com/Luke100000/ImmersiveAircraft"
+  },
+  "license": "GPL-3.0-only",
+  "icon": "assets/immersiveaircraft/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.explorercraft.immersiveaircraft.ImmersiveAircraftMod"
+    ],
+    "client": [
+      "dev.explorercraft.immersiveaircraft.ImmersiveAircraftClientMod"
+    ]
+  },
+  "mixins": [
+    "immersiveaircraft.mixins.json",
+    {
+      "config": "immersiveaircraft.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "accessWidener": "immersiveaircraft.accessWidener",
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

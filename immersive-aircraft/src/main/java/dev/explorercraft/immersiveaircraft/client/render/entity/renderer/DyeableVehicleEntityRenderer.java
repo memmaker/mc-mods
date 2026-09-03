@@ -1,0 +1,32 @@
+package dev.explorercraft.immersiveaircraft.client.render.entity.renderer;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import dev.explorercraft.immersiveaircraft.client.ColorUtils;
+import dev.explorercraft.immersiveaircraft.entity.DyeableVehicleEntity;
+import dev.explorercraft.immersiveaircraft.resources.bbmodel.BBModel;
+import dev.explorercraft.immersiveaircraft.resources.bbmodel.BBObject;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+
+import static dev.explorercraft.immersiveaircraft.client.render.entity.renderer.utils.BBModelRenderer.renderObjectInner;
+
+public abstract class DyeableVehicleEntityRenderer<T extends DyeableVehicleEntity> extends VehicleEntityRenderer<T> {
+    public DyeableVehicleEntityRenderer(EntityRendererProvider.Context context) {
+        super(context);
+    }
+
+    public void renderUndyed(BBModel model, BBObject object, SubmitNodeCollector submitNodeCollector, T entity, PoseStack matrixStack, int light, float time) {
+        if (entity.getDyeColor() < 0) {
+            renderObjectInner(model, object, matrixStack, submitNodeCollector, light, time, entity, null, 1.0f, 1.0f, 1.0f, 1.0f);
+        }
+    }
+
+    public void renderDyed(BBModel model, BBObject object, SubmitNodeCollector submitNodeCollector, T entity, PoseStack matrixStack, int light, float time, boolean highlight, boolean hideWhenUndyed) {
+        if (entity.getDyeColor() < 0 && hideWhenUndyed) {
+            return;
+        }
+        int color = highlight ? entity.getHighlightColor() : entity.getBodyColor();
+        float[] rgb = ColorUtils.hexToDecimalRGB(color);
+        renderObjectInner(model, object, matrixStack, submitNodeCollector, light, time, entity, null, rgb[0], rgb[1], rgb[2], 1.0f);
+    }
+}

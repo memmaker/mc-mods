@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "pistolsilencer",
+  "version": "${version}",
+  "name": "Pistol & Silencer",
+  "description": "A pistol with a silencer attachment, ported from MrCrayfish's Gun Mod.",
+  "authors": [
+    "felix"
+  ],
+  "license": "GPL-3.0",
+  "icon": "assets/pistolsilencer/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.explorercraft.pistolsilencer.PistolSilencer"
+    ],
+    "client": [
+      "dev.explorercraft.pistolsilencer.client.PistolSilencerClient"
+    ],
+    "fabric-gametest": [
+      "dev.explorercraft.pistolsilencer.PistolSilencerGameTest"
+    ]
+  },
+  "mixins": [
+    "pistolsilencer.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

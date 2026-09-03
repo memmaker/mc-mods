@@ -1,0 +1,53 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "immersiveaircraft:boiler",
+      "immersiveaircraft:engine",
+      "immersiveaircraft:hull",
+      "immersiveaircraft:propeller",
+      "immersiveaircraft:sail",
+      "immersiveaircraft:airship",
+      "immersiveaircraft:cargo_airship",
+      "immersiveaircraft:biplane",
+      "immersiveaircraft:gyrodyne",
+      "immersiveaircraft:quadrocopter",
+      "immersiveaircraft:warship",
+      "immersiveaircraft:bamboo_hopper",
+      "immersiveaircraft:sturdy_pipes",
+      "immersiveaircraft:eco_engine",
+      "immersiveaircraft:nether_engine",
+      "immersiveaircraft:steel_boiler",
+      "immersiveaircraft:industrial_gears",
+      "immersiveaircraft:enhanced_propeller",
+      "immersiveaircraft:gyroscope",
+      "immersiveaircraft:gyroscope_hud",
+      "immersiveaircraft:gyroscope_dials",
+      "immersiveaircraft:hull_reinforcement",
+      "immersiveaircraft:improved_landing_gear",
+      "immersiveaircraft:telescope",
+      "immersiveaircraft:bomb_bay",
+      "immersiveaircraft:rotary_cannon",
+      "immersiveaircraft:heavy_crossbow"
+    ]
+  },
+  "criteria": {
+    "has_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:iron_ingot"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_item"
+    ]
+  ]
+}

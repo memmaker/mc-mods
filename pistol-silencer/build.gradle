@@ -1,0 +1,50 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version '1.17.20'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base { archivesName = project.archives_base_name }
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+}
+
+loom {
+    mixin {
+        defaultRefmapName.set("pistolsilencer.refmap.json")
+    }
+
+    runs {
+        gametest {
+            inherit server
+            name = "Game Test"
+            vmArg "-Dfabric-api.gametest"
+            runDir "build/gametest"
+        }
+    }
+}
+
+processResources {
+    def expansions = [
+            version          : project.version,
+            minecraft_version: project.minecraft_version,
+            loader_version   : project.loader_version
+    ]
+    inputs.properties expansions
+    filesMatching("fabric.mod.json") {
+        expand expansions
+    }
+}
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(25) }
+    withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+}

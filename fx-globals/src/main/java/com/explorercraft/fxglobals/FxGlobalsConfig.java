@@ -22,6 +22,8 @@ public final class FxGlobalsConfig {
 	public static final float DEFAULT_DAY_LENGTH_FACTOR = 1.5f;
 	public static final float DEFAULT_HUNGER_FACTOR = 0.25f;
 	public static final boolean DEFAULT_PICKUP_ARROWS = true;
+	public static final boolean DEFAULT_HEADSHOTS = true;
+	public static final boolean DEFAULT_STARTER_GEAR = true;
 
 	/** Slider and clamp bounds, in percent. A day length of 0 would divide by zero, hence the floor. */
 	public static final int MIN_DAY_LENGTH_PERCENT = 25;
@@ -37,6 +39,12 @@ public final class FxGlobalsConfig {
 
 	/** Whether arrows a mob shot can be picked up, the way a player's own arrows already can. */
 	public static boolean pickupArrows = DEFAULT_PICKUP_ARROWS;
+
+	/** Whether an arrow landing at or above a mob's eyes kills it outright. */
+	public static boolean headshots = DEFAULT_HEADSHOTS;
+
+	/** Whether a player is handed starter gear the first time they join. */
+	public static boolean starterGear = DEFAULT_STARTER_GEAR;
 
 	private FxGlobalsConfig() {
 	}
@@ -57,6 +65,8 @@ public final class FxGlobalsConfig {
 		hungerFactor = read(properties, "hunger_factor", DEFAULT_HUNGER_FACTOR,
 				MIN_HUNGER_PERCENT, MAX_HUNGER_PERCENT);
 		pickupArrows = readBoolean(properties, "pickup_arrows", DEFAULT_PICKUP_ARROWS);
+		headshots = readBoolean(properties, "headshots", DEFAULT_HEADSHOTS);
+		starterGear = readBoolean(properties, "starter_gear", DEFAULT_STARTER_GEAR);
 
 		// Writes the file on first run, and normalises anything that was out of range.
 		save();
@@ -67,6 +77,8 @@ public final class FxGlobalsConfig {
 		properties.setProperty("day_length_factor", Float.toString(dayLengthFactor));
 		properties.setProperty("hunger_factor", Float.toString(hungerFactor));
 		properties.setProperty("pickup_arrows", Boolean.toString(pickupArrows));
+		properties.setProperty("headshots", Boolean.toString(headshots));
+		properties.setProperty("starter_gear", Boolean.toString(starterGear));
 
 		try {
 			Files.createDirectories(FILE.getParent());

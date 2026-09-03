@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "stealthandalert",
+  "version": "${version}",
+  "name": "Stealth and Alert",
+  "description": "Mobs see you with a real vision cone instead of x-ray senses. Stay in the dark, break line of sight, and they lose you.",
+  "authors": ["felix"],
+  "contributors": ["RedGhostRev (original Stealth and Alert mod, MIT)"],
+  "license": "MIT",
+  "icon": "assets/stealthandalert/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.explorercraft.stealthandalert.StealthAndAlert"],
+    "client": ["dev.explorercraft.stealthandalert.client.StealthAndAlertClient"],
+    "fabric-gametest": ["dev.explorercraft.stealthandalert.StealthGameTest"]
+  },
+  "mixins": [
+    "stealthandalert.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

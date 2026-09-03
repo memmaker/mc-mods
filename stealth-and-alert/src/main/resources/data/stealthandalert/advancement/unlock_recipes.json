@@ -1,0 +1,16 @@
+{
+  "criteria": {
+    "immediately": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    ["immediately"]
+  ],
+  "rewards": {
+    "recipes": [
+      "stealthandalert:dagger",
+      "stealthandalert:pebble"
+    ]
+  }
+}

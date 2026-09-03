@@ -1,0 +1,8 @@
+{
+  "pebble_land": {
+    "subtitle": "subtitles.stealthandalert.pebble_land",
+    "sounds": [
+      "stealthandalert:pebble_land"
+    ]
+  }
+}

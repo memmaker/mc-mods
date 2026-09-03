@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "immersiveaircraft:rotary_cannon",
+    "immersiveaircraft:heavy_crossbow",
+    "immersiveaircraft:telescope",
+    "immersiveaircraft:bomb_bay"
+  ]
+}

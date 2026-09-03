@@ -19,13 +19,22 @@
 		],
 		"modmenu": [
 			"com.explorercraft.fxglobals.client.FxGlobalsModMenu"
+		],
+		"client": [
+			"com.explorercraft.fxglobals.client.FxGlobalsClient"
 		]
 	},
 	"mixins": [
 		"fxglobals.mixins.json"
 	],
 	"suggests": {
-		"modmenu": "*"
+		"modmenu": "*",
+		"postbote": "*",
+		"camerapture": "*",
+		"whiteflag": "*",
+		"climbingclaws": "*",
+		"nofall": "*",
+		"travelersbackpack": "*"
 	},
 	"depends": {
 		"fabricloader": ">=0.19.3",

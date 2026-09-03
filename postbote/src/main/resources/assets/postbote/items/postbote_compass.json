@@ -12,105 +12,105 @@
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_17"
+          "model": "postbote:item/compass_15"
         },
         "threshold": 0.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_18"
+          "model": "postbote:item/compass_14"
         },
         "threshold": 1.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_19"
+          "model": "postbote:item/compass_13"
         },
         "threshold": 2.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_20"
+          "model": "postbote:item/compass_12"
         },
         "threshold": 3.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_21"
+          "model": "postbote:item/compass_11"
         },
         "threshold": 4.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_22"
+          "model": "postbote:item/compass_10"
         },
         "threshold": 5.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_23"
+          "model": "postbote:item/compass_09"
         },
         "threshold": 6.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_24"
+          "model": "postbote:item/compass_08"
         },
         "threshold": 7.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_25"
+          "model": "postbote:item/compass_07"
         },
         "threshold": 8.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_26"
+          "model": "postbote:item/compass_06"
         },
         "threshold": 9.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_27"
+          "model": "postbote:item/compass_05"
         },
         "threshold": 10.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_28"
+          "model": "postbote:item/compass_04"
         },
         "threshold": 11.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_29"
+          "model": "postbote:item/compass_03"
         },
         "threshold": 12.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_30"
+          "model": "postbote:item/compass_02"
         },
         "threshold": 13.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_31"
+          "model": "postbote:item/compass_01"
         },
         "threshold": 14.5
       },
@@ -124,105 +124,105 @@
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_01"
+          "model": "postbote:item/compass_31"
         },
         "threshold": 16.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_02"
+          "model": "postbote:item/compass_30"
         },
         "threshold": 17.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_03"
+          "model": "postbote:item/compass_29"
         },
         "threshold": 18.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_04"
+          "model": "postbote:item/compass_28"
         },
         "threshold": 19.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_05"
+          "model": "postbote:item/compass_27"
         },
         "threshold": 20.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_06"
+          "model": "postbote:item/compass_26"
         },
         "threshold": 21.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_07"
+          "model": "postbote:item/compass_25"
         },
         "threshold": 22.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_08"
+          "model": "postbote:item/compass_24"
         },
         "threshold": 23.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_09"
+          "model": "postbote:item/compass_23"
         },
         "threshold": 24.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_10"
+          "model": "postbote:item/compass_22"
         },
         "threshold": 25.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_11"
+          "model": "postbote:item/compass_21"
         },
         "threshold": 26.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_12"
+          "model": "postbote:item/compass_20"
         },
         "threshold": 27.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_13"
+          "model": "postbote:item/compass_19"
         },
         "threshold": 28.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_14"
+          "model": "postbote:item/compass_18"
         },
         "threshold": 29.5
       },
       {
         "model": {
           "type": "minecraft:model",
-          "model": "postbote:item/compass_15"
+          "model": "postbote:item/compass_17"
         },
         "threshold": 30.5
       },

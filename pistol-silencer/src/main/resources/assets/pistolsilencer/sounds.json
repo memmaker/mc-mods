@@ -1,0 +1,18 @@
+{
+  "item.pistol.fire": {
+    "subtitle": "subtitle.pistolsilencer.pistol_fire",
+    "sounds": ["pistolsilencer:item/pistol/fire"]
+  },
+  "item.pistol.silenced_fire": {
+    "subtitle": "subtitle.pistolsilencer.pistol_fire",
+    "sounds": ["pistolsilencer:item/pistol/silenced_fire"]
+  },
+  "item.pistol.reload": {
+    "subtitle": "subtitle.pistolsilencer.pistol_reload",
+    "sounds": ["pistolsilencer:item/pistol/reload"]
+  },
+  "item.pistol.cock": {
+    "subtitle": "subtitle.pistolsilencer.pistol_reload",
+    "sounds": ["pistolsilencer:item/pistol/cock"]
+  }
+}

@@ -12,7 +12,8 @@
     "main": ["dev.explorercraft.photosafari.PhotoSafari"],
     "client": ["dev.explorercraft.photosafari.client.PhotoSafariClient"],
     "fabric-datagen": ["dev.explorercraft.photosafari.PhotoSafariDataGenerator"],
-    "fabric-gametest": ["dev.explorercraft.photosafari.PhotoSafariGameTest"]
+    "fabric-gametest": ["dev.explorercraft.photosafari.PhotoSafariGameTest"],
+    "modmenu": ["dev.explorercraft.photosafari.client.PhotoSafariModMenu"]
   },
   "depends": {
     "fabricloader": ">=0.19.3",
@@ -20,5 +21,11 @@
     "java": ">=25",
     "fabric-api": "*",
     "camerapture": ">=1.10.15"
-  }
+  },
+  "suggests": {
+    "modmenu": "*"
+  },
+  "mixins": [
+    "photosafari.mixins.json"
+  ]
 }

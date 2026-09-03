@@ -48,6 +48,12 @@ dependencies {
     // Camerapture supplies the camera, pictures and picture frames. We only add the safari on top.
     implementation "maven.modrinth:camerapture:${project.camerapture_version}"
 
+    // Mod Menu supplies the config button only. The entrypoint that touches its API is never
+    // loaded without it, so the published jar works fine on its own — compile-only here,
+    // present in runClient so the screen can actually be opened in dev.
+    compileOnly "maven.modrinth:modmenu:${project.modmenu_version}"
+    localRuntime "maven.modrinth:modmenu:${project.modmenu_version}"
+
     // Datagen only: their mobs get checklist advancements, gated behind a resource
     // condition so the same jar still works without them installed.
     implementation "maven.modrinth:alexs-mobs-continued:${project.alexs_mobs_version}"

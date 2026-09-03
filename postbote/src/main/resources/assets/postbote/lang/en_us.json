@@ -1,4 +1,7 @@
 {
   "item.postbote.postbote_satchel": "Postbote Satchel",
-  "item.postbote.postbote_compass": "Delivery Compass"
+  "item.postbote.postbote_compass": "Delivery Compass",
+  "stat.postbote.delivered_packages": "Packages Delivered",
+  "advancements.postbote.first_delivery.title": "POST IST DA!",
+  "advancements.postbote.first_delivery.description": "Deliver your first package"
 }

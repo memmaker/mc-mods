@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "dev.explorercraft.photosafari.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "MobDropAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

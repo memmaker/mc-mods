@@ -1,0 +1,11 @@
+{
+  "item.pistolsilencer.pistol": "Pistol",
+  "item.pistolsilencer.silencer": "Silencer",
+  "item.pistolsilencer.pistol_ammo": "Pistol Ammo",
+  "item.pistolsilencer.pistol.ammo": "Ammo: %s / %s",
+  "item.pistolsilencer.pistol.silenced": "Silenced",
+  "subtitle.pistolsilencer.pistol_fire": "Pistol fires",
+  "subtitle.pistolsilencer.pistol_reload": "Pistol reloads",
+  "key.pistolsilencer.reload": "Reload",
+  "key.categories.pistolsilencer": "Pistol"
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:story/root",
+  "display": {
+    "icon": {
+      "id": "postbote:postbote_compass"
+    },
+    "title": {
+      "translate": "advancements.postbote.first_delivery.title"
+    },
+    "description": {
+      "translate": "advancements.postbote.first_delivery.description"
+    },
+    "frame": "task",
+    "announce_to_chat": true,
+    "show_toast": true
+  },
+  "criteria": {
+    "delivered_a_package": {
+      "trigger": "minecraft:tick",
+      "conditions": {
+        "player": {
+          "minecraft:player": {
+            "stats": [
+              {
+                "type": "minecraft:custom",
+                "stat": "postbote:delivered_packages",
+                "value": {
+                  "min": 1
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "delivered_a_package"
+    ]
+  ]
+}

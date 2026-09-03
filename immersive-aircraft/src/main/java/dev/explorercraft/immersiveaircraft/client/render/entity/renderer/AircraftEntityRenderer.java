@@ -1,0 +1,32 @@
+package dev.explorercraft.immersiveaircraft.client.render.entity.renderer;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import dev.explorercraft.immersiveaircraft.client.render.entity.renderer.utils.ModelPartRenderHandler;
+import dev.explorercraft.immersiveaircraft.entity.AircraftEntity;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import org.joml.Vector3f;
+
+public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends InventoryVehicleRenderer<T> {
+    public AircraftEntityRenderer(EntityRendererProvider.Context context) {
+        super(context);
+    }
+
+    // Because this is used in plugins, changing to generic T is no longer possible
+    protected abstract ModelPartRenderHandler<T> getModel(AircraftEntity entity);
+
+    public void renderLocal(T entity, float yaw, float tickDelta, PoseStack matrixStack, SubmitNodeCollector submitNodeCollector, int light) {
+        // Wind effect
+        Vector3f effect = entity.onGround() ? new Vector3f(0.0f, 0.0f, 0.0f) : entity.getWindEffect();
+        matrixStack.mulPose(Axis.XP.rotationDegrees(effect.z));
+        matrixStack.mulPose(Axis.ZP.rotationDegrees(effect.x));
+
+        super.renderLocal(entity, yaw, tickDelta, matrixStack, submitNodeCollector, light);
+    }
+
+    @Override
+    protected void renderWorldAligned(T entity, float tickDelta, PoseStack matrixStack, SubmitNodeCollector submitNodeCollector, int light) {
+        entity.getTrails().forEach(t -> TrailRenderer.render(t, submitNodeCollector, matrixStack));
+    }
+}

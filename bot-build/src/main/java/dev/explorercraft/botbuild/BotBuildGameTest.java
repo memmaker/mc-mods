@@ -9,7 +9,12 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.animal.allay.Allay;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
@@ -117,6 +122,54 @@ public class BotBuildGameTest {
                 throw helper.assertionException("the bread is still on the ground");
             }
         });
+    }
+
+    /// The summons itself is a handful of lines of wiring; the part worth pinning down is the
+    /// flight: climb first, then home in on the player. Driven directly so the test doesn't put a
+    /// server-wide recall in the way of the builds running beside it.
+    @GameTest(maxTicks = 400, padding = 32)
+    public void recalledBotClimbsThenFliesToThePlayer(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        // A dropped item stands in for the caller: the flight only ever reads the target's
+        // position, and a third mock player in the suite disconnects the other tests' players.
+        BlockPos callPos = helper.absolutePos(new BlockPos(1, 1, 1));
+        ItemEntity caller = new ItemEntity(level, callPos.getX() + 0.5, callPos.getY(), callPos.getZ() + 0.5,
+                new ItemStack(Items.STICK));
+        level.addFreshEntity(caller);
+        Allay bot = BotBuild.spawnBot(level, Vec3.atBottomCenterOf(helper.absolutePos(new BlockPos(6, 1, 6))));
+        double startY = bot.getY();
+        double[] peakY = {startY};
+        BotBuild.Recall recall = new BotBuild.Recall(caller, level.getGameTime() + BotBuild.RECALL_TICKS);
+
+        helper.succeedWhen(() -> {
+            recall.fly(bot, level.getGameTime());
+            peakY[0] = Math.max(peakY[0], bot.getY());
+            if (peakY[0] < startY + 1.0) {
+                throw helper.assertionException("the bot never left the ground");
+            }
+            if (bot.distanceToSqr(caller) > 9.0) {
+                throw helper.assertionException("the bot is still %.1f blocks out".formatted(Math.sqrt(bot.distanceToSqr(caller))));
+            }
+        });
+    }
+
+    /// The recipe is hand-written JSON, so a typo in a key or ingredient ID would leave the wand
+    /// uncraftable with nothing to say so. Run the real grid through the server's own lookup.
+    @GameTest
+    public void buildWandIsCraftableFromSticksAndRedstone(GameTestHelper helper) {
+        CraftingInput input = CraftingInput.of(3, 3, List.of(
+                ItemStack.EMPTY, ItemStack.EMPTY, new ItemStack(Items.REDSTONE),
+                ItemStack.EMPTY, new ItemStack(Items.STICK), ItemStack.EMPTY,
+                new ItemStack(Items.STICK), ItemStack.EMPTY, ItemStack.EMPTY));
+        RecipeHolder<CraftingRecipe> recipe = helper.getLevel().recipeAccess()
+                .getRecipeFor(RecipeType.CRAFTING, input, helper.getLevel())
+                .orElseThrow(() -> helper.assertionException("no recipe matched the build wand grid"));
+        ItemStack result = recipe.value().assemble(input);
+
+        if (!result.is(BotBuild.WAND)) {
+            throw helper.assertionException("the build wand grid crafted " + result);
+        }
+        helper.succeed();
     }
 
     private static Container fillChest(GameTestHelper helper, BlockPos relative, int stone) {

@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.explorercraft.stealthandalert.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "MobSetTargetMixin",
+    "MobTickMixin",
+    "ServerLevelGameEventMixin",
+    "TargetingConditionsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

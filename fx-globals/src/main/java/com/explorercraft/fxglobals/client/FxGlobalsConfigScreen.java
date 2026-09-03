@@ -40,6 +40,18 @@ public class FxGlobalsConfigScreen extends OptionsSubScreen {
 			FxGlobalsConfig.pickupArrows,
 			value -> FxGlobalsConfig.pickupArrows = value);
 
+	private final OptionInstance<Boolean> headshots = OptionInstance.createBoolean(
+			"options.fxglobals.headshots",
+			OptionInstance.cachedConstantTooltip(Component.translatable("options.fxglobals.headshots.tooltip")),
+			FxGlobalsConfig.headshots,
+			value -> FxGlobalsConfig.headshots = value);
+
+	private final OptionInstance<Boolean> starterGear = OptionInstance.createBoolean(
+			"options.fxglobals.starter_gear",
+			OptionInstance.cachedConstantTooltip(Component.translatable("options.fxglobals.starter_gear.tooltip")),
+			FxGlobalsConfig.starterGear,
+			value -> FxGlobalsConfig.starterGear = value);
+
 	public FxGlobalsConfigScreen(Screen lastScreen) {
 		super(lastScreen, Minecraft.getInstance().options, Component.translatable("options.fxglobals.title"));
 	}
@@ -49,6 +61,8 @@ public class FxGlobalsConfigScreen extends OptionsSubScreen {
 		this.list.addBig(this.dayLength);
 		this.list.addBig(this.hunger);
 		this.list.addBig(this.pickupArrows);
+		this.list.addBig(this.headshots);
+		this.list.addBig(this.starterGear);
 	}
 
 	@Override

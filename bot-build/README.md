@@ -5,7 +5,7 @@ places them one at a time.
 
 ## Use
 
-Craft the **Build Wand** (two blaze rods, one amethyst shard) and a **Build Bot** (four iron
+Craft the **Build Wand** (two sticks, one redstone) and a **Build Bot** (four iron
 ingots, two redstone).
 
 1. Right-click a block with the bot item to place the bot, spawn-egg style. The item is spent; the
@@ -25,7 +25,10 @@ only stops when the last one is gone.
 Between jobs the bots feed themselves: an idle bot walks to the nearest dropped food within 10
 blocks and eats one. Bots on a job stay on the job.
 
-Sneak + right-click cancels: ghosts vanish, a carried block drops, the bot goes back to idle.
+Sneak + right-click with the wand — on a block or at thin air — calls every bot in the dimension
+in: each one climbs into the air where it stands and flies to you at four times its normal speed,
+for ten seconds. Any outline in progress stops, since a bot on its way to you is not building:
+the ghosts vanish and carried blocks drop.
 
 Limits: 512 blocks per outline. A bot works one outline at a time. Running out of blocks cancels
 the rest.

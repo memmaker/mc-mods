@@ -1,0 +1,45 @@
+package dev.explorercraft.immersiveaircraft.data;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import dev.explorercraft.immersiveaircraft.Main;
+import dev.explorercraft.immersiveaircraft.entity.misc.VehicleData;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.profiling.ProfilerFiller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class VehicleDataLoader extends DataLoader {
+    public static final Map<Identifier, VehicleData> REGISTRY = new HashMap<>();
+    public static final Map<Identifier, VehicleData> CLIENT_REGISTRY = new HashMap<>();
+
+    private static final VehicleData EMPTY = new VehicleData();
+
+    public VehicleDataLoader() {
+        super("aircraft");
+    }
+
+    @Override
+    protected void apply(Map<Identifier, JsonElement> jsonMap, ResourceManager manager, ProfilerFiller profiler) {
+        REGISTRY.clear();
+
+        jsonMap.forEach((identifier, jsonElement) -> {
+            try {
+                VehicleData data = new VehicleData(jsonElement.getAsJsonObject());
+                REGISTRY.put(identifier, data);
+            } catch (IllegalArgumentException | JsonParseException exception) {
+                Main.LOGGER.error("Parsing error on aircraft {}: {}", identifier, exception.getMessage());
+            }
+        });
+
+
+        CLIENT_REGISTRY.clear();
+        CLIENT_REGISTRY.putAll(REGISTRY);
+    }
+
+    public static VehicleData get(Identifier identifier) {
+        return CLIENT_REGISTRY.getOrDefault(identifier, EMPTY);
+    }
+}

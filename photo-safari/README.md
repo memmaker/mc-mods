@@ -10,6 +10,37 @@ collection game: photograph every kind of living creature in the world.
 - Photos, picture frames and albums come from Camerapture, which is a required dependency.
 - Alex's Mobs Continued is supported: its 88 mobs get their own checklist entries, gated behind a
   `fabric:all_mods_loaded` condition so the same jar works with or without it installed.
+- Every 10 species photographed pays out an **Eye of Ender**.
+- The camera has a second mode: **peaceful loot**, below.
+
+## Peaceful loot
+
+Hold the camera up and press the **Cycle Camera Mode** key (`C` by default) to switch between
+photograph mode and loot mode; the mode sticks until you change it again.
+
+In loot mode the camera outlines every mob it is currently framing — green for lootable, red for
+one on cooldown — and pressing the trigger drops that mob's death loot straight into your
+inventory instead of taking a picture. The mob is not hurt, no paper is spent and nothing is saved
+to disk; you get the shutter sound, the swing and the same 3-second cooldown a real photo has.
+
+One mob per trigger, and a mob you have just looted goes on cooldown until 99 other mobs have been
+looted after it. Loot mode grants the loot table, worn equipment and mob-specific bonus drops, and
+awards the same experience the mob would have dropped. It never counts toward the species
+checklist — only photographs do.
+
+Loot mode is enforced server-side: with `peaceful_loot=false` the server ignores the packet
+entirely, so a modified client cannot re-enable it.
+
+## Configuration
+
+`config/photosafari.properties`, written on first launch:
+
+```properties
+peaceful_loot=true
+```
+
+With [Mod Menu](https://modrinth.com/mod/modmenu) installed the same toggle gets a config screen
+in the mod list. Mod Menu is optional — the jar works fine without it.
 
 ## Commands
 
@@ -24,7 +55,8 @@ collection game: photograph every kind of living creature in the world.
 The client knows what the photo actually looked like, so it does the framing check
 (field of view including viewfinder zoom, screen aspect ratio, block occlusion raycast)
 and sends the entity IDs to the server. The server never trusts that list: it re-runs the same
-check with a wide 110° cone and its own raycasts before crediting anything.
+check with a wide 110° cone and its own raycasts before crediting anything. Loot mode goes through
+the exact same check, so what the outline shows is what the trigger acts on.
 
 ## Building
 
@@ -50,8 +82,10 @@ Minecraft update:
 
 `test` covers the framing math, `runGametest` runs the real thing in a headless world:
 a mob in the open counts, the same mob behind a stone wall does not, a mob behind the
-camera does not, a verified photo grants its advancement, and a client claiming a mob it
-cannot see is rejected.
+camera does not, a verified photo grants its advancement, a client claiming a mob it
+cannot see is rejected, milestones pay out one Eye of Ender per 10 species, and loot mode
+grants drops without killing, respects the cooldown, and does nothing at all with
+`peaceful_loot` off.
 
 ## Installing
 

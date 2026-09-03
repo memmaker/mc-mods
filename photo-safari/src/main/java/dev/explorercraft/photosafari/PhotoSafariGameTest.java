@@ -1,19 +1,28 @@
 package dev.explorercraft.photosafari;
 
+import me.chrr.camerapture.Camerapture;
+import me.chrr.camerapture.item.CameraItem;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.GameType;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.animal.cow.Cow;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.zombie.Zombie;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -74,7 +83,7 @@ public class PhotoSafariGameTest {
         ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
 
-        PhotoSafari.handlePhotograph(player, new PhotographPayload(List.of(cow.getId())));
+        doHandlePhotograph(player, new PhotographPayload(List.of(cow.getId())));
 
         Set<Identifier> seen = player.getAttachedOrCreate(PhotoSafari.PHOTOGRAPHED);
         if (!seen.contains(Identifier.withDefaultNamespace("cow"))) {
@@ -107,7 +116,7 @@ public class PhotoSafariGameTest {
         ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
 
-        PhotoSafari.handlePhotograph(player, new PhotographPayload(List.of(cow.getId())));
+        doHandlePhotograph(player, new PhotographPayload(List.of(cow.getId())));
 
         Set<Identifier> seen = player.getAttachedOrCreate(PhotoSafari.PHOTOGRAPHED);
         if (!seen.isEmpty()) {
@@ -137,13 +146,211 @@ public class PhotoSafariGameTest {
         ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
         player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
 
-        PhotoSafari.handlePhotograph(player, new PhotographPayload(List.of(bear.getId())));
+        doHandlePhotograph(player, new PhotographPayload(List.of(bear.getId())));
 
         if (!player.getAttachedOrCreate(PhotoSafari.PHOTOGRAPHED).contains(id)) {
             throw helper.assertionException("photographing " + id + " was not credited");
         }
 
         helper.succeed();
+    }
+
+    /// The species-count milestone: 10 distinct species photographed in one go earns exactly
+    /// one Eye of Ender.
+    @GameTest
+    public void tenDistinctSpeciesGrantsAnEyeOfEnder(GameTestHelper helper) {
+        EntityType<?>[] types = {
+                EntityTypes.COW, EntityTypes.PIG, EntityTypes.SHEEP, EntityTypes.CHICKEN, EntityTypes.RABBIT,
+                EntityTypes.WOLF, EntityTypes.CAT, EntityTypes.FOX, EntityTypes.PANDA, EntityTypes.HORSE,
+        };
+        int[] xs = {0, 1, 2, 3, 4, 0, 1, 2, 3, 4};
+        int[] zs = {3, 3, 3, 3, 3, 4, 4, 4, 4, 4};
+
+        List<Integer> ids = new ArrayList<>();
+        for (int i = 0; i < types.length; i++) {
+            ids.add(helper.spawn(types[i], new BlockPos(xs[i], 2, zs[i])).getId());
+        }
+
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
+
+        doHandlePhotograph(player, new PhotographPayload(ids));
+
+        Set<Identifier> seen = player.getAttachedOrCreate(PhotoSafari.PHOTOGRAPHED);
+        if (seen.size() != 10) {
+            throw helper.assertionException("expected 10 distinct species recorded, got " + seen.size());
+        }
+
+        if (player.getInventory().countItem(Items.ENDER_EYE) != 1) {
+            throw helper.assertionException("10 distinct species should have granted exactly one Eye of Ender");
+        }
+
+        helper.succeed();
+    }
+
+    /// Loot mode grants loot, never advancement credit or the species-milestone reward — the
+    /// two systems are unrelated on purpose.
+    @GameTest
+    public void lootModeNeverCreditsSpeciesOrTheMilestoneReward(GameTestHelper helper) {
+        EntityType<?>[] types = {
+                EntityTypes.COW, EntityTypes.PIG, EntityTypes.SHEEP, EntityTypes.CHICKEN, EntityTypes.RABBIT,
+                EntityTypes.WOLF, EntityTypes.CAT, EntityTypes.FOX, EntityTypes.PANDA, EntityTypes.HORSE,
+        };
+        int[] xs = {0, 1, 2, 3, 4, 0, 1, 2, 3, 4};
+        int[] zs = {3, 3, 3, 3, 3, 4, 4, 4, 4, 4};
+
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
+
+        for (int i = 0; i < types.length; i++) {
+            Entity mob = helper.spawn(types[i], new BlockPos(xs[i], 2, zs[i]));
+            giveActiveCamera(player);
+            doHandleLoot(player, new LootPayload(List.of(mob.getId())));
+        }
+
+        if (!player.getAttachedOrCreate(PhotoSafari.PHOTOGRAPHED).isEmpty()) {
+            throw helper.assertionException("loot mode should never touch the photographed species set");
+        }
+
+        if (player.getInventory().countItem(Items.ENDER_EYE) != 0) {
+            throw helper.assertionException("loot mode should never grant the species-milestone reward");
+        }
+
+        helper.succeed();
+    }
+
+    /// Loot mode: the mob survives, its drops land in the inventory, and the camera goes
+    /// through the same deactivate-on-trigger motion as a real photo.
+    @GameTest
+    public void lootModeGrantsMobDropsWithoutKillingIt(GameTestHelper helper) {
+        Cow cow = helper.spawn(EntityTypes.COW, new BlockPos(2, 2, 4));
+
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
+        giveActiveCamera(player);
+
+        doHandleLoot(player, new LootPayload(List.of(cow.getId())));
+
+        if (cow.isRemoved()) {
+            throw helper.assertionException("looting a mob should not kill it");
+        }
+
+        if (player.getInventory().countItem(Items.BEEF) == 0) {
+            throw helper.assertionException("looting the cow put no beef in the inventory");
+        }
+
+        if (CameraItem.isActive(player.getItemInHand(InteractionHand.MAIN_HAND))) {
+            throw helper.assertionException("camera should deactivate after a loot trigger, same as a photo");
+        }
+
+        helper.succeed();
+    }
+
+    /// The 100-mob cooldown ring: the same mob instance is blocked on the very next trigger.
+    @GameTest
+    public void lootModeBlocksTheSameMobUntilCooldownClears(GameTestHelper helper) {
+        Cow cow = helper.spawn(EntityTypes.COW, new BlockPos(2, 2, 4));
+
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
+
+        giveActiveCamera(player);
+        doHandleLoot(player, new LootPayload(List.of(cow.getId())));
+        int afterFirst = player.getInventory().countItem(Items.BEEF);
+
+        giveActiveCamera(player);
+        doHandleLoot(player, new LootPayload(List.of(cow.getId())));
+        int afterSecond = player.getInventory().countItem(Items.BEEF);
+
+        if (afterSecond != afterFirst) {
+            throw helper.assertionException("looting the same mob twice in a row should be blocked by the cooldown");
+        }
+
+        if (!player.getAttachedOrCreate(PhotoSafari.RECENTLY_LOOTED).contains(cow.getUUID())) {
+            throw helper.assertionException("looted mob was not recorded in the cooldown list");
+        }
+
+        helper.succeed();
+    }
+
+    /// Two fresh mobs in one frame: only the first one gets looted, not both.
+    @GameTest
+    public void lootModeOnlyLootsTheFirstUncooledMobInFrame(GameTestHelper helper) {
+        Cow first = helper.spawn(EntityTypes.COW, new BlockPos(2, 2, 4));
+        Cow second = helper.spawn(EntityTypes.COW, new BlockPos(3, 2, 4));
+
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
+        giveActiveCamera(player);
+
+        doHandleLoot(player, new LootPayload(List.of(first.getId(), second.getId())));
+
+        var recentlyLooted = player.getAttachedOrCreate(PhotoSafari.RECENTLY_LOOTED);
+        boolean firstLooted = recentlyLooted.contains(first.getUUID());
+        boolean secondLooted = recentlyLooted.contains(second.getUUID());
+
+        if (firstLooted == secondLooted) {
+            throw helper.assertionException(
+                    "exactly one of the two framed mobs should have been looted, got first=" + firstLooted
+                            + " second=" + secondLooted);
+        }
+
+        helper.succeed();
+    }
+
+    /// Worn equipment normally drops behind a protected method with no consumer hook, so it
+    /// gets vacuumed out of the world instead: this checks it actually reaches the inventory
+    /// and nothing is left lying around.
+    @GameTest
+    public void lootModeAlsoVacuumsWornEquipment(GameTestHelper helper) {
+        Zombie zombie = helper.spawn(EntityTypes.ZOMBIE, new BlockPos(2, 2, 4));
+        zombie.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+        zombie.setGuaranteedDrop(EquipmentSlot.HEAD);
+
+        ServerPlayer player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+        player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
+        giveActiveCamera(player);
+
+        doHandleLoot(player, new LootPayload(List.of(zombie.getId())));
+
+        if (player.getInventory().countItem(Items.IRON_HELMET) == 0) {
+            throw helper.assertionException("worn equipment was not vacuumed into the inventory");
+        }
+
+        if (!helper.getLevel().getEntitiesOfClass(ItemEntity.class, zombie.getBoundingBox().inflate(2.0)).isEmpty()) {
+            throw helper.assertionException("a dropped item was left behind in the world");
+        }
+
+        helper.succeed();
+    }
+
+    /// makeMockServerPlayer has no real network connection, so any packet the real code
+    /// tries to send it (chat/overlay message, cooldown sync) throws — after the interesting
+    /// work for the call has already happened. debugCommandGivesCamera gets this same class
+    /// of exception swallowed for free by going through the real command dispatcher; these
+    /// two are called directly, so they swallow it themselves instead.
+    private static void doHandleLoot(ServerPlayer player, LootPayload payload) {
+        ignoringMockConnection(() -> PhotoSafari.handleLoot(player, payload));
+    }
+
+    private static void doHandlePhotograph(ServerPlayer player, PhotographPayload payload) {
+        ignoringMockConnection(() -> PhotoSafari.handlePhotograph(player, payload));
+    }
+
+    private static void ignoringMockConnection(Runnable action) {
+        try {
+            action.run();
+        } catch (NullPointerException e) {
+            if (e.getMessage() == null || !e.getMessage().contains("connection")) {
+                throw e;
+            }
+        }
+    }
+
+    private static void giveActiveCamera(ServerPlayer player) {
+        ItemStack camera = new ItemStack(Camerapture.CAMERA);
+        CameraItem.setActive(camera, true);
+        player.setItemInHand(InteractionHand.MAIN_HAND, camera);
     }
 
     private static Vec3 eyeAt(GameTestHelper helper, int x, int y, int z) {

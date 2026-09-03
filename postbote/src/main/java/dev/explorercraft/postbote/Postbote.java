@@ -24,6 +24,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.StatFormatter;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.StructureTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -87,6 +89,7 @@ public class Postbote implements ModInitializer {
     public static final Identifier SATCHEL_ID = id("postbote_satchel");
     public static final Identifier COMPASS_ID = id("postbote_compass");
     public static final Identifier ORDER_ID = id("order");
+    public static final Identifier DELIVERED_PACKAGES_ID = id("delivered_packages");
 
     /** Carries an active order's destination and payout on the compass stack itself. */
     public static final DataComponentType<PostboteOrder> ORDER = DataComponentType.<PostboteOrder>builder()
@@ -115,6 +118,8 @@ public class Postbote implements ModInitializer {
         Registry.register(BuiltInRegistries.ITEM, SATCHEL_ID, SATCHEL);
         Registry.register(BuiltInRegistries.ITEM, COMPASS_ID, COMPASS);
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, ORDER_ID, ORDER);
+        Registry.register(BuiltInRegistries.CUSTOM_STAT, DELIVERED_PACKAGES_ID, DELIVERED_PACKAGES_ID);
+        Stats.CUSTOM.get(DELIVERED_PACKAGES_ID, StatFormatter.DEFAULT);
         CreativeModeTabEvents.modifyOutputEvent(TOOLS_TAB).register(output -> output.accept(SATCHEL));
         CommandRegistrationCallback.EVENT.register((dispatcher, registries, environment) -> registerCommands(dispatcher));
         UseEntityCallback.EVENT.register(Postbote::onUseEntity);
@@ -376,7 +381,16 @@ public class Postbote implements ModInitializer {
         if (!player.addItem(payout)) {
             player.drop(payout, false);
         }
+        player.awardStat(Stats.CUSTOM.get(DELIVERED_PACKAGES_ID));
         player.sendSystemMessage(Component.literal("Delivered. Paid %d emeralds.".formatted(order.reward())));
+
+        if (player.getStats().getValue(Stats.CUSTOM, DELIVERED_PACKAGES_ID) % 2 == 0) {
+            ItemStack bonus = new ItemStack(Items.ENDER_EYE);
+            if (!player.addItem(bonus)) {
+                player.drop(bonus, false);
+            }
+            player.sendSystemMessage(Component.literal("Bonus for your loyalty: an Eye of Ender."));
+        }
         return true;
     }
 

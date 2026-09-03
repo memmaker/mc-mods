@@ -6,5 +6,10 @@
 	"options.fxglobals.hunger": "Hunger Rate",
 	"options.fxglobals.hunger.tooltip": "How fast the hunger bar drains. 100% is vanilla, 0% never drains.",
 	"options.fxglobals.pickup_arrows": "Pickup arrows",
-	"options.fxglobals.pickup_arrows.tooltip": "Collect every arrow lying in the world, including the ones mobs shot. Off is vanilla, where only your own arrows come back."
+	"options.fxglobals.pickup_arrows.tooltip": "Collect every arrow lying in the world, including the ones mobs shot. Off is vanilla, where only your own arrows come back.",
+	"options.fxglobals.headshots": "Headshots",
+	"options.fxglobals.headshots.tooltip": "An arrow landing at or above a mob's eyes kills it instantly. Does not affect players.",
+	"options.fxglobals.starter_gear": "Starter gear",
+	"options.fxglobals.starter_gear.tooltip": "New players get a postbote satchel, a camera with 24 papers, a photo album, a compass, a lodestone, a white flag, climbing claws, no-fall plush boots, a backpack and a recipe book on first join.",
+	"item.fxglobals.recipe_book": "Recipe Book"
 }

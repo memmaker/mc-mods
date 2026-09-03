@@ -1,0 +1,114 @@
+package dev.explorercraft.immersiveaircraft.client.gui;
+
+import dev.explorercraft.immersiveaircraft.Main;
+import dev.explorercraft.immersiveaircraft.entity.inventory.slots.SlotDescription;
+import dev.explorercraft.immersiveaircraft.screen.VehicleScreenHandler;
+import dev.explorercraft.immersiveaircraft.util.Rect2iCommon;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
+
+public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler> {
+    private static final Identifier TEXTURE = Main.locate("textures/gui/container/inventory.png");
+
+    public static final int TITLE_HEIGHT = 10;
+    public static final int BASE_HEIGHT = 86;
+
+    public final int containerSize;
+
+    public VehicleScreen(VehicleScreenHandler handler, Inventory inventory, Component title) {
+        super(handler, inventory, title, 176, BASE_HEIGHT + handler.getVehicle().getInventoryDescription().getHeight() + TITLE_HEIGHT * 2);
+
+        containerSize = handler.getVehicle().getInventoryDescription().getHeight();
+        inventoryLabelY = containerSize + TITLE_HEIGHT;
+    }
+
+    protected void drawRectangle(GuiGraphicsExtractor graphics, int x, int y, int h, int w) {
+        //corners
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, 176, 0, 16, 16, 512, 256);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + w - 16, y, 176 + 32, 0, 16, 16, 512, 256);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + w - 16, y + h - 16, 176 + 32, 32, 16, 16, 512, 256);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y + h - 16, 176, 32, 16, 16, 512, 256);
+
+        //edges
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y, 176 + 16, 0, w - 32, 16, 16, 16, 512, 256);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + h - 16, 176 + 16, 32, w - 32, 16, 16, 16, 512, 256);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y + 16, 176, 16, 16, h - 32, 16, 16, 512, 256);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + w - 16, y + 16, 176 + 32, 16, 16, h - 32, 16, 16, 512, 256);
+
+        //center
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + 16, 176 + 16, 16, w - 32, h - 32, 16, 16, 512, 256);
+    }
+
+    protected void drawCustomBackground(GuiGraphicsExtractor graphics) {
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, containerSize + TITLE_HEIGHT * 2, 512, 256);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos + containerSize + TITLE_HEIGHT * 2 - 4, 0, 222 - BASE_HEIGHT, imageWidth, BASE_HEIGHT, 512, 256);
+
+        for (Rect2iCommon rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
+            drawRectangle(graphics, leftPos + rectangle.getX(), topPos + rectangle.getY(), rectangle.getHeight(), rectangle.getWidth());
+        }
+    }
+
+    public void drawImage(GuiGraphicsExtractor graphics, int x, int y, int u, int v, int w, int h) {
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, u, v, w, h, 512, 256);
+    }
+
+    @Override
+    public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+        drawCustomBackground(graphics);
+
+        for (SlotDescription slot : menu.getVehicle().getInventoryDescription().getSlots()) {
+            SlotRenderer.get(slot.type()).render(this, graphics, slot, mouseX, mouseY, delta);
+        }
+
+        super.extractContents(graphics, mouseX, mouseY, delta);
+    }
+
+    @Override
+    protected void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+        // Slot tooltip: show the slot-type description on an empty vehicle inventory slot
+        if (hoveredSlot != null && !hoveredSlot.hasItem() && hoveredSlot.container == menu.getVehicle().getInventory()) {
+            SlotDescription slot = menu.getVehicle().getInventoryDescription().getSlots().get(hoveredSlot.getContainerSlot());
+            slot.getToolTip().ifPresent(
+                    tooltip -> graphics.setTooltipForNextFrame(this.font, tooltip, Optional.empty(), mouseX, mouseY)
+            );
+        } else {
+            super.extractTooltip(graphics, mouseX, mouseY);
+        }
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+
+        titleLabelX = (imageWidth - font.width(title)) / 2;
+    }
+
+    @Override
+    protected boolean hasClickedOutside(double mouseX, double mouseY, int left, int top) {
+        if (super.hasClickedOutside(mouseX, mouseY, left, top)) {
+            for (Rect2iCommon rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
+                if (mouseX > rectangle.getX() + leftPos && mouseX < rectangle.getX() + rectangle.getWidth() + leftPos && mouseY > rectangle.getY() + topPos && mouseY < rectangle.getY() + rectangle.getHeight() + topPos) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int getX() {
+        return leftPos;
+    }
+
+    public int getY() {
+        return topPos;
+    }
+}

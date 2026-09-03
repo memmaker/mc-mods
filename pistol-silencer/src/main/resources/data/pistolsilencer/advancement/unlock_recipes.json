@@ -1,0 +1,19 @@
+{
+  "criteria": {
+    "immediately": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "immediately"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "pistolsilencer:pistol",
+      "pistolsilencer:silencer",
+      "pistolsilencer:pistol_ammo"
+    ]
+  }
+}

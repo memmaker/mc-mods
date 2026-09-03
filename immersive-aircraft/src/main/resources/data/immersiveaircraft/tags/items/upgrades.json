@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "immersiveaircraft:enhanced_propeller",
+    "immersiveaircraft:eco_engine",
+    "immersiveaircraft:nether_engine",
+    "immersiveaircraft:steel_boiler",
+    "immersiveaircraft:industrial_gears",
+    "immersiveaircraft:sturdy_pipes",
+    "immersiveaircraft:gyroscope",
+    "immersiveaircraft:gyroscope_hud",
+    "immersiveaircraft:gyroscope_dials",
+    "immersiveaircraft:hull_reinforcement",
+    "immersiveaircraft:improved_landing_gear"
+  ]
+}

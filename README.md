@@ -6,16 +6,20 @@ project in its own folder; the scripts at the root build and publish all of them
 | Mod | Folder | What it does |
 |---|---|---|
 | [White Flag](white-flag) | `white-flag/` | Craft a white flag. Carry it in your hotbar and every hostile mob stops attacking you. |
-| [Photo Safari](photo-safari) | `photo-safari/` | Photograph every kind of living creature in the world. Turns [Camerapture](https://modrinth.com/mod/camerapture) photography into a collection game. |
+| [Photo Safari](photo-safari) | `photo-safari/` | Photograph every kind of living creature in the world. Turns [Camerapture](https://modrinth.com/mod/camerapture) photography into a collection game, plus a camera loot mode that takes a mob's drops without killing it. |
 | [Plush Boots](plush-boots) | `plush-boots/` | Craft plush boots. Wear them and falling stops hurting. |
 | [Glider](glider) | `glider/` | Craft a glider. Hold it as you fall and the canopy opens: you drift down slowly and steer where you like. |
 | [Miniature Rebreather](miniature-rebreather) | `miniature-rebreather/` | Craft a miniature rebreather. Wear it in the helmet slot and you never run out of air underwater. |
 | [Climbing Claws](climbing-claws) | `climbing-claws/` | Craft climbing claws from any metal. Keep them in your hotbar and every vertical wall becomes a ladder. |
-| [FX Globals](fx-globals) | `fx-globals/` | World pacing: longer days, slower hunger, and every arrow in the world can be picked up. All configurable, with a Mod Menu screen. |
+| [FX Globals](fx-globals) | `fx-globals/` | Pack-wide pacing and combat: longer days, slower hunger, every arrow can be picked up, arrows to the head kill outright, and a starter kit on first join. All configurable, with a Mod Menu screen. |
 | [Seamless Crafting](seamless-crafting) | `seamless-crafting/` | The crafting table uses the chests around it: the recipe book counts nearby items, clicking a recipe fills the grid from them, and a panel lists what is in range. |
 | [Fireproof Suit](fireproof-suit) | `fireproof-suit/` | Craft a magma-forged armour set. Each piece cuts fire and lava damage by a quarter; the full suit makes you immune. |
 | [Postbote](postbote) | `postbote/` | Craft a satchel. Take delivery orders from villagers and follow a compass to villages you've never been near, for emeralds. |
 | [Bot Build](bot-build) | `bot-build/` | Craft a build wand and a build bot. Outline a box, ghost blocks show the plan, and the bot fetches the real blocks from a nearby chest and places them one by one. |
+| [Stealth and Alert](stealth-and-alert) | `stealth-and-alert/` | Mobs get real vision cones instead of x-ray senses. Stay dark, break line of sight, and they lose you. Port of RedGhostRev's NeoForge mod. |
+| [Lift](lift) | `lift/` | Craft a lift plate from any pressure plate and redstone. Step on it and ride it up, until a ceiling or the walls beside it stop you. |
+| [Pistol & Silencer](pistol-silencer) | `pistol-silencer/` | A pistol with a detachable silencer, ported from MrCrayfish's Gun Mod. Hitscan fire, reloadable magazine, headshots via FX Globals. |
+| [Immersive Aircraft](immersive-aircraft) | `immersive-aircraft/` | Aeroplanes, airships, biplanes and gyrodynes. Port of Luke100000's mod — **work in progress**, see its README for what is and isn't done. |
 
 ## Building
 
@@ -55,8 +59,10 @@ server-side.
 
 ## Debug commands
 
-Every mod registers a command for testing without crafting or waiting for the situation the mod
-reacts to. All of them need permission level 2 — op, or a single-player world with cheats.
+Most mods register a command for testing without crafting or waiting for the situation the mod
+reacts to. All of them need permission level 2 — op, or a single-player world with cheats. Bot
+Build, Lift, Stealth and Alert, Pistol & Silencer and Immersive Aircraft have none: their items
+are craftable or in a creative tab, which is enough to test them.
 
 | Mod | Command | What |
 |---|---|---|
@@ -66,7 +72,7 @@ reacts to. All of them need permission level 2 — op, or a single-player world 
 | Glider | `/glider [give]`, `/glider status` | Gives a glider; prints canopy state and fall distance |
 | Miniature Rebreather | `/rebreather [give]`, `/rebreather status` | Gives a rebreather; prints air supply |
 | Climbing Claws | `/climbingclaws [metal]`, `/climbingclaws status` | Gives claws of any metal; prints wall and hotbar state |
-| FX Globals | `/fxglobals [status]` | Prints the day-length factor, live clock rate, hunger factor and clock tick |
+| FX Globals | `/fxglobals [status]`, `/fxglobals startergear [targets]` | Prints the day-length factor, live clock rate, hunger factor, arrow-pickup and headshot settings and clock tick; hands out the first-join starter kit again |
 | Seamless Crafting | `/seamlesscrafting` | Prints the nearby radius, container count and item kinds in range |
 | Fireproof Suit | `/fireproofsuit [give\|status]` | Gives the full suit; prints fire protection, burning time and whether on fire |
 | Postbote | `/postbote [give\|status\|teleport]` | Gives a satchel; prints the active delivery's destination and reward; teleports within 10 blocks of it |
@@ -113,4 +119,9 @@ fx-globals/              FX Globals
 seamless-crafting/       Seamless Crafting
 fireproof-suit/          Fireproof Suit
 postbote/                Postbote
+bot-build/               Bot Build
+stealth-and-alert/       Stealth and Alert
+lift/                    Lift
+pistol-silencer/         Pistol & Silencer
+immersive-aircraft/      Immersive Aircraft
 ```

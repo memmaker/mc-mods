@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "HPH",
+    " S "
+  ],
+  "key": {
+    "S": [
+      {
+        "item": "immersiveaircraft:sail"
+      }
+    ],
+    "H": [
+      {
+        "item": "immersiveaircraft:hull"
+      }
+    ],
+    "P": [
+      {
+        "item": "immersiveaircraft:propeller"
+      }
+    ]
+  },
+  "result": {
+    "item": "immersiveaircraft:gyrodyne"
+  }
+}

@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.GameType;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -294,6 +295,25 @@ public class PostboteGameTest {
     /// {@code makeMockServerPlayer}: real code paths send it packets — chat and overlay
     /// messages, cooldown and container syncs, ride teleports — and a player with a null
     /// connection throws on every one of them.
+    /// The advancement is hand-written JSON. A wrong predicate shape does not fail the build —
+    /// the server logs a parse error and carries on with the advancement simply missing — so the
+    /// only way to notice is to ask whether it actually loaded.
+    @GameTest
+    public void firstDeliveryAdvancementLoads(GameTestHelper helper) {
+        Identifier id = Postbote.id("first_delivery");
+
+        if (helper.getLevel().getServer().getAdvancements().get(id) == null) {
+            throw helper.assertionException("advancement " + id + " did not load");
+        }
+        helper.succeed();
+    }
+
+    /// ponytail: makeMockServerPlayerInLevel is deprecated for removal with nothing to
+    /// replace it, and it is still the only helper that hands back a usable player. When it
+    /// goes, build one here instead: a ServerPlayer plus a ServerGamePacketListenerImpl over
+    /// a Connection with an EmbeddedChannel, registered through PlayerList.placeNewPlayer —
+    /// which is all this method does today.
+    @SuppressWarnings("removal")
     private static ServerPlayer mockPlayer(GameTestHelper helper, GameType gameType) {
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
         player.setGameMode(gameType);

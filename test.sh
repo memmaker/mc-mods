@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Runs every mod's game tests: a headless Minecraft server per mod, no client and no EULA.
+# Runs every mod's game tests: a headless Minecraft server per mod, no client and no prompts.
 # One mod failing does not stop the others; failures are listed at the end.
 set -uo pipefail
 shopt -s nullglob
@@ -19,6 +19,13 @@ for gradlew in */gradlew; do
     fi
 
     echo "==> $mod"
+
+    # The gametest server boots through the dedicated-server entrypoint, which complains about a
+    # missing server.properties (with a stack trace) and eula.txt before the gametest path takes
+    # over. Both files live in the throwaway run directory, never in the repository.
+    mkdir -p "$mod/build/gametest"
+    touch "$mod/build/gametest/server.properties"
+    printf 'eula=true\n' > "$mod/build/gametest/eula.txt"
 
     if (cd "$mod" && ./gradlew runGametest --quiet); then
         echo "    passed"

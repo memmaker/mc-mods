@@ -366,6 +366,12 @@ public class PhotoSafariGameTest {
     /// {@code makeMockServerPlayer}: real code paths send it packets — chat and overlay
     /// messages, cooldown and container syncs, ride teleports — and a player with a null
     /// connection throws on every one of them.
+    /// ponytail: makeMockServerPlayerInLevel is deprecated for removal with nothing to
+    /// replace it, and it is still the only helper that hands back a usable player. When it
+    /// goes, build one here instead: a ServerPlayer plus a ServerGamePacketListenerImpl over
+    /// a Connection with an EmbeddedChannel, registered through PlayerList.placeNewPlayer —
+    /// which is all this method does today.
+    @SuppressWarnings("removal")
     private static ServerPlayer mockPlayer(GameTestHelper helper, GameType gameType) {
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
         player.setGameMode(gameType);

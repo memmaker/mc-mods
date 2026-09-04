@@ -6,19 +6,35 @@ collection game: photograph every kind of living creature in the world.
 - Every mob that ends up **in frame and not hidden behind blocks** counts as a species on film.
 - Advancements at 1, 10, 25 and 50 species, each with an experience reward; the last one also drops loot.
 - One advancement per mob under the **Photo Safari** tab, so the advancement screen *is* the checklist:
-  earned = photographed, greyed out = still missing.
+  earned = photographed, greyed out = still missing. The mobs are filed under three groups by
+  where they come from — **Vanilla Critters**, **Alex' Mobs Critters** and **Other Critters** —
+  each holding every species in its group and only completing once all of them are on film.
+  The grouping is the entity's registry namespace, nothing is listed by hand.
+- Every photo that earns a species advancement reports back in chat with that group's progress,
+  e.g. *12 of 88 Vanilla Critters*.
+- With the viewfinder up, any framed mob whose species is **already on file** is outlined in red,
+  so you can see at a glance which shot would only cost you paper.
 - Photos, picture frames and albums come from Camerapture, which is a required dependency.
 - Alex's Mobs Continued is supported: its 88 mobs get their own checklist entries, gated behind a
   `fabric:all_mods_loaded` condition so the same jar works with or without it installed.
 - Every 10 species photographed pays out an **Eye of Ender**.
 - The camera has a second mode: **peaceful loot**, below.
+- A **tier 2 camera** upgrade, below.
+
+## Tier 2 camera
+
+Camera + 2 redstone + 1 gold nugget, shapeless, unlocked in the recipe book from the start.
+The result is an ordinary Camerapture camera in gold with **no shutter cooldown at all** — tier 1
+sits out three seconds between shots, tier 2 shoots as fast as you can click. It is still the same
+item, so everything Camerapture does with a camera keeps working.
 
 ## Peaceful loot
 
 Hold the camera up and press the **Cycle Camera Mode** key (`C` by default) to switch between
 photograph mode and loot mode; the mode sticks until you change it again.
 
-In loot mode the camera outlines every mob it is currently framing — green for lootable, red for
+A **Loot** indicator sits under the crosshair for as long as the viewfinder is up in loot mode.
+The camera outlines every mob it is currently framing — green for lootable, red for
 one on cooldown — and pressing the trigger drops that mob's death loot straight into your
 inventory instead of taking a picture. The mob is not hurt, no paper is spent and nothing is saved
 to disk; you get the shutter sound, the swing and the same 3-second cooldown a real photo has.
@@ -85,7 +101,8 @@ a mob in the open counts, the same mob behind a stone wall does not, a mob behin
 camera does not, a verified photo grants its advancement, a client claiming a mob it
 cannot see is rejected, milestones pay out one Eye of Ender per 10 species, and loot mode
 grants drops without killing, respects the cooldown, and does nothing at all with
-`peaceful_loot` off.
+`peaceful_loot` off, the tier 2 upgrade recipe loads, a tier 2 camera never goes on cooldown
+where a tier 1 does, and one species on film does not finish its whole group.
 
 ## Installing
 

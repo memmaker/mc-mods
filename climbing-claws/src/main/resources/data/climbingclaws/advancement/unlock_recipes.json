@@ -13,12 +13,16 @@
 		"recipes": [
 			"climbingclaws:copper_climbing_claws",
 			"climbingclaws:copper_climbing_claws_upright",
+			"climbingclaws:diamond_climbing_claws",
+			"climbingclaws:diamond_climbing_claws_upright",
 			"climbingclaws:gold_climbing_claws",
 			"climbingclaws:gold_climbing_claws_upright",
 			"climbingclaws:iron_climbing_claws",
 			"climbingclaws:iron_climbing_claws_upright",
 			"climbingclaws:netherite_climbing_claws",
-			"climbingclaws:netherite_climbing_claws_upright"
+			"climbingclaws:netherite_climbing_claws_upright",
+			"climbingclaws:obsidian_climbing_claws",
+			"climbingclaws:obsidian_climbing_claws_upright"
 		]
 	}
 }

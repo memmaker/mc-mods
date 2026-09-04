@@ -1,0 +1,33 @@
+{
+  "criteria": {
+    "immediately": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "immediately"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "plushboots:plush_boots_from_white_wool",
+      "plushboots:plush_boots_from_orange_wool",
+      "plushboots:plush_boots_from_magenta_wool",
+      "plushboots:plush_boots_from_light_blue_wool",
+      "plushboots:plush_boots_from_yellow_wool",
+      "plushboots:plush_boots_from_lime_wool",
+      "plushboots:plush_boots_from_pink_wool",
+      "plushboots:plush_boots_from_gray_wool",
+      "plushboots:plush_boots_from_light_gray_wool",
+      "plushboots:plush_boots_from_cyan_wool",
+      "plushboots:plush_boots_from_purple_wool",
+      "plushboots:plush_boots_from_blue_wool",
+      "plushboots:plush_boots_from_brown_wool",
+      "plushboots:plush_boots_from_green_wool",
+      "plushboots:plush_boots_from_red_wool",
+      "plushboots:plush_boots_from_black_wool",
+      "plushboots:plush_boots_dyed"
+    ]
+  }
+}

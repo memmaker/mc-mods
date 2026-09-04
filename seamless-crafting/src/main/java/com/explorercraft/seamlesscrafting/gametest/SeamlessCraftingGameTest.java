@@ -30,7 +30,7 @@ public class SeamlessCraftingGameTest {
 		BlockPos center = helper.absolutePos(new BlockPos(0, 1, 0));
 
 		List<NearbyInventoryScanner.NearbyItemEntry> entries =
-				NearbyInventoryScanner.collectItemCounts(helper.getLevel(), center, 8);
+				NearbyInventoryScanner.collectItemCounts(helper.getLevel(), center, 8, null);
 
 		int planks = entries.stream()
 				.filter(entry -> entry.stack().is(Items.OAK_PLANKS))
@@ -41,7 +41,7 @@ public class SeamlessCraftingGameTest {
 		}
 
 		List<BlockPos> positions = NearbyInventoryScanner.findContainerPositionsWithItem(
-				helper.getLevel(), center, 8, Items.OAK_PLANKS);
+				helper.getLevel(), center, 8, null, Items.OAK_PLANKS);
 		if (!positions.contains(chestPos)) {
 			throw helper.assertionException("chest at " + chestPos + " was not located, got " + positions);
 		}
@@ -54,7 +54,7 @@ public class SeamlessCraftingGameTest {
 		placeChestWithPlanks(helper, new BlockPos(1, 1, 1), 12);
 		BlockPos center = helper.absolutePos(new BlockPos(0, 1, 0));
 
-		List<Container> containers = NearbyInventoryScanner.findNearbyContainers(helper.getLevel(), center, 0);
+		List<Container> containers = NearbyInventoryScanner.findNearbyContainers(helper.getLevel(), center, 0, null);
 		if (!containers.isEmpty()) {
 			throw helper.assertionException("radius 0 still found " + containers.size() + " containers");
 		}

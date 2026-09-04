@@ -1,5 +1,5 @@
 {
-  "parent": "photosafari:root",
+  "parent": "photosafari:group/vanilla",
   "criteria": {
     "photographed": {
       "conditions": {

@@ -58,7 +58,7 @@ public class FxGlobals implements ModInitializer {
 	private static final Identifier ALBUM_ID = Identifier.fromNamespaceAndPath("camerapture", "album");
 	private static final Identifier WHITE_FLAG_ID = Identifier.fromNamespaceAndPath("whiteflag", "white_flag");
 	private static final Identifier CLIMBING_CLAWS_ID = Identifier.fromNamespaceAndPath("climbingclaws", "climbing_claws");
-	private static final Identifier PLUSH_BOOTS_ID = Identifier.fromNamespaceAndPath("nofall", "plush_boots");
+	private static final Identifier PLUSH_BOOTS_ID = Identifier.fromNamespaceAndPath("plushboots", "plush_boots");
 	private static final Identifier BACKPACK_ID = Identifier.fromNamespaceAndPath("travelersbackpack", "standard");
 	private static final int STARTER_PAPER_COUNT = 24;
 

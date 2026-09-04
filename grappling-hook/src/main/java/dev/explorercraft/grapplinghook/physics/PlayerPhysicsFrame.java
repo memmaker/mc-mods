@@ -1,0 +1,94 @@
+package dev.explorercraft.grapplinghook.physics;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.explorercraft.grapplinghook.GrappleMod;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
+
+/**
+ * Side: Both
+ *
+ * Stores a snapshot of the player's current physics for use in the
+ * ServerPhysicsObserver. Generated on the client side and synced with
+ * a packet.
+ */
+public final class PlayerPhysicsFrame {
+
+    public static final Codec<PlayerPhysicsFrame> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+            Identifier.CODEC.fieldOf("physicsControllerType").forGetter(PlayerPhysicsFrame::getPhysicsControllerType),
+            Codec.FLOAT.fieldOf("speed").forGetter(PlayerPhysicsFrame::getSpeed),
+            Codec.BOOL.fieldOf("isUsingRocket").forGetter(PlayerPhysicsFrame::isUsingRocket)
+    ).apply(builder, PlayerPhysicsFrame::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, PlayerPhysicsFrame> STREAM_CODEC = StreamCodec.composite(
+            Identifier.STREAM_CODEC,
+            PlayerPhysicsFrame::getPhysicsControllerType,
+            ByteBufCodecs.FLOAT,
+            PlayerPhysicsFrame::getSpeed,
+            ByteBufCodecs.BOOL,
+            PlayerPhysicsFrame::isUsingRocket,
+            PlayerPhysicsFrame::new
+    );
+
+    private Identifier physicsControllerType;
+
+    private float speed;
+    private boolean isUsingRocket;
+
+
+    public PlayerPhysicsFrame() {
+        this.physicsControllerType = GrappleMod.id("none");
+        this.speed = 0.0f;
+        this.isUsingRocket = false;
+    }
+
+    // designed for codecs, not really got any checks
+    private PlayerPhysicsFrame(Identifier physicsControllerType, float speed, boolean isUsingRocket) {
+        this.physicsControllerType = physicsControllerType;
+        this.speed = speed;
+        this.isUsingRocket = isUsingRocket;
+    }
+
+    public PlayerPhysicsFrame setPhysicsControllerType(Identifier physicsControllerType) {
+        this.physicsControllerType = physicsControllerType;
+        return this;
+    }
+
+    public PlayerPhysicsFrame setSpeed(double speed) {
+        return this.setSpeed((float) speed);
+    }
+
+    public PlayerPhysicsFrame setSpeed(float speed) {
+        this.speed = speed;
+        return this;
+    }
+
+    public PlayerPhysicsFrame setUsingRocket(boolean usingRocket) {
+        this.isUsingRocket = usingRocket;
+        return this;
+    }
+
+    public Identifier getPhysicsControllerType() {
+        return this.physicsControllerType;
+    }
+
+    public float getSpeed() {
+        return this.speed;
+    }
+
+    public boolean isUsingRocket() {
+        return this.isUsingRocket;
+    }
+
+    @Override
+    public String toString() {
+        return "PhysFrame { Type: %s, Speed: %.02f }".formatted(
+                this.getPhysicsControllerType(),
+                this.getSpeed()
+        );
+    }
+}

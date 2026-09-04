@@ -1,0 +1,6 @@
+{
+  "parent": "camerapture:item/camera",
+  "textures": {
+    "1": "photosafari:item/camera_tier2"
+  }
+}

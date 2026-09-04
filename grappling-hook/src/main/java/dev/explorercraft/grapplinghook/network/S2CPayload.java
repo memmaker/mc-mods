@@ -1,0 +1,5 @@
+package dev.explorercraft.grapplinghook.network;
+
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+
+public interface S2CPayload extends CustomPacketPayload {}

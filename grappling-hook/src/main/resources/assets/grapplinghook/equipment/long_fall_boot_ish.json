@@ -1,0 +1,6 @@
+{
+  "layers": {
+    "humanoid": [ { "texture": "grapplinghook:long_fall_boot_ish" } ],
+    "humanoid_baby": [ { "texture": "grapplinghook:long_fall_boot_ish" } ]
+  }
+}

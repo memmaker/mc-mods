@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "camerapture:camera",
+    "minecraft:redstone",
+    "minecraft:redstone",
+    "minecraft:gold_nugget"
+  ],
+  "result": {
+    "id": "camerapture:camera",
+    "count": 1,
+    "components": {
+      "minecraft:item_model": "photosafari:camera_tier2",
+      "minecraft:item_name": {
+        "translate": "item.photosafari.camera_tier2"
+      }
+    }
+  }
+}

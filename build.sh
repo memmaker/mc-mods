@@ -13,6 +13,10 @@ for gradlew in */gradlew; do
     mod=$(dirname "$gradlew")
     echo "==> $mod"
 
+    # stale jars from earlier version bumps live on in build/libs; drop them so
+    # whatever remains after the build is exactly this version
+    rm -f "$mod"/build/libs/*.jar
+
     if ! (cd "$mod" && ./gradlew build --quiet); then
         failed+=("$mod")
         continue
@@ -22,6 +26,8 @@ for gradlew in */gradlew; do
         case "$jar" in
             *-sources.jar | *-dev.jar | *-shadow.jar) continue ;;
         esac
+        # drop older versions of this same mod from the repo root
+        rm -f "$(basename "$jar" | sed -E 's/-[0-9][^-]*\.jar$//')"-*.jar
         cp "$jar" .
         echo "    $(basename "$jar")"
     done

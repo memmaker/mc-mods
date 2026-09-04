@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.triggers.Criterion;
@@ -19,7 +20,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -54,7 +58,10 @@ public class PhotoSafariDataGenerator implements DataGeneratorEntrypoint {
             previous = tier(consumer, previous, "naturalist", 25, 250, AdvancementType.GOAL);
             tier(consumer, previous, "zoologist", 50, 500, AdvancementType.CHALLENGE);
 
-            // One entry per photographable species, so the advancement screen is the checklist.
+            // One entry per photographable species, so the advancement screen is the checklist,
+            // filed under the group its mob comes from.
+            Map<SpeciesGroup, AdvancementHolder> groups = groups(consumer, root);
+
             for (EntityType<?> type : BuiltInRegistries.ENTITY_TYPE) {
                 Identifier species = EntityType.getKey(type);
                 Item egg = spawnEgg(species);
@@ -63,7 +70,7 @@ public class PhotoSafariDataGenerator implements DataGeneratorEntrypoint {
                 }
 
                 sink(consumer, species).accept(Advancement.Builder.advancement()
-                        .parent(root)
+                        .parent(groups.get(SpeciesGroup.of(species)))
                         .display(egg, type.getDescription(),
                                 Component.translatable("advancements.photosafari.species.description",
                                         type.getDescription()),
@@ -72,6 +79,58 @@ public class PhotoSafariDataGenerator implements DataGeneratorEntrypoint {
                         .addCriterion("photographed", species(species))
                         .build(PhotoSafari.id("species/" + species.getNamespace() + "/" + species.getPath())));
             }
+        }
+
+
+        /// One advancement per mob source, holding every species in that group: one criterion
+        /// each, ANDed, so the group is only done once the whole group is on film. Groups with
+        /// no mobs installed at datagen time are skipped.
+        private Map<SpeciesGroup, AdvancementHolder> groups(Consumer<AdvancementHolder> consumer, AdvancementHolder root) {
+            Map<SpeciesGroup, AdvancementHolder> groups = new EnumMap<>(SpeciesGroup.class);
+
+            for (SpeciesGroup group : SpeciesGroup.values()) {
+                Item icon = null;
+                Advancement.Builder builder = Advancement.Builder.advancement()
+                        .parent(root)
+                        // AND: every criterion in its own requirements sub-array.
+                        .requirements(AdvancementRequirements.Strategy.AND);
+                int total = 0;
+
+                for (EntityType<?> type : BuiltInRegistries.ENTITY_TYPE) {
+                    Identifier species = EntityType.getKey(type);
+                    Item egg = spawnEgg(species);
+                    if (egg == null || SpeciesGroup.of(species) != group) {
+                        continue;
+                    }
+
+                    // Exactly the species that get a checklist entry below, so the total the
+                    // description shows is the number of criteria the player has to satisfy.
+                    builder.addCriterion(species.toString(), species(species));
+                    total++;
+                    if (icon == null) {
+                        icon = egg;
+                    }
+                }
+
+                if (icon == null) {
+                    continue;
+                }
+
+                AdvancementHolder advancement = builder
+                        .display(icon, group.title(),
+                                Component.translatable("advancements.photosafari.group.description",
+                                        total, group.title()),
+                                null, AdvancementType.GOAL, true, true, false)
+                        .build(PhotoSafari.id("group/" + group.name().toLowerCase(Locale.ROOT)));
+
+                Consumer<AdvancementHolder> sink = group.namespace() == null
+                        ? consumer
+                        : sink(consumer, Identifier.fromNamespaceAndPath(group.namespace(), "group"));
+                sink.accept(advancement);
+                groups.put(group, advancement);
+            }
+
+            return groups;
         }
 
         /// Mobs from another mod only show up on the checklist when that mod is installed.

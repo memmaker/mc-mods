@@ -69,6 +69,11 @@ public abstract class CraftingMenuMixin implements NearbyCraftingAccess {
 	}
 
 	@Override
+	public Player seamless$getPlayer() {
+		return this.player;
+	}
+
+	@Override
 	public void seamless$recordNearbyWithdrawal(Container container, int sourceSlot, int craftingSlotIndex, ItemStack stack, int count, int baselineCount) {
 		if (count <= 0 || craftingSlotIndex < 0) {
 			return;

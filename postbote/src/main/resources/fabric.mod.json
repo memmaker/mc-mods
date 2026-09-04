@@ -14,6 +14,9 @@
     "main": [
       "dev.explorercraft.postbote.Postbote"
     ],
+    "client": [
+      "dev.explorercraft.postbote.client.PostboteClient"
+    ],
     "fabric-gametest": [
       "dev.explorercraft.postbote.PostboteGameTest"
     ]

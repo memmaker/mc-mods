@@ -8,7 +8,10 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.GameType;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -319,6 +322,121 @@ public class PhotoSafariGameTest {
 
         if (!helper.getLevel().getEntitiesOfClass(ItemEntity.class, zombie.getBoundingBox().inflate(2.0)).isEmpty()) {
             throw helper.assertionException("a dropped item was left behind in the world");
+        }
+
+        helper.succeed();
+    }
+
+    /// Two new species of the same group in one frame is one progress line, not two, and it
+    /// carries the count after both grants. Regression guard: the message used to be emitted
+    /// inside the per-species grant loop, so a three-critter photo produced three lines.
+    ///
+    /// ponytail: tests the decision (which groups to report, at what count) rather than the
+    /// chat packets — capturing outbound chat off a gametest mock player's embedded channel
+    /// costs more than it catches, and this is where the duplication lived.
+    @GameTest
+    public void twoNewSpeciesOfOneGroupReportOnce(GameTestHelper helper) {
+        Cow cow = helper.spawn(EntityTypes.COW, new BlockPos(2, 2, 4));
+        var pig = helper.spawn(EntityTypes.PIG, new BlockPos(3, 2, 4));
+
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
+        player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
+
+        PhotoSafari.handlePhotograph(player, new PhotographPayload(List.of(cow.getId(), pig.getId())));
+
+        Set<Identifier> seen = player.getAttachedOrCreate(PhotoSafari.PHOTOGRAPHED);
+        List<Identifier> newSpecies = List.of(
+                Identifier.withDefaultNamespace("cow"), Identifier.withDefaultNamespace("pig"));
+
+        var reported = SpeciesGroup.affected(newSpecies);
+        if (reported.size() != 1 || !reported.contains(SpeciesGroup.VANILLA)) {
+            throw helper.assertionException("two vanilla species in one photo should report one group, got " + reported);
+        }
+
+        if (SpeciesGroup.VANILLA.photographed(seen) != 2) {
+            throw helper.assertionException("the reported count should be the post-grant total 2, got "
+                    + SpeciesGroup.VANILLA.photographed(seen));
+        }
+
+        // A photo spanning two groups still gets one line each.
+        var both = SpeciesGroup.affected(List.of(
+                Identifier.withDefaultNamespace("cow"), Identifier.parse("alexsmobs:grizzly_bear")));
+        if (both.size() != 2) {
+            throw helper.assertionException("a photo across two groups should report both, got " + both);
+        }
+
+        helper.succeed();
+    }
+
+    /// A group is the whole group: one species on film must not finish it. Regression guard —
+    /// the group nodes used to carry a single "photographed anything" criterion, so the very
+    /// first photo handed out both group advancements.
+    ///
+    /// Also pins the displayed total to the criteria count and to the number the chat progress
+    /// message counts against: if those ever drift, the message reads "88 of 88" while the
+    /// advancement stays locked, or the other way round.
+    @GameTest
+    public void oneSpeciesDoesNotFinishItsGroup(GameTestHelper helper) {
+        Cow cow = helper.spawn(EntityTypes.COW, new BlockPos(2, 2, 4));
+
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
+        player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
+
+        PhotoSafari.handlePhotograph(player, new PhotographPayload(List.of(cow.getId())));
+
+        var group = helper.getLevel().getServer().getAdvancements().get(PhotoSafari.id("group/vanilla"));
+        if (group == null) {
+            throw helper.assertionException("the vanilla group advancement is missing");
+        }
+
+        if (player.getAdvancements().getOrStartProgress(group).isDone()) {
+            throw helper.assertionException("photographing one cow finished the whole vanilla group");
+        }
+
+        int criteria = group.value().criteria().size();
+        if (criteria != SpeciesGroup.VANILLA.total()) {
+            throw helper.assertionException("the vanilla group needs " + criteria
+                    + " species but the progress message counts against " + SpeciesGroup.VANILLA.total());
+        }
+
+        helper.succeed();
+    }
+
+    /// The tier 2 upgrade recipe has to actually load — a typo in the JSON is otherwise
+    /// only a line in the log.
+    @GameTest
+    public void tierTwoUpgradeRecipeIsLoaded(GameTestHelper helper) {
+        if (helper.getLevel().getServer().getRecipeManager()
+                .byKey(ResourceKey.create(Registries.RECIPE, PhotoSafari.id("camera_tier2"))).isEmpty()) {
+            throw helper.assertionException("the camera_tier2 recipe did not load");
+        }
+
+        helper.succeed();
+    }
+
+    /// The whole point of tier 2: no shutter cooldown, where tier 1 still has one. Loot mode
+    /// goes through the same cooldown call every photo does, so it stands in for both here.
+    @GameTest
+    public void tierTwoCameraHasNoCooldown(GameTestHelper helper) {
+        Cow cow = helper.spawn(EntityTypes.COW, new BlockPos(2, 2, 4));
+
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
+        player.snapTo(eyeAt(helper, 2, 1, 1), 0.0f, 0.0f);
+
+        giveActiveCamera(player);
+        PhotoSafari.handleLoot(player, new LootPayload(List.of(cow.getId())));
+        if (!player.getCooldowns().isOnCooldown(player.getItemInHand(InteractionHand.MAIN_HAND))) {
+            throw helper.assertionException("a tier 1 camera should still be put on cooldown");
+        }
+
+        giveActiveCamera(player);
+        ItemStack tierTwo = player.getItemInHand(InteractionHand.MAIN_HAND);
+        tierTwo.set(DataComponents.ITEM_MODEL, PhotoSafari.CAMERA_TIER2_MODEL);
+        player.getCooldowns().removeCooldown(player.getCooldowns().getCooldownGroup(tierTwo));
+
+        PhotoSafari.handleLoot(player, new LootPayload(List.of(cow.getId())));
+        if (player.getCooldowns().isOnCooldown(tierTwo)) {
+            throw helper.assertionException("a tier 2 camera should never go on cooldown");
         }
 
         helper.succeed();

@@ -1,0 +1,12 @@
+{
+  "type": "grapplinghook:hook_upgrade",
+  "template": "grapplinghook:base_upgrade",
+  "addition": "minecraft:piston",
+  "applies": [
+    "grapplinghook:motor"
+  ],
+  "excludes_if_any": [
+    "grapplinghook:magnet",
+    "grapplinghook:forcefield"
+  ]
+}

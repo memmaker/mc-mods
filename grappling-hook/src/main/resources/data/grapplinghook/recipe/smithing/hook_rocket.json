@@ -1,0 +1,11 @@
+{
+  "type": "grapplinghook:hook_upgrade",
+  "template": "grapplinghook:base_upgrade",
+  "addition": "grapplinghook:rocket",
+  "applies": [
+    "grapplinghook:rocket"
+  ],
+  "excludes_if_any": [
+    "grapplinghook:ender_staff"
+  ]
+}

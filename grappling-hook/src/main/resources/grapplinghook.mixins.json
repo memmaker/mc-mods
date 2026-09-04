@@ -1,0 +1,27 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.explorercraft.grapplinghook.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BasePlayerDamageHandlerMixin",
+    "ServerBlockBreakDetectorMixin",
+    "LivingEntityDamageHandlerMixin",
+    "PlayerDropHandlerMixin",
+    "PlayerJoinMixin",
+    "SendExtraEntityDataMixin",
+    "ServerPlayerMixin",
+    "ServerPlayerPersistenceMixin",
+    "ServerStartMixin"
+  ],
+  "client": [
+    "client.ClientBlockBreakDetectorMixin",
+    "client.ClientHookMixin",
+    "client.GrappleCrosshairMixin",
+    "client.LocalPlayerUpdatesMixin",
+    "client.MovementInputHandlerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

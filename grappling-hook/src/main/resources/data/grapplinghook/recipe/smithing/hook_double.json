@@ -1,0 +1,9 @@
+{
+  "type": "grapplinghook:hook_upgrade",
+  "template": "grapplinghook:base_upgrade",
+  "addition": "grapplinghook:grappling_hook",
+  "applies": [
+    "grapplinghook:double_hook",
+    "grapplinghook:double_smart_motor"
+  ]
+}

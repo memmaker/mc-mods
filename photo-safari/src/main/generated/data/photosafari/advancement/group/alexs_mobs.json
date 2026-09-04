@@ -1,0 +1,826 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "alexsmobs"
+      ]
+    }
+  ],
+  "parent": "photosafari:root",
+  "criteria": {
+    "alexsmobs:alligator_snapping_turtle": {
+      "conditions": {
+        "species": "alexsmobs:alligator_snapping_turtle"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:anaconda": {
+      "conditions": {
+        "species": "alexsmobs:anaconda"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:anteater": {
+      "conditions": {
+        "species": "alexsmobs:anteater"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:bald_eagle": {
+      "conditions": {
+        "species": "alexsmobs:bald_eagle"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:banana_slug": {
+      "conditions": {
+        "species": "alexsmobs:banana_slug"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:bison": {
+      "conditions": {
+        "species": "alexsmobs:bison"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:blobfish": {
+      "conditions": {
+        "species": "alexsmobs:blobfish"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:blue_jay": {
+      "conditions": {
+        "species": "alexsmobs:blue_jay"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:bone_serpent": {
+      "conditions": {
+        "species": "alexsmobs:bone_serpent"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:bunfungus": {
+      "conditions": {
+        "species": "alexsmobs:bunfungus"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:cachalot_whale": {
+      "conditions": {
+        "species": "alexsmobs:cachalot_whale"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:caiman": {
+      "conditions": {
+        "species": "alexsmobs:caiman"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:capuchin_monkey": {
+      "conditions": {
+        "species": "alexsmobs:capuchin_monkey"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:catfish": {
+      "conditions": {
+        "species": "alexsmobs:catfish"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:cockroach": {
+      "conditions": {
+        "species": "alexsmobs:cockroach"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:comb_jelly": {
+      "conditions": {
+        "species": "alexsmobs:comb_jelly"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:cosmaw": {
+      "conditions": {
+        "species": "alexsmobs:cosmaw"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:cosmic_cod": {
+      "conditions": {
+        "species": "alexsmobs:cosmic_cod"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:crimson_mosquito": {
+      "conditions": {
+        "species": "alexsmobs:crimson_mosquito"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:crocodile": {
+      "conditions": {
+        "species": "alexsmobs:crocodile"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:crow": {
+      "conditions": {
+        "species": "alexsmobs:crow"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:devils_hole_pupfish": {
+      "conditions": {
+        "species": "alexsmobs:devils_hole_pupfish"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:dropbear": {
+      "conditions": {
+        "species": "alexsmobs:dropbear"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:elephant": {
+      "conditions": {
+        "species": "alexsmobs:elephant"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:emu": {
+      "conditions": {
+        "species": "alexsmobs:emu"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:endergrade": {
+      "conditions": {
+        "species": "alexsmobs:endergrade"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:enderiophage": {
+      "conditions": {
+        "species": "alexsmobs:enderiophage"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:farseer": {
+      "conditions": {
+        "species": "alexsmobs:farseer"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:flutter": {
+      "conditions": {
+        "species": "alexsmobs:flutter"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:fly": {
+      "conditions": {
+        "species": "alexsmobs:fly"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:flying_fish": {
+      "conditions": {
+        "species": "alexsmobs:flying_fish"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:frilled_shark": {
+      "conditions": {
+        "species": "alexsmobs:frilled_shark"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:froststalker": {
+      "conditions": {
+        "species": "alexsmobs:froststalker"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:gazelle": {
+      "conditions": {
+        "species": "alexsmobs:gazelle"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:gelada_monkey": {
+      "conditions": {
+        "species": "alexsmobs:gelada_monkey"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:giant_squid": {
+      "conditions": {
+        "species": "alexsmobs:giant_squid"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:gorilla": {
+      "conditions": {
+        "species": "alexsmobs:gorilla"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:grizzly_bear": {
+      "conditions": {
+        "species": "alexsmobs:grizzly_bear"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:guster": {
+      "conditions": {
+        "species": "alexsmobs:guster"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:hammerhead_shark": {
+      "conditions": {
+        "species": "alexsmobs:hammerhead_shark"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:hummingbird": {
+      "conditions": {
+        "species": "alexsmobs:hummingbird"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:jerboa": {
+      "conditions": {
+        "species": "alexsmobs:jerboa"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:kangaroo": {
+      "conditions": {
+        "species": "alexsmobs:kangaroo"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:komodo_dragon": {
+      "conditions": {
+        "species": "alexsmobs:komodo_dragon"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:laviathan": {
+      "conditions": {
+        "species": "alexsmobs:laviathan"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:leafcutter_ant": {
+      "conditions": {
+        "species": "alexsmobs:leafcutter_ant"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:lobster": {
+      "conditions": {
+        "species": "alexsmobs:lobster"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:maned_wolf": {
+      "conditions": {
+        "species": "alexsmobs:maned_wolf"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:mantis_shrimp": {
+      "conditions": {
+        "species": "alexsmobs:mantis_shrimp"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:mimic_octopus": {
+      "conditions": {
+        "species": "alexsmobs:mimic_octopus"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:mimicube": {
+      "conditions": {
+        "species": "alexsmobs:mimicube"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:moose": {
+      "conditions": {
+        "species": "alexsmobs:moose"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:mudskipper": {
+      "conditions": {
+        "species": "alexsmobs:mudskipper"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:mungus": {
+      "conditions": {
+        "species": "alexsmobs:mungus"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:murmur": {
+      "conditions": {
+        "species": "alexsmobs:murmur"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:orca": {
+      "conditions": {
+        "species": "alexsmobs:orca"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:platypus": {
+      "conditions": {
+        "species": "alexsmobs:platypus"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:potoo": {
+      "conditions": {
+        "species": "alexsmobs:potoo"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:raccoon": {
+      "conditions": {
+        "species": "alexsmobs:raccoon"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:rain_frog": {
+      "conditions": {
+        "species": "alexsmobs:rain_frog"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:rattlesnake": {
+      "conditions": {
+        "species": "alexsmobs:rattlesnake"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:rhinoceros": {
+      "conditions": {
+        "species": "alexsmobs:rhinoceros"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:roadrunner": {
+      "conditions": {
+        "species": "alexsmobs:roadrunner"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:rocky_roller": {
+      "conditions": {
+        "species": "alexsmobs:rocky_roller"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:seagull": {
+      "conditions": {
+        "species": "alexsmobs:seagull"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:seal": {
+      "conditions": {
+        "species": "alexsmobs:seal"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:shoebill": {
+      "conditions": {
+        "species": "alexsmobs:shoebill"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:skelewag": {
+      "conditions": {
+        "species": "alexsmobs:skelewag"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:skreecher": {
+      "conditions": {
+        "species": "alexsmobs:skreecher"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:skunk": {
+      "conditions": {
+        "species": "alexsmobs:skunk"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:snow_leopard": {
+      "conditions": {
+        "species": "alexsmobs:snow_leopard"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:soul_vulture": {
+      "conditions": {
+        "species": "alexsmobs:soul_vulture"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:spectre": {
+      "conditions": {
+        "species": "alexsmobs:spectre"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:straddler": {
+      "conditions": {
+        "species": "alexsmobs:straddler"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:stradpole": {
+      "conditions": {
+        "species": "alexsmobs:stradpole"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:sugar_glider": {
+      "conditions": {
+        "species": "alexsmobs:sugar_glider"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:sunbird": {
+      "conditions": {
+        "species": "alexsmobs:sunbird"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:tarantula_hawk": {
+      "conditions": {
+        "species": "alexsmobs:tarantula_hawk"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:tasmanian_devil": {
+      "conditions": {
+        "species": "alexsmobs:tasmanian_devil"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:terrapin": {
+      "conditions": {
+        "species": "alexsmobs:terrapin"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:tiger": {
+      "conditions": {
+        "species": "alexsmobs:tiger"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:toucan": {
+      "conditions": {
+        "species": "alexsmobs:toucan"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:triops": {
+      "conditions": {
+        "species": "alexsmobs:triops"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:tusklin": {
+      "conditions": {
+        "species": "alexsmobs:tusklin"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:underminer": {
+      "conditions": {
+        "species": "alexsmobs:underminer"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:void_worm": {
+      "conditions": {
+        "species": "alexsmobs:void_worm"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:warped_mosco": {
+      "conditions": {
+        "species": "alexsmobs:warped_mosco"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "alexsmobs:warped_toad": {
+      "conditions": {
+        "species": "alexsmobs:warped_toad"
+      },
+      "trigger": "photosafari:species_photographed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.photosafari.group.description",
+      "with": [
+        88,
+        {
+          "translate": "text.photosafari.group.alexs_mobs"
+        }
+      ]
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "alexsmobs:spawn_egg_grizzly_bear"
+    },
+    "title": {
+      "translate": "text.photosafari.group.alexs_mobs"
+    }
+  },
+  "requirements": [
+    [
+      "alexsmobs:grizzly_bear"
+    ],
+    [
+      "alexsmobs:roadrunner"
+    ],
+    [
+      "alexsmobs:bone_serpent"
+    ],
+    [
+      "alexsmobs:gazelle"
+    ],
+    [
+      "alexsmobs:crocodile"
+    ],
+    [
+      "alexsmobs:fly"
+    ],
+    [
+      "alexsmobs:hummingbird"
+    ],
+    [
+      "alexsmobs:orca"
+    ],
+    [
+      "alexsmobs:sunbird"
+    ],
+    [
+      "alexsmobs:gorilla"
+    ],
+    [
+      "alexsmobs:crimson_mosquito"
+    ],
+    [
+      "alexsmobs:rattlesnake"
+    ],
+    [
+      "alexsmobs:endergrade"
+    ],
+    [
+      "alexsmobs:hammerhead_shark"
+    ],
+    [
+      "alexsmobs:lobster"
+    ],
+    [
+      "alexsmobs:komodo_dragon"
+    ],
+    [
+      "alexsmobs:capuchin_monkey"
+    ],
+    [
+      "alexsmobs:warped_toad"
+    ],
+    [
+      "alexsmobs:moose"
+    ],
+    [
+      "alexsmobs:mimicube"
+    ],
+    [
+      "alexsmobs:raccoon"
+    ],
+    [
+      "alexsmobs:blobfish"
+    ],
+    [
+      "alexsmobs:seal"
+    ],
+    [
+      "alexsmobs:cockroach"
+    ],
+    [
+      "alexsmobs:shoebill"
+    ],
+    [
+      "alexsmobs:elephant"
+    ],
+    [
+      "alexsmobs:soul_vulture"
+    ],
+    [
+      "alexsmobs:snow_leopard"
+    ],
+    [
+      "alexsmobs:spectre"
+    ],
+    [
+      "alexsmobs:crow"
+    ],
+    [
+      "alexsmobs:alligator_snapping_turtle"
+    ],
+    [
+      "alexsmobs:mungus"
+    ],
+    [
+      "alexsmobs:mantis_shrimp"
+    ],
+    [
+      "alexsmobs:guster"
+    ],
+    [
+      "alexsmobs:warped_mosco"
+    ],
+    [
+      "alexsmobs:straddler"
+    ],
+    [
+      "alexsmobs:stradpole"
+    ],
+    [
+      "alexsmobs:emu"
+    ],
+    [
+      "alexsmobs:platypus"
+    ],
+    [
+      "alexsmobs:dropbear"
+    ],
+    [
+      "alexsmobs:tasmanian_devil"
+    ],
+    [
+      "alexsmobs:kangaroo"
+    ],
+    [
+      "alexsmobs:cachalot_whale"
+    ],
+    [
+      "alexsmobs:leafcutter_ant"
+    ],
+    [
+      "alexsmobs:enderiophage"
+    ],
+    [
+      "alexsmobs:bald_eagle"
+    ],
+    [
+      "alexsmobs:tiger"
+    ],
+    [
+      "alexsmobs:tarantula_hawk"
+    ],
+    [
+      "alexsmobs:void_worm"
+    ],
+    [
+      "alexsmobs:frilled_shark"
+    ],
+    [
+      "alexsmobs:mimic_octopus"
+    ],
+    [
+      "alexsmobs:seagull"
+    ],
+    [
+      "alexsmobs:froststalker"
+    ],
+    [
+      "alexsmobs:tusklin"
+    ],
+    [
+      "alexsmobs:laviathan"
+    ],
+    [
+      "alexsmobs:cosmaw"
+    ],
+    [
+      "alexsmobs:toucan"
+    ],
+    [
+      "alexsmobs:maned_wolf"
+    ],
+    [
+      "alexsmobs:anaconda"
+    ],
+    [
+      "alexsmobs:anteater"
+    ],
+    [
+      "alexsmobs:rocky_roller"
+    ],
+    [
+      "alexsmobs:flutter"
+    ],
+    [
+      "alexsmobs:gelada_monkey"
+    ],
+    [
+      "alexsmobs:jerboa"
+    ],
+    [
+      "alexsmobs:terrapin"
+    ],
+    [
+      "alexsmobs:comb_jelly"
+    ],
+    [
+      "alexsmobs:cosmic_cod"
+    ],
+    [
+      "alexsmobs:bunfungus"
+    ],
+    [
+      "alexsmobs:bison"
+    ],
+    [
+      "alexsmobs:giant_squid"
+    ],
+    [
+      "alexsmobs:devils_hole_pupfish"
+    ],
+    [
+      "alexsmobs:catfish"
+    ],
+    [
+      "alexsmobs:flying_fish"
+    ],
+    [
+      "alexsmobs:skelewag"
+    ],
+    [
+      "alexsmobs:rain_frog"
+    ],
+    [
+      "alexsmobs:potoo"
+    ],
+    [
+      "alexsmobs:mudskipper"
+    ],
+    [
+      "alexsmobs:rhinoceros"
+    ],
+    [
+      "alexsmobs:sugar_glider"
+    ],
+    [
+      "alexsmobs:farseer"
+    ],
+    [
+      "alexsmobs:skreecher"
+    ],
+    [
+      "alexsmobs:underminer"
+    ],
+    [
+      "alexsmobs:murmur"
+    ],
+    [
+      "alexsmobs:skunk"
+    ],
+    [
+      "alexsmobs:banana_slug"
+    ],
+    [
+      "alexsmobs:blue_jay"
+    ],
+    [
+      "alexsmobs:caiman"
+    ],
+    [
+      "alexsmobs:triops"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

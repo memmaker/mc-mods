@@ -2,7 +2,19 @@ plugins {
     id 'net.fabricmc.fabric-loom' version '1.17.20'
 }
 
+loom { splitEnvironmentSourceSets() }
+
+sourceSets {
+    client { }
+}
+
 loom {
+    mods {
+        "postbote" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
     runs {
         gametest {
             inherit server

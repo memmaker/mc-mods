@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " c ",
+    " r ",
+    "cac"
+  ],
+  "key": {
+    "c": "minecraft:iron_ingot",
+    "a": "minecraft:amethyst_shard",
+    "r": "minecraft:firework_rocket"
+  },
+  "result": {
+    "id": "grapplinghook:rocket"
+  }
+}

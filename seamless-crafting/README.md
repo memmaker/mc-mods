@@ -12,6 +12,7 @@ Ported from [DerkOttersberg/Seamless-Crafting](https://github.com/DerkOttersberg
 | Feature | Where |
 |---|---|
 | Nearby chests count as crafting ingredients | Crafting table, both the grid and the recipe book |
+| Traveler's Backpacks count too, placed or worn | Optional, only when that mod is installed |
 | Recipe book placement pulls from those chests | Click a recipe with an empty inventory and the grid fills |
 | Nearby-items panel with search, scrolling and counts | Right of the crafting and inventory screens |
 | Click an item to locate its chest | Highlights the chest, optionally aims at it and draws a particle trail |
@@ -21,6 +22,11 @@ Ported from [DerkOttersberg/Seamless-Crafting](https://github.com/DerkOttersberg
 
 Only block containers count — chests, barrels, shulker boxes, hoppers. The scan walks the loaded
 chunks around the table, so unloaded chunks are simply not there.
+
+If [Traveler's Backpack](https://modrinth.com/mod/travelers-backpack) is installed, its backpacks
+join in: a placed backpack block in range, and the one the player is wearing. The support is
+optional — the mod is reached by reflection through a plain vanilla container, so nothing breaks
+when it is absent. A backpack lying loose in the player's inventory is not read.
 
 Whatever the mod borrows from a chest is tracked per grid slot. Closing the screen, crafting, or
 pressing cancel puts back exactly what is still sitting unused in the grid.
@@ -58,7 +64,7 @@ Needs permission level 2 — op, or a single-player world with cheats.
 JAVA_HOME=/opt/homebrew/opt/openjdk@25/libexec/openjdk.jdk/Contents/Home ./gradlew build
 ```
 
-Output: `build/libs/seamlesscrafting-1.0.0.jar`. Requires Fabric Loader >= 0.19.3, Fabric API,
+Output: `build/libs/seamlesscrafting-1.1.0.jar`. Requires Fabric Loader >= 0.19.3, Fabric API,
 Java 25. Mod Menu is optional.
 
 ## Tests

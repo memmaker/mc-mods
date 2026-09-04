@@ -1,0 +1,26 @@
+{
+    "item.grapplinghook.grapplinghook": "Gancho de Escalada",
+    "item.grapplinghook.launcheritem": "Cajado do Fim",
+    "item.grapplinghook.repeller": "Campo de Força Magnético",
+
+    "item.grapplinghook.longfallboots": "Botas de Queda Longa",
+
+    "item.grapplinghook.baseupgradeitem": "Melhoria de Gancho de Escalada inicial",
+    "item.grapplinghook.doubleupgradeitem": "Melhoria de Gancho de Escalada dupla",
+    "item.grapplinghook.forcefieldupgradeitem": "Melhoria de Gancho de Escalada de Campo de Força",
+    "item.grapplinghook.motorupgradeitem": "Melhoria de Motor de Gancho de Escalada",
+    "item.grapplinghook.magnetupgradeitem": "Melhoria de Magnetismo de Gancho de Escalada",
+    "item.grapplinghook.ropeupgradeitem": "Melhoria de Corda de Gancho de Escalada",
+    "item.grapplinghook.staffupgradeitem": "Melhoria de Cajado do Fim de Gancho de Escalada",
+    "item.grapplinghook.swingupgradeitem": "Melhoria de Balanço de Gancho de Escalada",
+    "item.grapplinghook.throwupgradeitem": "Melhoria de Lançador de Gancho de Gancho de Escalada",
+    "item.grapplinghook.limitsupgradeitem": "Melhoria de Limite de Gancho de Escalada",
+
+    "block.grapplinghook.block_grapple_modifier": "Modificador de Gancho de Escalada",
+
+    "hook_template.grapplinghook.motor_hook": "Gancho de Escalada Motorizado",
+    "hook_template.grapplinghook.ender_hook": "Gancho de Escalada do Fim",
+    "hook_template.grapplinghook.magnet_hook": "Gancho de Escalada Magnético",
+    "hook_template.grapplinghook.smart_hook": "Gancho de Escalada Motorizado Inteligente",
+    "hook_template.grapplinghook.double_motor_hook": "Gancho de Escalada Duplamente Motorizado"
+}

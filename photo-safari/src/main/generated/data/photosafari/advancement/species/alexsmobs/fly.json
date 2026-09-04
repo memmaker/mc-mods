@@ -7,7 +7,7 @@
       ]
     }
   ],
-  "parent": "photosafari:root",
+  "parent": "photosafari:group/alexs_mobs",
   "criteria": {
     "photographed": {
       "conditions": {

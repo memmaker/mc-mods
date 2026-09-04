@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " 2 ",
+    "242",
+    " 4 "
+  ],
+  "key": {
+    "2": "minecraft:gold_ingot",
+    "4": "minecraft:string"
+  },
+  "result": {
+    "id": "grapplinghook:base_upgrade"
+  }
+}

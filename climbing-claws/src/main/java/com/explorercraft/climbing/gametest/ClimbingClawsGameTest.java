@@ -16,6 +16,8 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
 
@@ -24,7 +26,9 @@ public class ClimbingClawsGameTest {
 			Items.IRON_INGOT, 0xD8D8D8,
 			Items.COPPER_INGOT, 0xE0794B,
 			Items.GOLD_INGOT, 0xF5D145,
-			Items.NETHERITE_INGOT, 0x6E5B57);
+			Items.DIAMOND, 0x4AEDD9,
+			Items.NETHERITE_INGOT, 0x6E5B57,
+			Items.OBSIDIAN, 0x4E3A78);
 
 	/** Every metal crafts, in both triangle orientations, and carries its own tint. */
 	@GameTest
@@ -60,9 +64,9 @@ public class ClimbingClawsGameTest {
 		helper.succeed();
 	}
 
-	/** The whole point: claws anywhere in the hotbar turn a faced wall into a ladder. */
+	/** The whole point: claws held in a hand turn a faced wall into a ladder. Carried does nothing. */
 	@GameTest
-	public void clawsInHotbarMakeWallsClimbable(GameTestHelper helper) {
+	public void clawsMustBeHeldToClimb(GameTestHelper helper) {
 		Player player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		player.horizontalCollision = true;
 		faceWall(player);
@@ -71,21 +75,60 @@ public class ClimbingClawsGameTest {
 			throw helper.assertionException("bare-handed player should not climb");
 		}
 
+		// Hotbar, but not the selected slot: carried, not gripped.
 		player.getInventory().setItem(8, new ItemStack(ClimbingClaws.CLIMBING_CLAWS));
 
-		if (!player.onClimbable()) {
-			throw helper.assertionException("claws in the hotbar should make the wall climbable");
+		if (player.onClimbable()) {
+			throw helper.assertionException("claws sitting in the hotbar should not make the wall climbable");
 		}
 
-		// Same claws, deep in the backpack: no grip.
 		player.getInventory().setItem(8, ItemStack.EMPTY);
-		player.getInventory().setItem(20, new ItemStack(ClimbingClaws.CLIMBING_CLAWS));
+		player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ClimbingClaws.CLIMBING_CLAWS));
 
-		if (player.onClimbable()) {
-			throw helper.assertionException("claws outside the hotbar should not make the wall climbable");
+		if (!player.onClimbable()) {
+			throw helper.assertionException("claws in the main hand should make the wall climbable");
+		}
+
+		player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+		player.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(ClimbingClaws.CLIMBING_CLAWS));
+
+		if (!player.onClimbable()) {
+			throw helper.assertionException("claws in the off hand should make the wall climbable");
 		}
 
 		helper.succeed();
+	}
+
+	/** The metal the claws were crafted from decides how fast they climb. */
+	@GameTest
+	public void metalDecidesClimbSpeed(GameTestHelper helper) {
+		Player player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
+		player.horizontalCollision = true;
+		faceWall(player);
+
+		List<Item> tiers = List.of(Items.COPPER_INGOT, Items.IRON_INGOT, Items.GOLD_INGOT,
+				Items.DIAMOND, Items.NETHERITE_INGOT, Items.OBSIDIAN);
+		float previous = 0.0F;
+
+		for (Item material : tiers) {
+			float speed = gripSpeed(player, material);
+
+			if (speed <= previous) {
+				throw helper.assertionException(
+						"%s should climb faster than the tier below it, got %s after %s"
+								.formatted(material, speed, previous));
+			}
+			previous = speed;
+		}
+
+		helper.succeed();
+	}
+
+	private float gripSpeed(Player player, Item ingot) {
+		ItemStack claws = new ItemStack(ClimbingClaws.CLIMBING_CLAWS);
+		claws.set(DataComponents.DYED_COLOR, new DyedItemColor(EXPECTED_TINTS.get(ingot)));
+		player.setItemInHand(InteractionHand.MAIN_HAND, claws);
+		return ClimbingClaws.clawGrip(player);
 	}
 
 	/** Turning away from the wall, or looking along it, drops the grip. */
@@ -93,7 +136,7 @@ public class ClimbingClawsGameTest {
 	public void clawsNeedThePlayerToFaceTheWall(GameTestHelper helper) {
 		Player player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		player.horizontalCollision = true;
-		player.getInventory().setItem(0, new ItemStack(ClimbingClaws.CLIMBING_CLAWS));
+		player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ClimbingClaws.CLIMBING_CLAWS));
 		faceWall(player);
 
 		if (!player.onClimbable()) {
@@ -118,7 +161,7 @@ public class ClimbingClawsGameTest {
 	public void clawsGripTheLastSliverOfWall(GameTestHelper helper) {
 		Player player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
 		player.horizontalCollision = true;
-		player.getInventory().setItem(0, new ItemStack(ClimbingClaws.CLIMBING_CLAWS));
+		player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ClimbingClaws.CLIMBING_CLAWS));
 		faceWall(player);
 
 		BlockPos wall = player.blockPosition().south();
@@ -148,7 +191,7 @@ public class ClimbingClawsGameTest {
 	@GameTest
 	public void clawsDoNotClimbThinAir(GameTestHelper helper) {
 		Player player = (ServerPlayer) helper.makeMockServerPlayer(GameType.CREATIVE);
-		player.getInventory().setItem(0, new ItemStack(ClimbingClaws.CLIMBING_CLAWS));
+		player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ClimbingClaws.CLIMBING_CLAWS));
 		faceWall(player);
 		player.horizontalCollision = false;
 

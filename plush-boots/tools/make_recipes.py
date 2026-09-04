@@ -10,7 +10,7 @@ rewrites the advancement that unlocks them all in the recipe book.
 import json
 import pathlib
 
-DATA = pathlib.Path(__file__).resolve().parent.parent / "src/main/resources/data/nofall"
+DATA = pathlib.Path(__file__).resolve().parent.parent / "src/main/resources/data/plushboots"
 
 # DyeColor.getTextureDiffuseColor(), the value vanilla stamps on leather armour dyed that colour.
 # Checked against Minecraft 26.2; a pair crafted from red wool matches a pair dyed red.
@@ -38,7 +38,7 @@ def main():
     recipes = []
     for color, rgb in COLORS.items():
         name = f"plush_boots_from_{color}_wool"
-        recipes.append(f"nofall:{name}")
+        recipes.append(f"plushboots:{name}")
         (DATA / "recipe" / f"{name}.json").write_text(json.dumps({
             "type": "minecraft:crafting_shaped",
             "category": "equipment",
@@ -46,7 +46,7 @@ def main():
             "key": {"W": f"minecraft:{color}_wool"},
             "pattern": ["W W", "W W"],
             "result": {
-                "id": "nofall:plush_boots",
+                "id": "plushboots:plush_boots",
                 "components": {"minecraft:dyed_color": rgb},
             },
         }, indent=2) + "\n")

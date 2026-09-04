@@ -72,8 +72,8 @@ public class SeamlessCrafting implements ModInitializer {
 				.executes(context -> {
 					ServerPlayer player = context.getSource().getPlayerOrException();
 					int radius = SeamlessCraftingConfig.getNearbyRadius();
-					int containers = NearbyInventoryScanner.findNearbyContainers(player.level(), player.blockPosition(), radius).size();
-					int kinds = NearbyInventoryScanner.collectItemCounts(player.level(), player.blockPosition(), radius).size();
+					int containers = NearbyInventoryScanner.findNearbyContainers(player.level(), player.blockPosition(), radius, player).size();
+					int kinds = NearbyInventoryScanner.collectItemCounts(player.level(), player.blockPosition(), radius, player).size();
 					context.getSource().sendSuccess(
 							() -> Component.literal("Seamless Crafting: radius " + radius + ", " + containers + " containers, " + kinds + " item kinds"),
 							false

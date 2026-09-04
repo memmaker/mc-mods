@@ -1,0 +1,6 @@
+{
+	"key.category.crafttracker.controls": "Craft Tracker",
+	"key.crafttracker.track": "Track / toggle overlay (shift: untrack, clear)",
+	"hud.crafttracker.tracked_raw": "Tracking %s raw materials for %s",
+	"hud.crafttracker.entry": "%s of %s %s"
+}

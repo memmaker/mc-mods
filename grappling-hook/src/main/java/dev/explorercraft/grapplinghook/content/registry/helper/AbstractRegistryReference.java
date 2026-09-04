@@ -1,0 +1,50 @@
+package dev.explorercraft.grapplinghook.content.registry.helper;
+
+import net.minecraft.resources.Identifier;
+
+import java.util.function.Supplier;
+
+public abstract class AbstractRegistryReference<T> {
+
+    private final Identifier id;
+    private final Supplier<T> factory;
+
+    private T entry;
+
+    protected AbstractRegistryReference(Identifier id, Supplier<T> factory) {
+        this.id = id;
+        this.factory = factory;
+
+        this.entry = null;
+    }
+
+    public Supplier<T> getFactory() {
+        return this.factory;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void finalize(Object entry) {
+        if(entry == null) throw new IllegalStateException("Entry cannot be null!");
+        if(this.isRegistered()) throw new IllegalStateException("Entry is already registered!");
+
+        try {
+            this.entry = (T) entry;
+        } catch (ClassCastException err) {
+            throw new IllegalStateException("Entry is already registered by a different mod!");
+        }
+
+    }
+
+
+    public Identifier getIdentifier() {
+        return this.id;
+    }
+
+    public T get() {
+        return this.entry;
+    }
+
+    public boolean isRegistered() {
+        return this.entry != null;
+    }
+}

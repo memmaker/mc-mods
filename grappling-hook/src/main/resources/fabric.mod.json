@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "id": "grapplinghook",
+  "version": "${version}",
+  "name": "Grappling Hook",
+  "description": "Grappling hooks with motor, rocket, ender and magnet upgrades, applied at a smithing table. Port of Yyon's mod via weaversworkshop's Skybound fork.",
+  "authors": [
+    "Yyon",
+    "Nyfaria",
+    "Mayesnake",
+    "CG360",
+    "weaversworkshop",
+    "felix"
+  ],
+  "license": "GPL-3.0",
+  "icon": "assets/grapplinghook/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.explorercraft.grapplinghook.GrappleMod"
+    ],
+    "client": [
+      "dev.explorercraft.grapplinghook.client.GrappleModClient"
+    ],
+    "modmenu": [
+      "dev.explorercraft.grapplinghook.client.integration.ModMenuIntegration"
+    ],
+    "fabric-gametest": [
+      "dev.explorercraft.grapplinghook.GrappleModGameTest"
+    ]
+  },
+  "mixins": [
+    "grapplinghook.mixins.json"
+  ],
+  "accessWidener": "grapplinghook.accesswidener",
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=25",
+    "fabric-api": "*",
+    "yet_another_config_lib_v3": ">=${yacl_version}"
+  },
+  "suggests": {
+    "modmenu": ">=${modmenu_version}"
+  }
+}

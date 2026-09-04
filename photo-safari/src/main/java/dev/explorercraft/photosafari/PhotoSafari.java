@@ -15,6 +15,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.Registry;
 import net.minecraft.core.UUIDUtil;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -49,13 +50,26 @@ public class PhotoSafari implements ModInitializer {
     public static final String MOD_ID = "photosafari";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    /// Species this player has on film. Survives death, saved with the player.
+    /// Species this player has on film. Survives death, saved with the player. Synced to
+    /// its owner only, so the client can grey out species it already has (see the outlines).
+    public static final int SPECIES_SYNC_CAP = 4096;
     public static final AttachmentType<Set<Identifier>> PHOTOGRAPHED = AttachmentRegistry.create(
             id("photographed"),
             builder -> builder
                     .persistent(Identifier.CODEC.listOf().xmap(LinkedHashSet::new, List::copyOf))
                     .initializer(LinkedHashSet::new)
-                    .copyOnDeath());
+                    .copyOnDeath()
+                    .syncWith(Identifier.STREAM_CODEC.apply(ByteBufCodecs.list(SPECIES_SYNC_CAP))
+                                    .map(LinkedHashSet::new, List::copyOf),
+                            AttachmentSyncPredicate.targetOnly()));
+
+    /// A tier 2 camera is an ordinary Camerapture camera wearing our own item model — the
+    /// upgrade recipe stamps it on. One component doubles as the marker and the new look.
+    public static final Identifier CAMERA_TIER2_MODEL = id("camera_tier2");
+
+    public static boolean isTier2Camera(ItemStack stack) {
+        return CAMERA_TIER2_MODEL.equals(stack.get(DataComponents.ITEM_MODEL));
+    }
 
     public static SpeciesPhotographedTrigger photographedTrigger;
 
@@ -148,15 +162,26 @@ public class PhotoSafari implements ModInitializer {
         }
 
         int runningCount = before;
+        List<Identifier> newSpecies = new ArrayList<>();
         for (Entity entity : newlyPhotographed) {
             runningCount++;
+            newSpecies.add(EntityType.getKey(entity.getType()));
+
             player.sendOverlayMessage(Component.translatable("text.photosafari.new_species",
                     entity.getType().getDescription()).withStyle(ChatFormatting.GREEN));
-            photographedTrigger.trigger(player, runningCount, EntityType.getKey(entity.getType()));
+            photographedTrigger.trigger(player, runningCount, newSpecies.getLast());
         }
 
         // Fired on every photo, so count-based advancements are re-checked even without a new species.
         photographedTrigger.trigger(player, seen.size(), null);
+
+        // Only once every advancement this photo earned has been granted: one line per group
+        // the photo touched, each with that group's final count. Three new vanilla critters in
+        // one frame is one "15 of 88 Vanilla Critters", not three lines saying the same thing.
+        for (SpeciesGroup group : SpeciesGroup.affected(newSpecies)) {
+            player.sendSystemMessage(Component.translatable("text.photosafari.group_progress",
+                    group.photographed(seen), group.total(), group.title()).withStyle(ChatFormatting.GREEN));
+        }
     }
 
     /// Loot mode: same in-frame detection as a photograph, but instead of a picture the

@@ -1,0 +1,22 @@
+{
+    "parent": "grapplinghook:core/root",
+    "display": {
+        "title": { "translate": "advancement.grapplinghook.core.long_fall_boots.title" },
+        "description": { "translate": "advancement.grapplinghook.core.long_fall_boots.description" },
+        "icon": { "id": "grapplinghook:long_fall_boots_smithing_template" },
+        "frame": "task"
+    },
+
+    "criteria": {
+        "crafted_long_fall_boots": {
+            "trigger": "minecraft:recipe_crafted",
+            "conditions": {
+                "recipe_id": "grapplinghook:smithing/long_fall_boots"
+            }
+        }
+    },
+
+    "requirements": [
+        [ "crafted_long_fall_boots" ]
+    ]
+}

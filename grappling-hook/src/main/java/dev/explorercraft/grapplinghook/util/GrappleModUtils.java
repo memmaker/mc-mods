@@ -1,0 +1,134 @@
+package dev.explorercraft.grapplinghook.util;
+
+import dev.explorercraft.grapplinghook.GrappleMod;
+import dev.explorercraft.grapplinghook.network.NetworkManager;
+import dev.explorercraft.grapplinghook.network.S2CPayload;
+import io.netty.buffer.ByteBuf;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import java.util.ArrayList;
+import java.util.List;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Supplier;
+
+public class GrappleModUtils {
+
+	public static final StreamCodec<ByteBuf, NullableDirection> NULLABLE_DIRECTION_STREAM_CODEC = ByteBufCodecs.idMapper(id -> NullableDirection.values()[id], NullableDirection::ordinal);
+
+	public static EquipmentSlot currentHand(boolean isMainHand) {
+		return  isMainHand ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+	}
+
+	/** 26.2 dropped LivingEntity.getArmorSlots(); EquipmentSlotGroup.ARMOR iterates the same four slots. */
+	public static List<ItemStack> armourItems(LivingEntity entity) {
+		List<ItemStack> worn = new ArrayList<>(4);
+		for (EquipmentSlot slot : EquipmentSlotGroup.ARMOR) worn.add(entity.getItemBySlot(slot));
+		return worn;
+	}
+
+	public static boolean hasArmourAbility(LivingEntity target, DataComponentType<?> ability) {
+		for (ItemStack stack : armourItems(target)) {
+			if (stack == null) continue;
+
+			if(EnchantmentHelper.has(stack, ability))
+				return true;
+		}
+
+		return false;
+	}
+
+	public static void sendToCorrectClient(S2CPayload message, int playerid, Level w) {
+		Entity entity = w.getEntity(playerid);
+		if (entity instanceof ServerPlayer player) {
+			NetworkManager.packetToClient(message, player);
+			return;
+		}
+
+		GrappleMod.LOGGER.warn("ERROR! couldn't find player");
+	}
+
+	// Manual DDA via Level.getBlockState to bypass Sable's BlockGetter.clip mixin which hangs on sublevel rays.
+	@SuppressWarnings("unused")
+	public static BlockHitResult rayTraceBlocks(Entity entity, Level world, Vec from, Vec to) {
+		Vec3 start = from.toVec3d();
+		Vec3 end = to.toVec3d();
+		double dx = end.x - start.x;
+		double dy = end.y - start.y;
+		double dz = end.z - start.z;
+		if (dx == 0 && dy == 0 && dz == 0) return null;
+
+		int x = Mth.floor(start.x), y = Mth.floor(start.y), z = Mth.floor(start.z);
+		int endX = Mth.floor(end.x), endY = Mth.floor(end.y), endZ = Mth.floor(end.z);
+
+		int stepX = dx > 0 ? 1 : dx < 0 ? -1 : 0;
+		int stepY = dy > 0 ? 1 : dy < 0 ? -1 : 0;
+		int stepZ = dz > 0 ? 1 : dz < 0 ? -1 : 0;
+
+		double tDeltaX = stepX != 0 ? Math.abs(1.0 / dx) : Double.POSITIVE_INFINITY;
+		double tDeltaY = stepY != 0 ? Math.abs(1.0 / dy) : Double.POSITIVE_INFINITY;
+		double tDeltaZ = stepZ != 0 ? Math.abs(1.0 / dz) : Double.POSITIVE_INFINITY;
+
+		double tMaxX = stepX > 0 ? (x + 1 - start.x) / dx : stepX < 0 ? (start.x - x) / -dx : Double.POSITIVE_INFINITY;
+		double tMaxY = stepY > 0 ? (y + 1 - start.y) / dy : stepY < 0 ? (start.y - y) / -dy : Double.POSITIVE_INFINITY;
+		double tMaxZ = stepZ > 0 ? (z + 1 - start.z) / dz : stepZ < 0 ? (start.z - z) / -dz : Double.POSITIVE_INFINITY;
+
+		BlockPos.MutableBlockPos probe = new BlockPos.MutableBlockPos();
+		for (int i = 0; i < 1024; i++) {
+			probe.set(x, y, z);
+			BlockState state = world.getBlockState(probe);
+			if (!state.isAir()) {
+				VoxelShape shape = state.getCollisionShape(world, probe);
+				if (!shape.isEmpty()) {
+					BlockHitResult hit = shape.clip(start, end, probe);
+					if (hit != null) return hit;
+				}
+			}
+			if (x == endX && y == endY && z == endZ) return null;
+
+			if (tMaxX < tMaxY && tMaxX < tMaxZ) { x += stepX; tMaxX += tDeltaX; }
+			else if (tMaxY < tMaxZ)             { y += stepY; tMaxY += tDeltaY; }
+			else                                 { z += stepZ; tMaxZ += tDeltaZ; }
+		}
+		return null;
+	}
+
+	@SafeVarargs
+	public static boolean and(Supplier<Boolean>... conditions) {
+		boolean failed = Arrays.stream(conditions).anyMatch(bool -> !bool.get());
+		return !failed;
+	}
+
+	public static boolean and(List<Supplier<Boolean>> conditions) {
+		boolean failed = conditions.stream().anyMatch(bool -> !bool.get());
+		return !failed;
+	}
+
+	public static synchronized ServerPlayer[] getPlayersThatCanSeeChunkAt(ServerLevel level, Vec point) {
+		ChunkPos chunk = level.getChunkAt(BlockPos.containing(point.toVec3d())).getPos();
+		return PlayerLookup.tracking(level, chunk).toArray(new ServerPlayer[0]);
+	}
+
+
+}

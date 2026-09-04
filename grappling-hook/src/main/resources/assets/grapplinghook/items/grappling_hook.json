@@ -1,0 +1,126 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "grapplinghook:hook_thrown",
+    "on_true": {
+      "type": "minecraft:select",
+      "property": "minecraft:custom_model_data",
+      "index": 0,
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "grapplinghook:item/rope"
+      },
+      "cases": [
+        {
+          "when": "hook_only",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/hook"
+          }
+        },
+        {
+          "when": "magnet",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/rope"
+          }
+        },
+        {
+          "when": "ender",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/rope"
+          }
+        },
+        {
+          "when": "motor",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/template/smarthookrope"
+          }
+        },
+        {
+          "when": "motor_double",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/template/doublemotorhookrope"
+          }
+        },
+        {
+          "when": "rocket",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/template/rockethookrope"
+          }
+        },
+        {
+          "when": "rocket_double",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/template/rocketdoublemotorhookrope"
+          }
+        }
+      ]
+    },
+    "on_false": {
+      "type": "minecraft:select",
+      "property": "minecraft:custom_model_data",
+      "index": 0,
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "grapplinghook:item/grappling_hook"
+      },
+      "cases": [
+        {
+          "when": "hook_only",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/hook"
+          }
+        },
+        {
+          "when": "magnet",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/template/magnethook"
+          }
+        },
+        {
+          "when": "ender",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/template/enderhook"
+          }
+        },
+        {
+          "when": "motor",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/template/smarthook"
+          }
+        },
+        {
+          "when": "motor_double",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/template/doublemotorhook"
+          }
+        },
+        {
+          "when": "rocket",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/template/rockethook"
+          }
+        },
+        {
+          "when": "rocket_double",
+          "model": {
+            "type": "minecraft:model",
+            "model": "grapplinghook:item/template/rocketdoublemotorhook"
+          }
+        }
+      ]
+    }
+  }
+}

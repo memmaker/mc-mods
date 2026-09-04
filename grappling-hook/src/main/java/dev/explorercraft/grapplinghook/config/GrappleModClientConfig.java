@@ -1,0 +1,77 @@
+package dev.explorercraft.grapplinghook.config;
+
+import com.google.gson.FieldNamingPolicy;
+import dev.explorercraft.grapplinghook.GrappleMod;
+import dev.explorercraft.grapplinghook.config.helper.ConfigUtil;
+import dev.explorercraft.grapplinghook.config.helper.IConfig;
+import dev.explorercraft.grapplinghook.config.helper.annotation.Category;
+import dev.explorercraft.grapplinghook.config.helper.annotation.ContinuousRange;
+import dev.explorercraft.grapplinghook.config.helper.annotation.HideInConfigUI;
+import dev.explorercraft.grapplinghook.config.helper.annotation.InlineSubCategory;
+import dev.explorercraft.grapplinghook.config.helper.impl.DefaultValueTracker;
+import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
+import dev.isxander.yacl3.config.v2.api.SerialEntry;
+import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
+import java.util.Set;
+
+// I reimplemented my autoconfig for YACL implementation from BridgingMod. A todo: is to
+// extract the implementations from this and BridgingMod to a separate library. I just cba rn.
+// -w
+@Environment(EnvType.CLIENT)
+public class GrappleModClientConfig extends DefaultValueTracker implements IConfig {
+
+    private static final ConfigClassHandler<GrappleModClientConfig> INTERNAL_HANDLER = ConfigClassHandler.createBuilder(GrappleModClientConfig.class)
+            .id(GrappleMod.id("client"))
+            .serializer(config -> GsonConfigSerializerBuilder.create(config)
+                    .setPath(GrappleMod.getDefaultConfigPath().resolve(GrappleMod.MOD_ID + "-client.json"))
+                    .setJson5(false)
+                    .appendGsonBuilder(builder -> builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES))
+                    .build())
+            .build();
+
+    public static final ConfigClassHandler<GrappleModClientConfig> HANDLER = new WrappedConfigClassHandler<>(
+            INTERNAL_HANDLER,
+            Set.of(),
+            Set.of()
+    );
+
+    public GrappleModClientConfig() {
+        this.saveDefaults(); // This should be run before /any/ saving or loading occurs.
+    }
+
+    public static GrappleModClientConfig get() {
+        return HANDLER.instance();
+    }
+
+
+    @Override
+    public void upgradeToLatest() {
+        //todo: here, fix any old values & copy to new places.
+
+
+        // then, bump value to latest.
+        this.version = ConfigUtil.LATEST_CLIENT_VERSION;
+    }
+
+    @SerialEntry
+    @HideInConfigUI
+    private int version = 2;
+
+    @InlineSubCategory("volume")
+    @SerialEntry @Category("sound") @ContinuousRange(min = 0, max = 100, sliderStep = 1f, formatTranslationKey = ConfigUtil.TYPE_PERCENTAGE)
+    private float rocketVolume = 100.0f;
+    @SerialEntry @Category("sound") @ContinuousRange(min = 0, max = 100, sliderStep = 1f, formatTranslationKey = ConfigUtil.TYPE_PERCENTAGE)
+    private float enderstaffVolume = 100f;
+
+    public float getRocketVolume() {
+        return this.rocketVolume / 100.0f;
+    }
+
+    public float getEnderstaffVolume() {
+        return this.enderstaffVolume / 100.0f;
+    }
+
+}

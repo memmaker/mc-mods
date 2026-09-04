@@ -18,11 +18,14 @@ import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -31,6 +34,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class PhotoSafariClient implements ClientModInitializer {
@@ -59,7 +63,7 @@ public class PhotoSafariClient implements ClientModInitializer {
                 mode == Mode.LOOT && PhotoSafariConfig.peacefulLoot ? tryLoot() : reportSubjects());
 
         ClientTickEvents.END_CLIENT_TICK.register(PhotoSafariClient::handleTick);
-        LevelRenderEvents.COLLECT_SUBMITS.register(PhotoSafariClient::renderLootOutlines);
+        LevelRenderEvents.COLLECT_SUBMITS.register(PhotoSafariClient::renderOutlines);
     }
 
     private static void handleTick(Minecraft client) {
@@ -127,12 +131,14 @@ public class PhotoSafariClient implements ClientModInitializer {
         return subjects;
     }
 
-    /// Wireframes every mob currently framed for loot, green if it can still be looted and
-    /// red if it's on cooldown. Reuses the exact same frame/occlusion check as the actual
-    /// loot trigger, so what's outlined is exactly what pressing the trigger would act on.
-    private static void renderLootOutlines(LevelRenderContext context) {
+    /// Wireframes every mob the camera is currently framing. In loot mode: green if it can
+    /// still be looted, red if it's on cooldown. In photograph mode only the wasted shots are
+    /// marked — red for a species already on file, nothing at all for one still missing.
+    /// Reuses the exact same frame/occlusion check as the trigger itself, so what's outlined
+    /// is exactly what pressing the trigger would act on.
+    private static void renderOutlines(LevelRenderContext context) {
         Minecraft minecraft = Minecraft.getInstance();
-        if (mode != Mode.LOOT || minecraft.player == null || minecraft.level == null) {
+        if (minecraft.player == null || minecraft.level == null) {
             return;
         }
 
@@ -140,11 +146,14 @@ public class PhotoSafariClient implements ClientModInitializer {
             return;
         }
 
+        boolean lootMode = mode == Mode.LOOT && PhotoSafariConfig.peacefulLoot;
+
         double fov = minecraft.options.fov().get() * PictureTaker.getInstance().getFovModifier();
         double aspect = (double) minecraft.getWindow().getWidth() / (double) minecraft.getWindow().getHeight();
         Vec3 eye = minecraft.player.getEyePosition(1.0f);
         Vec3 look = minecraft.player.getViewVector(1.0f);
         List<UUID> recentlyLooted = minecraft.player.getAttachedOrCreate(PhotoSafari.RECENTLY_LOOTED);
+        Set<Identifier> photographed = minecraft.player.getAttachedOrCreate(PhotoSafari.PHOTOGRAPHED);
 
         Vec3 cameraPos = context.levelState().cameraRenderState.pos;
         PoseStack poseStack = context.poseStack();
@@ -159,7 +168,16 @@ public class PhotoSafariClient implements ClientModInitializer {
                 continue;
             }
 
-            int color = recentlyLooted.contains(entity.getUUID()) ? OUTLINE_ON_COOLDOWN : OUTLINE_LOOTABLE;
+            int color;
+            if (lootMode) {
+                color = recentlyLooted.contains(entity.getUUID()) ? OUTLINE_ON_COOLDOWN : OUTLINE_LOOTABLE;
+            } else if (photographed.contains(EntityType.getKey(entity.getType()))) {
+                // Already on film: photographing it again only costs paper.
+                color = OUTLINE_ON_COOLDOWN;
+            } else {
+                continue;
+            }
+
             AABB box = entity.getBoundingBox();
             VoxelShape shape = Shapes.create(box);
 
@@ -168,5 +186,23 @@ public class PhotoSafariClient implements ClientModInitializer {
             collector.submitShapeOutline(poseStack, shape, RenderTypes.lines(), color, OUTLINE_WIDTH, false);
             poseStack.popPose();
         }
+    }
+
+    /// Same spot Camerapture's own viewfinder uses for "No paper", so the two never
+    /// compete for attention: loot mode never needs paper, so it never shows that message.
+    /// Called from HudMixin rather than a HUD element, because Camerapture cancels the whole
+    /// HUD while the viewfinder is up — which is exactly when this needs to be on screen.
+    public static void renderLootIndicator(GuiGraphicsExtractor graphics) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (mode != Mode.LOOT || !PhotoSafariConfig.peacefulLoot
+                || minecraft.player == null || CameraItem.find(minecraft.player, true) == null) {
+            return;
+        }
+
+        Component text = Component.translatable("text.photosafari.loot_mode_indicator");
+        int width = graphics.guiWidth();
+        int height = graphics.guiHeight();
+        int textWidth = minecraft.font.width(text);
+        graphics.text(minecraft.font, text, width / 2 - textWidth / 2, height / 2 + 32, OUTLINE_LOOTABLE, false);
     }
 }

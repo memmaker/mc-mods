@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_dye",
+  "dye": "#minecraft:dyes",
+  "group": "dyed_plush_boots",
+  "result": {
+    "id": "plushboots:plush_boots"
+  },
+  "target": "plushboots:plush_boots"
+}

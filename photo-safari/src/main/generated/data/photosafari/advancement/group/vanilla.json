@@ -1,0 +1,818 @@
+{
+  "parent": "photosafari:root",
+  "criteria": {
+    "minecraft:allay": {
+      "conditions": {
+        "species": "minecraft:allay"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:armadillo": {
+      "conditions": {
+        "species": "minecraft:armadillo"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:axolotl": {
+      "conditions": {
+        "species": "minecraft:axolotl"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:bat": {
+      "conditions": {
+        "species": "minecraft:bat"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:bee": {
+      "conditions": {
+        "species": "minecraft:bee"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:blaze": {
+      "conditions": {
+        "species": "minecraft:blaze"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:bogged": {
+      "conditions": {
+        "species": "minecraft:bogged"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:breeze": {
+      "conditions": {
+        "species": "minecraft:breeze"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:camel": {
+      "conditions": {
+        "species": "minecraft:camel"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:camel_husk": {
+      "conditions": {
+        "species": "minecraft:camel_husk"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:cat": {
+      "conditions": {
+        "species": "minecraft:cat"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:cave_spider": {
+      "conditions": {
+        "species": "minecraft:cave_spider"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:chicken": {
+      "conditions": {
+        "species": "minecraft:chicken"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:cod": {
+      "conditions": {
+        "species": "minecraft:cod"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:copper_golem": {
+      "conditions": {
+        "species": "minecraft:copper_golem"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:cow": {
+      "conditions": {
+        "species": "minecraft:cow"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:creaking": {
+      "conditions": {
+        "species": "minecraft:creaking"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:creeper": {
+      "conditions": {
+        "species": "minecraft:creeper"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:dolphin": {
+      "conditions": {
+        "species": "minecraft:dolphin"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:donkey": {
+      "conditions": {
+        "species": "minecraft:donkey"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:drowned": {
+      "conditions": {
+        "species": "minecraft:drowned"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:elder_guardian": {
+      "conditions": {
+        "species": "minecraft:elder_guardian"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:ender_dragon": {
+      "conditions": {
+        "species": "minecraft:ender_dragon"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:enderman": {
+      "conditions": {
+        "species": "minecraft:enderman"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:endermite": {
+      "conditions": {
+        "species": "minecraft:endermite"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:evoker": {
+      "conditions": {
+        "species": "minecraft:evoker"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:fox": {
+      "conditions": {
+        "species": "minecraft:fox"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:frog": {
+      "conditions": {
+        "species": "minecraft:frog"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:ghast": {
+      "conditions": {
+        "species": "minecraft:ghast"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:glow_squid": {
+      "conditions": {
+        "species": "minecraft:glow_squid"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:goat": {
+      "conditions": {
+        "species": "minecraft:goat"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:guardian": {
+      "conditions": {
+        "species": "minecraft:guardian"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:happy_ghast": {
+      "conditions": {
+        "species": "minecraft:happy_ghast"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:hoglin": {
+      "conditions": {
+        "species": "minecraft:hoglin"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:horse": {
+      "conditions": {
+        "species": "minecraft:horse"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:husk": {
+      "conditions": {
+        "species": "minecraft:husk"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:iron_golem": {
+      "conditions": {
+        "species": "minecraft:iron_golem"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:llama": {
+      "conditions": {
+        "species": "minecraft:llama"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:magma_cube": {
+      "conditions": {
+        "species": "minecraft:magma_cube"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:mooshroom": {
+      "conditions": {
+        "species": "minecraft:mooshroom"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:mule": {
+      "conditions": {
+        "species": "minecraft:mule"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:nautilus": {
+      "conditions": {
+        "species": "minecraft:nautilus"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:ocelot": {
+      "conditions": {
+        "species": "minecraft:ocelot"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:panda": {
+      "conditions": {
+        "species": "minecraft:panda"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:parched": {
+      "conditions": {
+        "species": "minecraft:parched"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:parrot": {
+      "conditions": {
+        "species": "minecraft:parrot"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:phantom": {
+      "conditions": {
+        "species": "minecraft:phantom"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:pig": {
+      "conditions": {
+        "species": "minecraft:pig"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:piglin": {
+      "conditions": {
+        "species": "minecraft:piglin"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:piglin_brute": {
+      "conditions": {
+        "species": "minecraft:piglin_brute"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:pillager": {
+      "conditions": {
+        "species": "minecraft:pillager"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:polar_bear": {
+      "conditions": {
+        "species": "minecraft:polar_bear"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:pufferfish": {
+      "conditions": {
+        "species": "minecraft:pufferfish"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:rabbit": {
+      "conditions": {
+        "species": "minecraft:rabbit"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:ravager": {
+      "conditions": {
+        "species": "minecraft:ravager"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:salmon": {
+      "conditions": {
+        "species": "minecraft:salmon"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:sheep": {
+      "conditions": {
+        "species": "minecraft:sheep"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:shulker": {
+      "conditions": {
+        "species": "minecraft:shulker"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:silverfish": {
+      "conditions": {
+        "species": "minecraft:silverfish"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:skeleton": {
+      "conditions": {
+        "species": "minecraft:skeleton"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:skeleton_horse": {
+      "conditions": {
+        "species": "minecraft:skeleton_horse"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:slime": {
+      "conditions": {
+        "species": "minecraft:slime"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:sniffer": {
+      "conditions": {
+        "species": "minecraft:sniffer"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:snow_golem": {
+      "conditions": {
+        "species": "minecraft:snow_golem"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:spider": {
+      "conditions": {
+        "species": "minecraft:spider"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:squid": {
+      "conditions": {
+        "species": "minecraft:squid"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:stray": {
+      "conditions": {
+        "species": "minecraft:stray"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:strider": {
+      "conditions": {
+        "species": "minecraft:strider"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:sulfur_cube": {
+      "conditions": {
+        "species": "minecraft:sulfur_cube"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:tadpole": {
+      "conditions": {
+        "species": "minecraft:tadpole"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:trader_llama": {
+      "conditions": {
+        "species": "minecraft:trader_llama"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:tropical_fish": {
+      "conditions": {
+        "species": "minecraft:tropical_fish"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:turtle": {
+      "conditions": {
+        "species": "minecraft:turtle"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:vex": {
+      "conditions": {
+        "species": "minecraft:vex"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:villager": {
+      "conditions": {
+        "species": "minecraft:villager"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:vindicator": {
+      "conditions": {
+        "species": "minecraft:vindicator"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:wandering_trader": {
+      "conditions": {
+        "species": "minecraft:wandering_trader"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:warden": {
+      "conditions": {
+        "species": "minecraft:warden"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:witch": {
+      "conditions": {
+        "species": "minecraft:witch"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:wither": {
+      "conditions": {
+        "species": "minecraft:wither"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:wither_skeleton": {
+      "conditions": {
+        "species": "minecraft:wither_skeleton"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:wolf": {
+      "conditions": {
+        "species": "minecraft:wolf"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:zoglin": {
+      "conditions": {
+        "species": "minecraft:zoglin"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:zombie": {
+      "conditions": {
+        "species": "minecraft:zombie"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:zombie_horse": {
+      "conditions": {
+        "species": "minecraft:zombie_horse"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:zombie_nautilus": {
+      "conditions": {
+        "species": "minecraft:zombie_nautilus"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:zombie_villager": {
+      "conditions": {
+        "species": "minecraft:zombie_villager"
+      },
+      "trigger": "photosafari:species_photographed"
+    },
+    "minecraft:zombified_piglin": {
+      "conditions": {
+        "species": "minecraft:zombified_piglin"
+      },
+      "trigger": "photosafari:species_photographed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.photosafari.group.description",
+      "with": [
+        88,
+        {
+          "translate": "text.photosafari.group.vanilla"
+        }
+      ]
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "minecraft:allay_spawn_egg"
+    },
+    "title": {
+      "translate": "text.photosafari.group.vanilla"
+    }
+  },
+  "requirements": [
+    [
+      "minecraft:allay"
+    ],
+    [
+      "minecraft:armadillo"
+    ],
+    [
+      "minecraft:axolotl"
+    ],
+    [
+      "minecraft:bat"
+    ],
+    [
+      "minecraft:bee"
+    ],
+    [
+      "minecraft:blaze"
+    ],
+    [
+      "minecraft:bogged"
+    ],
+    [
+      "minecraft:breeze"
+    ],
+    [
+      "minecraft:camel"
+    ],
+    [
+      "minecraft:camel_husk"
+    ],
+    [
+      "minecraft:cat"
+    ],
+    [
+      "minecraft:cave_spider"
+    ],
+    [
+      "minecraft:chicken"
+    ],
+    [
+      "minecraft:cod"
+    ],
+    [
+      "minecraft:copper_golem"
+    ],
+    [
+      "minecraft:cow"
+    ],
+    [
+      "minecraft:creaking"
+    ],
+    [
+      "minecraft:creeper"
+    ],
+    [
+      "minecraft:dolphin"
+    ],
+    [
+      "minecraft:donkey"
+    ],
+    [
+      "minecraft:drowned"
+    ],
+    [
+      "minecraft:elder_guardian"
+    ],
+    [
+      "minecraft:enderman"
+    ],
+    [
+      "minecraft:endermite"
+    ],
+    [
+      "minecraft:ender_dragon"
+    ],
+    [
+      "minecraft:evoker"
+    ],
+    [
+      "minecraft:fox"
+    ],
+    [
+      "minecraft:frog"
+    ],
+    [
+      "minecraft:ghast"
+    ],
+    [
+      "minecraft:happy_ghast"
+    ],
+    [
+      "minecraft:glow_squid"
+    ],
+    [
+      "minecraft:goat"
+    ],
+    [
+      "minecraft:guardian"
+    ],
+    [
+      "minecraft:hoglin"
+    ],
+    [
+      "minecraft:horse"
+    ],
+    [
+      "minecraft:husk"
+    ],
+    [
+      "minecraft:iron_golem"
+    ],
+    [
+      "minecraft:llama"
+    ],
+    [
+      "minecraft:magma_cube"
+    ],
+    [
+      "minecraft:mooshroom"
+    ],
+    [
+      "minecraft:mule"
+    ],
+    [
+      "minecraft:nautilus"
+    ],
+    [
+      "minecraft:ocelot"
+    ],
+    [
+      "minecraft:panda"
+    ],
+    [
+      "minecraft:parched"
+    ],
+    [
+      "minecraft:parrot"
+    ],
+    [
+      "minecraft:phantom"
+    ],
+    [
+      "minecraft:pig"
+    ],
+    [
+      "minecraft:piglin"
+    ],
+    [
+      "minecraft:piglin_brute"
+    ],
+    [
+      "minecraft:pillager"
+    ],
+    [
+      "minecraft:polar_bear"
+    ],
+    [
+      "minecraft:pufferfish"
+    ],
+    [
+      "minecraft:rabbit"
+    ],
+    [
+      "minecraft:ravager"
+    ],
+    [
+      "minecraft:salmon"
+    ],
+    [
+      "minecraft:sheep"
+    ],
+    [
+      "minecraft:shulker"
+    ],
+    [
+      "minecraft:silverfish"
+    ],
+    [
+      "minecraft:skeleton"
+    ],
+    [
+      "minecraft:skeleton_horse"
+    ],
+    [
+      "minecraft:slime"
+    ],
+    [
+      "minecraft:sniffer"
+    ],
+    [
+      "minecraft:snow_golem"
+    ],
+    [
+      "minecraft:spider"
+    ],
+    [
+      "minecraft:squid"
+    ],
+    [
+      "minecraft:stray"
+    ],
+    [
+      "minecraft:strider"
+    ],
+    [
+      "minecraft:sulfur_cube"
+    ],
+    [
+      "minecraft:tadpole"
+    ],
+    [
+      "minecraft:trader_llama"
+    ],
+    [
+      "minecraft:tropical_fish"
+    ],
+    [
+      "minecraft:turtle"
+    ],
+    [
+      "minecraft:vex"
+    ],
+    [
+      "minecraft:villager"
+    ],
+    [
+      "minecraft:vindicator"
+    ],
+    [
+      "minecraft:wandering_trader"
+    ],
+    [
+      "minecraft:warden"
+    ],
+    [
+      "minecraft:witch"
+    ],
+    [
+      "minecraft:wither"
+    ],
+    [
+      "minecraft:wither_skeleton"
+    ],
+    [
+      "minecraft:wolf"
+    ],
+    [
+      "minecraft:zoglin"
+    ],
+    [
+      "minecraft:zombie"
+    ],
+    [
+      "minecraft:zombie_horse"
+    ],
+    [
+      "minecraft:zombie_nautilus"
+    ],
+    [
+      "minecraft:zombie_villager"
+    ],
+    [
+      "minecraft:zombified_piglin"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

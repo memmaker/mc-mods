@@ -15,6 +15,8 @@ whatever else is already in your world.
 - Right-click any villager with the satchel to accept an order (only one
   active order at a time). It picks a village at least 750 blocks away, in a
   random direction, and hands you a Delivery Compass pointed straight at it.
+- While the compass is in either hand, the distance to the destination is
+  shown in the upper-left corner of the screen, always, no keypress needed.
 - The compass needle works exactly like a recovery compass — it's the same
   vanilla lodestone-tracker mechanism, just aimed at the delivery instead of
   a death location.
@@ -60,7 +62,7 @@ Permission level 2, so op or cheats.
 JAVA_HOME=/opt/homebrew/opt/openjdk@25/libexec/openjdk.jdk/Contents/Home ./gradlew build
 ```
 
-Output: `build/libs/postbote-1.0.0.jar`. Requires Fabric Loader >= 0.19.3,
+Output: `build/libs/postbote-1.1.1.jar`. Requires Fabric Loader >= 0.19.3,
 Fabric API, Java 25.
 
 ## Tests

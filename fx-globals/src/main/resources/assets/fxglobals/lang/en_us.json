@@ -10,6 +10,6 @@
 	"options.fxglobals.headshots": "Headshots",
 	"options.fxglobals.headshots.tooltip": "An arrow landing at or above a mob's eyes kills it instantly. Does not affect players.",
 	"options.fxglobals.starter_gear": "Starter gear",
-	"options.fxglobals.starter_gear.tooltip": "New players get a postbote satchel, a camera with 24 papers, a photo album, a compass, a lodestone, a white flag, climbing claws, no-fall plush boots, a backpack and a recipe book on first join.",
+	"options.fxglobals.starter_gear.tooltip": "New players get a postbote satchel, a camera with 24 papers, a photo album, a compass, a lodestone, a white flag, climbing claws, plush boots, a backpack and a recipe book on first join.",
 	"item.fxglobals.recipe_book": "Recipe Book"
 }

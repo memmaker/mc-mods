@@ -87,8 +87,9 @@ def draw(art, palette, tint=None):
 
 def main():
     items = OUT / "textures/item"
-    draw(CLAWS, CLAWS_PALETTE).save(items / "climbing_claws.png")
-    draw(GRIP, GRIP_PALETTE).save(items / "climbing_claws_grip.png")
+    # Flipped so the claws point up in the inventory, matching how they sit in the hand.
+    draw(CLAWS, CLAWS_PALETTE).transpose(Image.FLIP_TOP_BOTTOM).save(items / "climbing_claws.png")
+    draw(GRIP, GRIP_PALETTE).transpose(Image.FLIP_TOP_BOTTOM).save(items / "climbing_claws_grip.png")
 
     tint = tuple((IRON_TINT >> shift) & 0xFF for shift in (16, 8, 0))
     icon = draw(CLAWS, CLAWS_PALETTE, tint)

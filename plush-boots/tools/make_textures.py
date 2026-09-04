@@ -17,7 +17,7 @@ import zipfile
 from PIL import Image
 
 DEFAULT_JAR = pathlib.Path.home() / ".gradle/caches/fabric-loom/26.2/minecraft-client.jar"
-OUT = pathlib.Path(__file__).resolve().parent.parent / "src/main/resources/assets/nofall"
+OUT = pathlib.Path(__file__).resolve().parent.parent / "src/main/resources/assets/plushboots"
 
 # The base is left grey: the dye colour is multiplied into it at render time, so any colour it
 # carries would tint every dye job.

@@ -1,0 +1,102 @@
+package dev.explorercraft.grapplinghook.content.registry;
+
+import dev.explorercraft.grapplinghook.GrappleMod;
+import dev.explorercraft.grapplinghook.content.registry.helper.AbstractRegistryReference;
+import dev.explorercraft.grapplinghook.content.customization.CustomizationCategory;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.Identifier;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Supplier;
+
+import static dev.explorercraft.grapplinghook.content.registry.CustomizationProperties.*;
+
+public class CustomizationCategories {
+
+    private static final HashMap<Identifier, Entry<? extends CustomizationCategory>> categories;
+
+    static {
+        categories = new LinkedHashMap<>();
+    }
+
+    public static <P extends CustomizationCategory> Entry<P> category(String id, Supplier<P> type) {
+        Identifier qualId = GrappleMod.id(id);
+        Entry<P> entry = new Entry<>(qualId, type);
+        categories.put(qualId, entry);
+        return entry;
+    }
+
+
+    public static void registerAll() {
+        for(Map.Entry<Identifier, Entry<?>> def: categories.entrySet()) {
+            Identifier id = def.getKey();
+            Entry<?> data = def.getValue();
+            CustomizationCategory it = data.getFactory().get();
+
+            data.finalize(Registry.register(GrappleModRegistries.CUSTOMIZATION_CATEGORIES, id, it));
+        }
+    }
+
+    public static final Entry<CustomizationCategory> LIMITS = category("limits", () -> new CustomizationCategory());
+
+    public static final Entry<CustomizationCategory> ROPE = category("rope", () -> new CustomizationCategory(
+            MAX_ROPE_LENGTH.get(), BLOCK_PHASE_ROPE.get(), STICKY_ROPE.get()
+    ));
+
+    public static final Entry<CustomizationCategory> HOOK_THROWER = category("hook_thrower", () -> new CustomizationCategory(
+            HOOK_GRAVITY_MULTIPLIER.get(), HOOK_THROW_SPEED.get(), HOOK_THROW_ANGLE.get(), HOOK_THROW_ANGLE_ON_SNEAK.get(),
+            DETACH_HOOK_ON_KEY_UP.get()
+    ));
+
+    public static final Entry<CustomizationCategory> MOTOR = category("motor", () -> new CustomizationCategory(
+            MOTOR_ATTACHED.get(), MOTOR_ACCELERATION.get(), MAX_MOTOR_SPEED.get(), MOTOR_ACTIVATION.get(),
+            MOTOR_DAMPENER.get(), MOTOR_WORKS_BACKWARDS.get()
+    ));
+
+    public static final Entry<CustomizationCategory> SWING = category("swing", () -> new CustomizationCategory(
+            MOVE_SPEED_MULTIPLIER.get()
+    ));
+
+    public static final Entry<CustomizationCategory> ENDER_STAFF = category("ender_staff", () -> new CustomizationCategory(
+            ENDER_STAFF_ATTACHED.get()
+    ));
+
+    public static final Entry<CustomizationCategory> FORCEFIELD = category("forcefield", () -> new CustomizationCategory(
+            FORCEFIELD_ATTACHED.get(), FORCEFIELD_FORCE.get()
+    ));
+
+    public static final Entry<CustomizationCategory> MAGNET = category("magnet", () -> new CustomizationCategory(
+            MAGNET_ATTACHED.get(), MAGNET_RADIUS.get()
+    ));
+
+    public static final Entry<CustomizationCategory> DOUBLE_HOOK = category("double_hook", () -> new CustomizationCategory(
+            DOUBLE_HOOK_ATTACHED.get(), DOUBLE_SMART_MOTOR.get(), SINGLE_ROPE_PULL.get(),
+            DOUBLE_HOOK_ANGLE.get(), DOUBLE_HOOK_ANGLE_ON_SNEAK.get()
+    ));
+
+    public static final Entry<CustomizationCategory> ROCKET = category("rocket", () -> new CustomizationCategory(
+            ROCKET_ATTACHED.get(), ROCKET_FORCE.get(), ROCKET_ANGLE.get(),
+            ROCKET_FUEL_DEPLETION_RATIO.get(), ROCKET_REFUEL_RATIO.get()
+    ));
+
+    public static final Entry<CustomizationCategory> STYLE = category("style", () -> new CustomizationCategory(
+            ROPE_STYLE.get(), GLOWING_ROPE.get()
+    ));
+
+    public static Set<Entry<? extends CustomizationCategory>> getModCategories() {
+        return Set.copyOf(categories.values());
+    }
+
+
+    public static class Entry<T extends CustomizationCategory> extends AbstractRegistryReference<T> {
+
+        protected Entry(Identifier id, Supplier<T> factory) {
+            super(id, factory);
+        }
+    }
+
+
+}

@@ -21,7 +21,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
@@ -31,12 +31,17 @@ import net.minecraft.world.item.component.DyedItemColor;
 public class ClimbingClaws implements ModInitializer {
 	public static final String MOD_ID = "climbingclaws";
 
-	/** Metal name -> tint, matching the dyed_color set by each recipe. */
-	private static final Map<String, Integer> METAL_TINTS = new LinkedHashMap<>(Map.of(
-			"iron", 0xD8D8D8,
-			"copper", 0xE0794B,
-			"gold", 0xF5D145,
-			"netherite", 0x6E5B57));
+	/** The tint each recipe stamps on the claws, and how fast that metal climbs. */
+	private record Metal(int tint, float climbSpeed) {}
+
+	/** Metal name -> tint (matching the dyed_color set by each recipe) and climb speed. */
+	private static final Map<String, Metal> METALS = new LinkedHashMap<>(Map.of(
+			"iron", new Metal(0xD8D8D8, 1.5F),
+			"copper", new Metal(0xE0794B, 1.0F),
+			"gold", new Metal(0xF5D145, 1.75F),
+			"diamond", new Metal(0x4AEDD9, 2.0F),
+			"netherite", new Metal(0x6E5B57, 2.25F),
+			"obsidian", new Metal(0x4E3A78, 2.5F)));
 
 	public static final ResourceKey<Item> CLIMBING_CLAWS_KEY =
 			ResourceKey.create(Registries.ITEM, id("climbing_claws"));
@@ -49,7 +54,7 @@ public class ClimbingClaws implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES)
-				.register(output -> METAL_TINTS.forEach((metal, tint) -> output.accept(stackOf(metal, tint))));
+				.register(output -> METALS.forEach((metal, data) -> output.accept(stackOf(metal, data.tint()))));
 		CommandRegistrationCallback.EVENT.register((dispatcher, registries, environment) -> registerCommands(dispatcher));
 	}
 
@@ -59,7 +64,7 @@ public class ClimbingClaws implements ModInitializer {
 				.requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
 				.executes(context -> give(context.getSource(), "iron"));
 
-		METAL_TINTS.keySet().forEach(metal ->
+		METALS.keySet().forEach(metal ->
 				root.then(Commands.literal(metal).executes(context -> give(context.getSource(), metal))));
 
 		root.then(Commands.literal("status").executes(context -> status(context.getSource())));
@@ -68,7 +73,7 @@ public class ClimbingClaws implements ModInitializer {
 
 	private static int give(CommandSourceStack source, String metal) throws CommandSyntaxException {
 		ServerPlayer player = source.getPlayerOrException();
-		ItemStack claws = stackOf(metal, METAL_TINTS.get(metal));
+		ItemStack claws = stackOf(metal, METALS.get(metal).tint());
 
 		if (!player.addItem(claws)) {
 			player.drop(claws, false);
@@ -84,22 +89,41 @@ public class ClimbingClaws implements ModInitializer {
 	 */
 	private static int status(CommandSourceStack source) throws CommandSyntaxException {
 		ServerPlayer player = source.getPlayerOrException();
-		String text = "clawsInHotbar=%s touchingWall=%s facingWall=%s onClimbable=%s".formatted(
-				hasClawsInHotbar(player), player.horizontalCollision, facingWall(player), player.onClimbable());
+		String text = "clawsHeld=%s climbSpeed=%s touchingWall=%s facingWall=%s onClimbable=%s".formatted(
+				!heldClaws(player).isEmpty(), clawGrip(player), player.horizontalCollision,
+				facingWall(player), player.onClimbable());
 
 		source.sendSuccess(() -> Component.literal(text), false);
 		return 1;
 	}
 
-	/** Claws work from anywhere in the hotbar — no need to hold them. */
-	public static boolean hasClawsInHotbar(Player player) {
-		Inventory inventory = player.getInventory();
-		for (int slot = 0; slot < Inventory.getSelectionSize(); slot++) {
-			if (inventory.getItem(slot).getItem() == CLIMBING_CLAWS) {
-				return true;
+	/** Claws have to be gripped: main hand or off hand, carrying them is not enough. */
+	public static ItemStack heldClaws(Player player) {
+		for (InteractionHand hand : InteractionHand.values()) {
+			ItemStack stack = player.getItemInHand(hand);
+
+			if (stack.getItem() == CLIMBING_CLAWS) {
+				return stack;
 			}
 		}
-		return false;
+		return ItemStack.EMPTY;
+	}
+
+	/**
+	 * Climb speed multiplier of held claws gripping a faced wall, 0 when they do not grip.
+	 * The metal is read back off the tint the recipe stamped, so one item id still covers all four.
+	 */
+	public static float clawGrip(Player player) {
+		if (player.isSpectator() || !player.horizontalCollision || heldClaws(player).isEmpty() || !facingWall(player)) {
+			return 0.0F;
+		}
+
+		int tint = DyedItemColor.getOrDefault(heldClaws(player), -1) & 0xFFFFFF;
+		return METALS.values().stream()
+				.filter(metal -> metal.tint() == tint)
+				.findFirst()
+				.map(Metal::climbSpeed)
+				.orElse(1.0F);
 	}
 
 	/**

@@ -58,7 +58,7 @@ public abstract class ServerPlaceRecipeMixin {
 		}
 
 		List<Container> containers = NearbyInventoryScanner.findNearbyContainers(
-				levelPos.level(), levelPos.pos(), NearbyInventoryScanner.getConfiguredRadius());
+				levelPos.level(), levelPos.pos(), NearbyInventoryScanner.getConfiguredRadius(), this.inventory.player);
 		if (availableInPlayer + this.seamless$countInContainers(containers, item, slotStack) < count) {
 			cir.setReturnValue(-1);
 			return;

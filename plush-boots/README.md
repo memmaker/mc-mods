@@ -2,7 +2,7 @@
 
 Craft a pair of plush boots. While you are wearing them, falling does not hurt.
 
-![the boots](src/main/resources/assets/nofall/icon.png)
+![the boots](src/main/resources/assets/plushboots/icon.png)
 
 ## Crafting
 
@@ -39,8 +39,8 @@ They work on anything that can wear boots, so a mob you dress in a pair also lan
 
 | Command | What |
 |---|---|
-| `/nofall` or `/nofall give` | A pair of plush boots into your inventory |
-| `/nofall status` | Whether the boots are on your feet, plus the live fall damage multiplier |
+| `/plushboots` or `/plushboots give` | A pair of plush boots into your inventory |
+| `/plushboots status` | Whether the boots are on your feet, plus the live fall damage multiplier |
 
 Permission level 2, so op or cheats. A multiplier of 0 means fall damage is off; 1
 means the boots are not on the wearer's feet, whatever the inventory shows.

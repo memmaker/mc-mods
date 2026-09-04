@@ -59,7 +59,7 @@ just means a missing item, never a crash:
 | Compass, lodestone | vanilla |
 | White flag | `whiteflag` |
 | Climbing claws | `climbingclaws` |
-| Plush boots | `nofall` |
+| Plush boots | `plushboots` |
 | Standard backpack | `travelersbackpack` |
 | Recipe book | this mod |
 

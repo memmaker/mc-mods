@@ -1,12 +1,15 @@
 package com.explorercraft.seamlesscrafting;
 
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 
 /** Implemented by {@code CraftingMenu} through a mixin. */
 public interface NearbyCraftingAccess {
 	ContainerLevelAccess seamless$getLevelAccess();
+
+	Player seamless$getPlayer();
 
 	void seamless$recordNearbyWithdrawal(Container container, int sourceSlot, int craftingSlotIndex, ItemStack stack, int count, int baselineCount);
 

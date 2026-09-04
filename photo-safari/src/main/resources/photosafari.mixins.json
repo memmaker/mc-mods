@@ -3,7 +3,15 @@
   "package": "dev.explorercraft.photosafari.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "MobDropAccessor"
+    "MobDropAccessor",
+    "AlbumItemMixin",
+    "ItemMixin",
+    "ItemCooldownsMixin"
+  ],
+  "client": [
+    "client.CameraptureClientMixin",
+    "client.AbstractContainerScreenMixin",
+    "client.HudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

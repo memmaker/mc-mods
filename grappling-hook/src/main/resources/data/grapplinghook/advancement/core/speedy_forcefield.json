@@ -1,0 +1,31 @@
+{
+    "parent": "grapplinghook:core/rocket_forcefield_combo",
+    "display": {
+        "title": { "translate": "advancement.grapplinghook.core.speedy_forcefield.title" },
+        "description": { "translate": "advancement.grapplinghook.core.speedy_forcefield.description" },
+        "icon": { "id": "grapplinghook:forcefield" },
+        "frame": "challenge"
+    },
+
+    "criteria": {
+        "too_fast": {
+            "trigger": "grapplinghook:grapple_physics_changed",
+            "conditions": {
+                "physics": {
+                    "controller_types": [
+                        "grapplinghook:forcefield"
+                    ],
+                    "speed": {
+                        "min": 6.944
+                    }
+                }
+            }
+        }
+    },
+
+    "requirements": [
+        [
+            "too_fast"
+        ]
+    ]
+}

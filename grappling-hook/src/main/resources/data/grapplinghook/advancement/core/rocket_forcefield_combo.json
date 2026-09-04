@@ -1,0 +1,29 @@
+{
+    "parent": "grapplinghook:core/root",
+    "display": {
+        "title": { "translate": "advancement.grapplinghook.core.rocket_forcefield_combo.title" },
+        "description": { "translate": "advancement.grapplinghook.core.rocket_forcefield_combo.description" },
+        "icon": { "id": "grapplinghook:rocket" },
+        "frame": "task"
+    },
+
+    "criteria": {
+        "combining_forces": {
+            "trigger": "grapplinghook:grapple_physics_changed",
+            "conditions": {
+                "physics": {
+                    "controller_types": [
+                        "grapplinghook:forcefield"
+                    ],
+                    "is_using_rocket": true
+                }
+            }
+        }
+    },
+
+    "requirements": [
+        [
+            "combining_forces"
+        ]
+    ]
+}

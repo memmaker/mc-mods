@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "plush_boots",
+  "key": {
+    "W": "minecraft:green_wool"
+  },
+  "pattern": [
+    "W W",
+    "W W"
+  ],
+  "result": {
+    "id": "plushboots:plush_boots",
+    "components": {
+      "minecraft:dyed_color": 6192150
+    }
+  }
+}

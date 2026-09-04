@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "dev.explorercraft.crafttracker.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"ContainerScreenAccessor",
+		"RecipeButtonMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

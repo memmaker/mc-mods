@@ -1,0 +1,13 @@
+{
+	"rocket": {
+		"category": "player",
+		"subtitle": "subtitle.grapplinghook.rocket",
+		"sounds": [ "grapplinghook:rocket"]
+	},
+
+	"enderstaff": {
+		"category": "player",
+		"subtitle": "subtitle.grapplinghook.enderstaff",
+		"sounds": [ "grapplinghook:enderstaff"]
+	}
+}

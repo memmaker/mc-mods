@@ -9,6 +9,7 @@ import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -32,15 +33,15 @@ public final class NearbyInventoryScanner {
 		return SeamlessCraftingConfig.getNearbyRadius();
 	}
 
-	public static List<Container> findNearbyContainers(Level level, BlockPos center, int radius) {
+	public static List<Container> findNearbyContainers(Level level, BlockPos center, int radius, @Nullable Player player) {
 		List<Container> containers = new ArrayList<>();
-		forEachContainer(level, center, radius, (pos, container) -> containers.add(container));
+		forEachContainer(level, center, radius, player, (pos, container) -> containers.add(container));
 		return containers;
 	}
 
-	public static List<NearbyItemEntry> collectItemCounts(Level level, BlockPos center, int radius) {
+	public static List<NearbyItemEntry> collectItemCounts(Level level, BlockPos center, int radius, @Nullable Player player) {
 		Map<Item, Integer> totals = new HashMap<>();
-		for (Container container : findNearbyContainers(level, center, radius)) {
+		for (Container container : findNearbyContainers(level, center, radius, player)) {
 			for (int slot = 0; slot < container.getContainerSize(); slot++) {
 				ItemStack stack = container.getItem(slot);
 				if (!stack.isEmpty() && Inventory.isUsableForCrafting(stack)) {
@@ -59,9 +60,9 @@ public final class NearbyInventoryScanner {
 		return entries;
 	}
 
-	public static List<ItemStack> collectCraftableStacks(Level level, BlockPos center, int radius) {
+	public static List<ItemStack> collectCraftableStacks(Level level, BlockPos center, int radius, @Nullable Player player) {
 		List<ItemStack> stacks = new ArrayList<>();
-		for (Container container : findNearbyContainers(level, center, radius)) {
+		for (Container container : findNearbyContainers(level, center, radius, player)) {
 			for (int slot = 0; slot < container.getContainerSize(); slot++) {
 				ItemStack stack = container.getItem(slot);
 				if (stack.isEmpty() || !Inventory.isUsableForCrafting(stack)) {
@@ -77,9 +78,9 @@ public final class NearbyInventoryScanner {
 		return stacks;
 	}
 
-	public static List<BlockPos> findContainerPositionsWithItem(Level level, BlockPos center, int radius, Item item) {
+	public static List<BlockPos> findContainerPositionsWithItem(Level level, BlockPos center, int radius, @Nullable Player player, Item item) {
 		Set<BlockPos> positions = new LinkedHashSet<>();
-		forEachContainer(level, center, radius, (pos, container) -> {
+		forEachContainer(level, center, radius, player, (pos, container) -> {
 			if (containerHasItem(container, item)) {
 				positions.add(pos);
 			}
@@ -102,7 +103,12 @@ public final class NearbyInventoryScanner {
 		void accept(BlockPos pos, Container container);
 	}
 
-	private static void forEachContainer(Level level, BlockPos center, int radius, ContainerVisitor visitor) {
+	private static void forEachContainer(Level level, BlockPos center, int radius, @Nullable Player player, ContainerVisitor visitor) {
+		Container worn = TravelersBackpackCompat.wornStorage(player);
+		if (worn != null) {
+			visitor.accept(player.blockPosition(), worn);
+		}
+
 		int minChunkX = (center.getX() - radius) >> 4;
 		int maxChunkX = (center.getX() + radius) >> 4;
 		int minChunkZ = (center.getZ() - radius) >> 4;
@@ -120,7 +126,11 @@ public final class NearbyInventoryScanner {
 					if (!withinRadius(center, pos, radius)) {
 						continue;
 					}
-					if (entry.getValue() instanceof Container container && !(container instanceof Inventory)) {
+					BlockEntity blockEntity = entry.getValue();
+					Container container = blockEntity instanceof Container found && !(found instanceof Inventory)
+							? found
+							: TravelersBackpackCompat.storageOf(blockEntity);
+					if (container != null) {
 						visitor.accept(pos.immutable(), container);
 					}
 				}

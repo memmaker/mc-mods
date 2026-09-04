@@ -1,0 +1,17 @@
+accessWidener v2 official
+
+# Non Conflict Keybinding overflows need this
+accessible field net/minecraft/client/KeyMapping clickCount I
+accessible field net/minecraft/client/KeyMapping key Lcom/mojang/blaze3d/platform/InputConstants$Key;
+
+# UpgraderUpper - support replacing item ids in registry by changing the least amount of behaviour possible.
+accessible method net/minecraft/core/MappedRegistry getValueFromNullable (Lnet/minecraft/core/Holder$Reference;)Ljava/lang/Object;
+
+# Uh oh, they locked the checkbox away! Make the constructor available again.
+accessible method net/minecraft/client/gui/components/Checkbox <init> (IIILnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/Font;ZLnet/minecraft/client/gui/components/Checkbox$OnValueChange;)V
+# Custom advancement triggers still need to reach the vanilla criteria registry.
+accessible method net/minecraft/advancements/triggers/CriteriaTriggers register (Ljava/lang/String;Lnet/minecraft/advancements/triggers/CriterionTrigger;)Lnet/minecraft/advancements/triggers/CriterionTrigger;
+
+# The hook and forcefield models still react to live physics state, which needs a conditional
+# item model property registered against the vanilla id mapper.
+accessible field net/minecraft/client/renderer/item/properties/conditional/ConditionalItemModelProperties ID_MAPPER Lnet/minecraft/util/ExtraCodecs$LateBoundIdMapper;

@@ -29,8 +29,8 @@ public final class NearbyItemsSync {
 		}
 
 		int radius = NearbyInventoryScanner.getConfiguredRadius();
-		List<NearbyItemEntry> entries = NearbyInventoryScanner.collectItemCounts(levelPos.level(), levelPos.pos(), radius);
-		List<ItemStack> craftableStacks = NearbyInventoryScanner.collectCraftableStacks(levelPos.level(), levelPos.pos(), radius);
+		List<NearbyItemEntry> entries = NearbyInventoryScanner.collectItemCounts(levelPos.level(), levelPos.pos(), radius, player);
+		List<ItemStack> craftableStacks = NearbyInventoryScanner.collectCraftableStacks(levelPos.level(), levelPos.pos(), radius, player);
 		ServerPlayNetworking.send(player, new NearbyItemsPayload(entries, craftableStacks));
 	}
 
@@ -45,6 +45,7 @@ public final class NearbyItemsSync {
 				levelPos.level(),
 				levelPos.pos(),
 				NearbyInventoryScanner.getConfiguredRadius(),
+				player,
 				stack.getItem()
 		);
 	}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:iron_pickaxe",
+    "minecraft:lead"
+  ],
+  "result": {
+    "id": "grapplinghook:grappling_hook"
+  }
+}

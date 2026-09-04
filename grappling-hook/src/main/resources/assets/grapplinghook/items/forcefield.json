@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "grapplinghook:forcefield_active",
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "grapplinghook:item/forcefield_on"
+    },
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "grapplinghook:item/forcefield"
+    }
+  }
+}

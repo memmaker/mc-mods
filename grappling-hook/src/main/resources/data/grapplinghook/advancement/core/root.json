@@ -1,0 +1,39 @@
+{
+    "display": {
+        "title": { "translate": "advancement.grapplinghook.core.root.title" },
+        "description": { "translate": "advancement.grapplinghook.core.root.description" },
+        "icon": { "id": "grapplinghook:grappling_hook" },
+        "background": "grapplinghook:textures/gui/advancements/bg/core.png",
+        "announce_to_chat": true,
+        "show_toast": true,
+        "frame": "goal"
+    },
+
+    "rewards": {
+        "recipes": [
+            "grapplinghook:grappling_hook",
+            "grapplinghook:base_upgrade_item",
+            "grapplinghook:ender_staff",
+            "grapplinghook:rocket",
+            "grapplinghook:forcefield",
+            "grapplinghook:smithing/long_fall_boots"
+        ]
+    },
+
+    "criteria": {
+        "grappling_hook_acquired": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [ "grapplinghook:grappling_hook" ]
+                    }
+                ]
+            }
+        }
+    },
+
+    "requirements": [
+        [ "grappling_hook_acquired" ]
+    ]
+}

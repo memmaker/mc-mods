@@ -1,0 +1,56 @@
+package dev.explorercraft.grapplinghook.content.advancement.trigger;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.explorercraft.grapplinghook.GrappleMod;
+import dev.explorercraft.grapplinghook.content.advancement.PhysicsFramePredicate;
+import dev.explorercraft.grapplinghook.physics.PlayerPhysicsFrame;
+import net.minecraft.advancements.predicates.ContextAwarePredicate;
+import net.minecraft.advancements.predicates.entity.EntityPredicate;
+import net.minecraft.advancements.triggers.SimpleCriterionTrigger;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
+
+public class PhysicsUpdateTrigger extends SimpleCriterionTrigger<PhysicsUpdateTrigger.TriggerInstance> {
+
+    private static final String PHYSICS_PREDICATE_ID = "physics";
+
+
+    @NotNull
+    @Override
+    public Codec<TriggerInstance> codec() {
+        return TriggerInstance.CODEC;
+    }
+
+    public void trigger(Player player, PlayerPhysicsFrame frame) {
+        if(!(player instanceof ServerPlayer serverPlayer)) {
+            GrappleMod.LOGGER.warn("Attempted to trigger advancement from client.");
+            return;
+        }
+
+        this.trigger(serverPlayer, triggerInstance -> triggerInstance.matches(frame));
+    }
+
+
+    public record TriggerInstance(Optional<ContextAwarePredicate> player, Optional<PhysicsFramePredicate> physics) implements SimpleInstance {
+
+        public static final Codec<PhysicsUpdateTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create((instance) -> instance
+                .group(
+                        EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player),
+                        PhysicsFramePredicate.CODEC.optionalFieldOf(PHYSICS_PREDICATE_ID).forGetter(TriggerInstance::physics)
+                )
+                .apply(instance, TriggerInstance::new));
+
+        public boolean matches(PlayerPhysicsFrame frame) {
+            return this.physics.isPresent() && this.physics.get().matches(frame);
+        }
+
+        public Optional<PhysicsFramePredicate> physics() {
+            return this.physics;
+        }
+    }
+}

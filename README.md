@@ -6,13 +6,13 @@ project in its own folder; the scripts at the root build and publish all of them
 | Mod | Folder | What it does |
 |---|---|---|
 | [White Flag](white-flag) | `white-flag/` | Craft a white flag. Carry it in your hotbar and every hostile mob stops attacking you. |
-| [Photo Safari](photo-safari) | `photo-safari/` | Photograph every kind of living creature in the world. Turns [Camerapture](https://modrinth.com/mod/camerapture) photography into a collection game, plus a camera loot mode that takes a mob's drops without killing it. |
+| [Photo Safari](photo-safari) | `photo-safari/` | Photograph every kind of living creature in the world. Turns [Camerapture](https://modrinth.com/mod/camerapture) photography into a collection game with a grouped species checklist, plus a camera loot mode that takes a mob's drops without killing it and a cooldown-free tier 2 camera. |
 | [Plush Boots](plush-boots) | `plush-boots/` | Craft plush boots. Wear them and falling stops hurting. |
 | [Glider](glider) | `glider/` | Craft a glider. Hold it as you fall and the canopy opens: you drift down slowly and steer where you like. |
 | [Miniature Rebreather](miniature-rebreather) | `miniature-rebreather/` | Craft a miniature rebreather. Wear it in the helmet slot and you never run out of air underwater. |
-| [Climbing Claws](climbing-claws) | `climbing-claws/` | Craft climbing claws from any metal. Keep them in your hotbar and every vertical wall becomes a ladder. |
+| [Climbing Claws](climbing-claws) | `climbing-claws/` | Craft climbing claws from copper, iron, gold, diamond, netherite or obsidian. Hold them in a hand and every vertical wall becomes a ladder — the better the material, the faster the climb. |
 | [FX Globals](fx-globals) | `fx-globals/` | Pack-wide pacing and combat: longer days, slower hunger, every arrow can be picked up, arrows to the head kill outright, and a starter kit on first join. All configurable, with a Mod Menu screen. |
-| [Seamless Crafting](seamless-crafting) | `seamless-crafting/` | The crafting table uses the chests around it: the recipe book counts nearby items, clicking a recipe fills the grid from them, and a panel lists what is in range. |
+| [Seamless Crafting](seamless-crafting) | `seamless-crafting/` | The crafting table uses the chests around it: the recipe book counts nearby items, clicking a recipe fills the grid from them, and a panel lists what is in range. Traveler's Backpacks count too, placed or worn. |
 | [Fireproof Suit](fireproof-suit) | `fireproof-suit/` | Craft a magma-forged armour set. Each piece cuts fire and lava damage by a quarter; the full suit makes you immune. |
 | [Postbote](postbote) | `postbote/` | Craft a satchel. Take delivery orders from villagers and follow a compass to villages you've never been near, for emeralds. |
 | [Bot Build](bot-build) | `bot-build/` | Craft a build wand and a build bot. Outline a box, ghost blocks show the plan, and the bot fetches the real blocks from a nearby chest and places them one by one. |
@@ -20,6 +20,8 @@ project in its own folder; the scripts at the root build and publish all of them
 | [Lift](lift) | `lift/` | Craft a lift plate from any pressure plate and redstone. Step on it and ride it up, until a ceiling or the walls beside it stop you. |
 | [Pistol & Silencer](pistol-silencer) | `pistol-silencer/` | A pistol with a detachable silencer, ported from MrCrayfish's Gun Mod. Hitscan fire, reloadable magazine, headshots via FX Globals. |
 | [Immersive Aircraft](immersive-aircraft) | `immersive-aircraft/` | Aeroplanes, airships, biplanes and gyrodynes. Port of Luke100000's mod — **work in progress**, see its README for what is and isn't done. |
+| [Grappling Hook](grappling-hook) | `grappling-hook/` | Craft a grappling hook, swing from the rope, and bolt on motor, rocket, ender, magnet and double-hook upgrades at a smithing table. Port of Yyon's mod via weaversworkshop's Skybound fork. |
+| [Craft Tracker](craft-tracker) | `craft-tracker/` | A shopping list on the HUD. Point at any item in a container, press a key, and track how many you still need. Point at a recipe in the recipe book and it follows the whole crafting chain down to the raw materials. Client side only. |
 
 ## Building
 
@@ -68,10 +70,10 @@ are craftable or in a creative tab, which is enough to test them.
 |---|---|---|
 | White Flag | `/whiteflag` | Gives a flag |
 | Photo Safari | `/photosafari camera [paper]`, `progress`, `reset` | Gives a camera, shows or wipes progress |
-| Plush Boots | `/nofall [give]`, `/nofall status` | Gives boots; prints the live fall damage multiplier |
+| Plush Boots | `/plushboots [give]`, `/plushboots status` | Gives boots; prints the live fall damage multiplier |
 | Glider | `/glider [give]`, `/glider status` | Gives a glider; prints canopy state and fall distance |
 | Miniature Rebreather | `/rebreather [give]`, `/rebreather status` | Gives a rebreather; prints air supply |
-| Climbing Claws | `/climbingclaws [metal]`, `/climbingclaws status` | Gives claws of any metal; prints wall and hotbar state |
+| Climbing Claws | `/climbingclaws [metal]`, `/climbingclaws status` | Gives claws of any material; prints wall and grip state |
 | FX Globals | `/fxglobals [status]`, `/fxglobals startergear [targets]` | Prints the day-length factor, live clock rate, hunger factor, arrow-pickup and headshot settings and clock tick; hands out the first-join starter kit again |
 | Seamless Crafting | `/seamlesscrafting` | Prints the nearby radius, container count and item kinds in range |
 | Fireproof Suit | `/fireproofsuit [give\|status]` | Gives the full suit; prints fire protection, burning time and whether on fire |
@@ -124,4 +126,5 @@ stealth-and-alert/       Stealth and Alert
 lift/                    Lift
 pistol-silencer/         Pistol & Silencer
 immersive-aircraft/      Immersive Aircraft
+craft-tracker/           Craft Tracker
 ```

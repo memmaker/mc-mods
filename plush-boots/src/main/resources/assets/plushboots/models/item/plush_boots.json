@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "plushboots:item/plush_boots",
+    "layer1": "plushboots:item/plush_boots_overlay"
+  }
+}

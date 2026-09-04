@@ -2,10 +2,15 @@
     "text.photosafari.new_species": "New species on film: %s",
     "text.photosafari.milestone_reward": "%s species photographed — an Eye of Ender for your trouble",
     "text.photosafari.progress": "Photographed %s of %s species",
+    "text.photosafari.group_progress": "%s of %s %s",
+    "text.photosafari.group.vanilla": "Vanilla Critters",
+    "text.photosafari.group.alexs_mobs": "Alex' Mobs Critters",
+    "text.photosafari.group.others": "Other Critters",
     "text.photosafari.reset": "Photo safari progress reset",
     "text.photosafari.camera_given": "Here is your camera. Right-click to look through it, right-click again to shoot.",
     "text.photosafari.mode_photograph": "Photograph mode",
     "text.photosafari.mode_loot": "Loot mode",
+    "text.photosafari.loot_mode_indicator": "Loot",
     "key.category.photosafari.main": "Photo Safari",
     "key.photosafari.cycle_mode": "Cycle Camera Mode",
     "options.photosafari.title": "Photo Safari",
@@ -21,5 +26,7 @@
     "advancements.photosafari.zoologist.description": "Photograph 50 different species",
     "advancements.photosafari.root.title": "Photo Safari",
     "advancements.photosafari.root.description": "Photograph every living thing in the world",
-    "advancements.photosafari.species.description": "Photograph a %s"
+    "advancements.photosafari.species.description": "Photograph a %s",
+    "item.photosafari.camera_tier2": "Camera (Tier 2)",
+    "advancements.photosafari.group.description": "Photograph all %s %s"
 }

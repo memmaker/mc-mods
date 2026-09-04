@@ -1,0 +1,12 @@
+{
+  "type": "grapplinghook:hook_upgrade",
+  "template": "grapplinghook:base_upgrade",
+  "addition": "grapplinghook:forcefield",
+  "applies": [
+    "grapplinghook:magnet",
+    "grapplinghook:forcefield"
+  ],
+  "excludes_if_any": [
+    "grapplinghook:motor"
+  ]
+}

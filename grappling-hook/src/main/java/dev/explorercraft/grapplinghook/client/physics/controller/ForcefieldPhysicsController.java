@@ -1,0 +1,65 @@
+package dev.explorercraft.grapplinghook.client.physics.controller;
+
+import dev.explorercraft.grapplinghook.content.physics.PhysicsControllers;
+import dev.explorercraft.grapplinghook.util.Vec;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+
+import static dev.explorercraft.grapplinghook.content.registry.CustomizationProperties.ROCKET_ATTACHED;
+
+public class ForcefieldPhysicsController extends GrapplingHookPhysicsController {
+
+	public ForcefieldPhysicsController(int grapplehookEntityId, int entityId, Level world) {
+		super(grapplehookEntityId, entityId, world, null);
+		
+		this.playerMovementMult = 1f;
+	}
+
+	@Override
+	public Identifier getType() {
+		return PhysicsControllers.FORCEFIELD;
+	}
+
+	@Override
+	public void updatePlayerPos() {
+		Entity entity = this.holder;
+		
+		if (!this.isControllerActive()) return;
+		if(entity == null) return;
+
+		entity.resetFallDistance();
+
+		this.normalGround(false);
+		this.normalCollisions(false);
+
+		Vec playerPos = Vec.positionVec(entity);
+
+		if (this.playerSneak)
+			this.motion.mutableScale(0.95);
+
+		this.applyPlayerMovement();
+
+		Vec blockPush = RepelField.checkRepel(playerPos, entity.level())
+				            .mutableScale(0.5D)
+				            .multiply(0.5D, 2.0D, 0.5D);
+		this.motion.mutableAdd(blockPush);
+
+		if (!entity.onGround())
+			this.motion.mutableAdd(0, -0.05D, 0);
+
+		boolean doesrocket = false;
+		if (this.getCurrentCustomizations() != null) {
+			if (this.getCurrentCustomizations().get(ROCKET_ATTACHED.get())) {
+				Vec rocket = this.rocket(entity);
+				this.motion.mutableAdd(rocket);
+				if (rocket.length() > 0) {
+					doesrocket = true;
+				}
+			}
+		}
+
+		this.motion.applyAsMotionTo(this.holder);
+		this.updateServerPos();
+	}
+}

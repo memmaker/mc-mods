@@ -40,7 +40,7 @@ public class AbstractCraftingMenuMixin implements CraftingGridAccess {
 		}
 
 		for (Container container : NearbyInventoryScanner.findNearbyContainers(
-				levelPos.level(), levelPos.pos(), NearbyInventoryScanner.getConfiguredRadius())) {
+				levelPos.level(), levelPos.pos(), NearbyInventoryScanner.getConfiguredRadius(), access.seamless$getPlayer())) {
 			for (int slot = 0; slot < container.getContainerSize(); slot++) {
 				ItemStack stack = container.getItem(slot);
 				if (!stack.isEmpty()) {

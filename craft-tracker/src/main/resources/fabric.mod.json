@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "crafttracker",
+	"version": "${version}",
+	"name": "Craft Tracker",
+	"description": "A shopping list on your HUD: point at any item in a container, hit a key, and track how many you still need.",
+	"authors": [
+		"felix"
+	],
+	"contact": {},
+	"license": "MIT",
+	"icon": "assets/crafttracker/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"dev.explorercraft.crafttracker.CraftTrackerClient"
+		],
+		"fabric-gametest": [
+			"dev.explorercraft.crafttracker.gametest.CraftTrackerGameTest",
+			"dev.explorercraft.crafttracker.gametest.CraftPlanGameTest"
+		]
+	},
+	"mixins": [
+		{
+			"config": "crafttracker.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

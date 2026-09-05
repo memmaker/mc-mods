@@ -1,0 +1,4 @@
+This directory contains vendored sources from chrrs/camerapture (MIT).
+Original upstream: https://github.com/chrrs/camerapture (branch 26.2)
+The original code is MIT-licensed; LICENSE is included.
+We changed the Java package namespace to me.memmaker.photosafari.camerapture.

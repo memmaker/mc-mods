@@ -1,0 +1,15 @@
+Vendor import script (import_camerapture.sh)
+- Runs: clones chrrs/camerapture@26.2, copies common/ and fabric/ into vendor/camerapture,
+  and renames Java packages + imports from me.chrr.camerapture → me.memmaker.photosafari.camerapture.
+- Review results and ensure:
+  - fabric mixin JSONs are present under vendor/camerapture/*/src/main/resources and list correct mixin class names after package rename.
+  - accesswidener (if present) is in resources and referenced correctly.
+  - Resource assets (assets/camerapture/*) may keep the modid namespace "camerapture". If you need to change it, update resource filenames and any code that references the resource domain.
+
+Important notes & follow-ups
+- Asset / data namespace: I intentionally did not mass-rename asset namespaces (assets/camerapture, data/camerapture) because those are referenced by JSONs and code; switching them is more invasive. If you want the vendored mod to use a different modid (e.g., photosafari-cameracapture), I can update:
+  - JSON files under resources (models, recipes, advancements, sounds.json) to use a new modid prefix,
+  - code that refers to ResourceLocation or Identifiers to use the new modid,
+  - and mixin / accesswidener registration accordingly.
+- Mixins: After package rename, inspect any mixin config JSONs (e.g., camerapture.mixins.json, camerapture-client.mixins.json, camerapture-fabric.mixins.json) to ensure the class names match the renamed packages.
+- Data generation / version variables: build.gradle was updated to include the vendored source directories; if the upstream build relied on particular Gradle configuration, we only included the runtime source/resource directories into the photosafari project — that keeps the overall repo simple.

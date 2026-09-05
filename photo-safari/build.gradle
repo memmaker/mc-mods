@@ -27,6 +27,16 @@ sourceSets {
     client { }
 }
 
+// Vendored Camerapture: when you copy the Camerapture sources into
+// photo-safari/vendor/camerapture (run photo-safari/vendor/import_camerapture.sh),
+// include the Java + resource dirs so the code is compiled into the photosafari jar.
+sourceSets.main.java.srcDirs += file('vendor/camerapture/common/src/main/java')
+sourceSets.main.java.srcDirs += file('vendor/camerapture/fabric/src/main/java')
+sourceSets.main.resources.srcDirs += file('vendor/camerapture/common/src/main/resources')
+sourceSets.main.resources.srcDirs += file('vendor/camerapture/fabric/src/main/resources')
+sourceSets.client.java.srcDirs += file('vendor/camerapture/common/src/client/java')
+sourceSets.client.resources.srcDirs += file('vendor/camerapture/common/src/client/resources')
+
 loom {
     mods {
         "photosafari" {
@@ -45,8 +55,8 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    // Camerapture supplies the camera, pictures and picture frames. We only add the safari on top.
-    implementation "maven.modrinth:camerapture:${project.camerapture_version}"
+    // Camerapture is vendored into this project (copy & own). Remove external dependency.
+    // implementation "maven.modrinth:camerapture:${project.camerapture_version}"
 
     // Mod Menu supplies the config button only. The entrypoint that touches its API is never
     // loaded without it, so the published jar works fine on its own — compile-only here,

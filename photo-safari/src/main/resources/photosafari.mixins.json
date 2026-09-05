@@ -6,12 +6,14 @@
     "MobDropAccessor",
     "AlbumItemMixin",
     "ItemMixin",
-    "ItemCooldownsMixin"
+    "ItemCooldownsMixin",
+    "InventoryMixin"
   ],
   "client": [
     "client.CameraptureClientMixin",
     "client.AbstractContainerScreenMixin",
-    "client.HudMixin"
+    "client.HudMixin",
+    "client.PictureTakerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

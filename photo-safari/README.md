@@ -47,6 +47,18 @@ checklist — only photographs do.
 Loot mode is enforced server-side: with `peaceful_loot=false` the server ignores the packet
 entirely, so a modified client cannot re-enable it.
 
+## Default album
+
+Drag an album onto a camera in your inventory and drop it there: *Default album set*. Every
+photo that camera takes from then on goes straight into that album instead of loose into
+your inventory, for as long as the album is somewhere in your inventory and has room left.
+The two are paired by an id written to both stacks, so moving the album around keeps the
+pairing, and one album can be the default for several cameras.
+
+Right-clicking a photo in any inventory slot opens the viewer, and closing it puts you back
+in the screen you opened it from. Opened from an album, the viewer gets the whole album to
+page through with its arrow buttons.
+
 ## Configuration
 
 `config/photosafari.properties`, written on first launch:

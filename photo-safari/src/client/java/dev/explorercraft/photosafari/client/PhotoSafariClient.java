@@ -7,6 +7,7 @@ import dev.explorercraft.photosafari.PhotoSafari;
 import dev.explorercraft.photosafari.PhotoSafariConfig;
 import dev.explorercraft.photosafari.PhotoScan;
 import dev.explorercraft.photosafari.PhotographPayload;
+import dev.explorercraft.photosafari.mixin.client.PictureTakerAccessor;
 import me.chrr.camerapture.fabric.event.ClientTakePictureCallback;
 import me.chrr.camerapture.item.CameraItem;
 import me.chrr.camerapture.picture.PictureTaker;
@@ -143,6 +144,12 @@ public class PhotoSafariClient implements ClientModInitializer {
         }
 
         if (CameraItem.find(minecraft.player, true) == null) {
+            return;
+        }
+
+        // The frame the shutter is about to screenshot: the outlines are a viewfinder aid,
+        // never part of the photo itself.
+        if (((PictureTakerAccessor) PictureTaker.getInstance()).photosafari$isTakingPicture()) {
             return;
         }
 

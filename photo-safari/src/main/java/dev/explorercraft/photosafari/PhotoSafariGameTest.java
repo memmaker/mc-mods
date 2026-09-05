@@ -1,7 +1,9 @@
 package dev.explorercraft.photosafari;
 
 import me.chrr.camerapture.Camerapture;
+import me.chrr.camerapture.item.AlbumItem;
 import me.chrr.camerapture.item.CameraItem;
+import me.chrr.camerapture.item.PictureItem;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,6 +22,9 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.animal.cow.Cow;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.zombie.Zombie;
+import net.minecraft.world.entity.SlotAccess;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -28,6 +33,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 /// End to end checks in a real world: a mob in the open counts, the same mob behind a
 /// wall does not, and a verified photo grants the advancement.
@@ -440,6 +446,59 @@ public class PhotoSafariGameTest {
         }
 
         helper.succeed();
+    }
+
+    /// Dragging an album onto a camera pairs them, and from then on the camera's photos go
+    /// into the album instead of the inventory.
+    @GameTest
+    public void defaultAlbumFilesNewPhotos(GameTestHelper helper) {
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
+        giveActiveCamera(player);
+        ItemStack camera = player.getItemInHand(InteractionHand.MAIN_HAND);
+
+        ItemStack album = new ItemStack(Camerapture.ALBUM);
+        Slot slot = new Slot(player.getInventory(), 0, 0, 0);
+        if (!camera.overrideOtherStackedOnMe(album, slot, ClickAction.PRIMARY, player, SlotAccess.of(() -> ItemStack.EMPTY, stack -> { }))) {
+            throw helper.assertionException("an album clicked onto a camera was not accepted");
+        }
+
+        if (camera.get(PhotoSafari.DEFAULT_ALBUM) == null
+                || !camera.get(PhotoSafari.DEFAULT_ALBUM).equals(album.get(PhotoSafari.DEFAULT_ALBUM))) {
+            throw helper.assertionException("camera and album did not end up sharing a pairing id");
+        }
+
+        player.getInventory().setItem(9, album);
+        player.getInventory().placeItemBackInInventory(PictureItem.create("tester", UUID.randomUUID()));
+
+        if (AlbumItem.getPictures(player.getInventory().getItem(9)).size() != 1) {
+            throw helper.assertionException("the photo was not filed into the default album");
+        }
+
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            if (player.getInventory().getItem(i).is(Camerapture.PICTURE)) {
+                throw helper.assertionException("the photo was left loose in the inventory as well");
+            }
+        }
+
+        helper.succeed();
+    }
+
+    /// No pairing, no interception: without a default album a photo lands in the inventory.
+    @GameTest
+    public void photosWithoutADefaultAlbumStayInTheInventory(GameTestHelper helper) {
+        ServerPlayer player = mockPlayer(helper, GameType.CREATIVE);
+        giveActiveCamera(player);
+
+        player.getInventory().placeItemBackInInventory(PictureItem.create("tester", UUID.randomUUID()));
+
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            if (player.getInventory().getItem(i).is(Camerapture.PICTURE)) {
+                helper.succeed();
+                return;
+            }
+        }
+
+        throw helper.assertionException("the photo went missing instead of into the inventory");
     }
 
     private static void giveActiveCamera(ServerPlayer player) {

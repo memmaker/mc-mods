@@ -3,6 +3,7 @@ package dev.explorercraft.photosafari;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import dev.explorercraft.photosafari.mixin.MobDropAccessor;
 import me.chrr.camerapture.Camerapture;
+import me.chrr.camerapture.item.AlbumItem;
 import me.chrr.camerapture.item.CameraItem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
@@ -13,8 +14,10 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.Commands;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.core.UUIDUtil;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -30,8 +33,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -90,6 +96,60 @@ public class PhotoSafari implements ModInitializer {
                     .syncWith(UUIDUtil.STREAM_CODEC.apply(ByteBufCodecs.list(RECENT_LOOT_CAP)),
                             AttachmentSyncPredicate.targetOnly()));
 
+    /// A camera with a default album files its photos straight into that album. Drag an
+    /// album onto a camera in the inventory to pair them: both stacks get the same id, so
+    /// the pairing survives the album being moved around, and one album can be the default
+    /// for several cameras.
+    public static final DataComponentType<UUID> DEFAULT_ALBUM = DataComponentType.<UUID>builder()
+            .persistent(UUIDUtil.CODEC)
+            .networkSynchronized(UUIDUtil.STREAM_CODEC)
+            .build();
+
+    /// Appends one picture to the first free slot of an album. False when the album is full.
+    public static boolean addPictureToAlbum(ItemStack album, ItemStack picture) {
+        NonNullList<ItemStack> items = NonNullList.withSize(AlbumItem.SLOTS, ItemStack.EMPTY);
+        album.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(items);
+
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).isEmpty()) {
+                items.set(i, picture.copyWithCount(1));
+                album.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(items));
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// Files a fresh photo into the held camera's default album, if it has one and the album
+    /// is still in the player's inventory with room left. False means "not ours", and the
+    /// picture takes the normal route into the inventory.
+    public static boolean fileInDefaultAlbum(Player player, ItemStack picture) {
+        if (!picture.is(Camerapture.PICTURE)) {
+            return false;
+        }
+
+        CameraItem.HeldCamera camera = CameraItem.find(player, false);
+        if (camera == null) {
+            return false;
+        }
+
+        UUID albumId = camera.stack().get(DEFAULT_ALBUM);
+        if (albumId == null) {
+            return false;
+        }
+
+        Inventory inventory = player.getInventory();
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack stack = inventory.getItem(i);
+            if (stack.is(Camerapture.ALBUM) && albumId.equals(stack.get(DEFAULT_ALBUM))) {
+                return addPictureToAlbum(stack, picture);
+            }
+        }
+
+        return false;
+    }
+
     public static Identifier id(String path) {
         return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
@@ -97,6 +157,8 @@ public class PhotoSafari implements ModInitializer {
     @Override
     public void onInitialize() {
         PhotoSafariConfig.load();
+
+        Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, id("default_album"), DEFAULT_ALBUM);
 
         photographedTrigger = Registry.register(BuiltInRegistries.TRIGGER_TYPES,
                 id("species_photographed"), new SpeciesPhotographedTrigger());
